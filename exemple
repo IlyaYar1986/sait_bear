@@ -1,0 +1,1096 @@
+<div class="video-wrap">
+
+  <video id="totemVideo" playsinline muted>
+    <source src="https://static.tildacdn.com/vide3235-3337-4134-a265-633137373761/ear1_smaller.mp4" type="video/mp4">
+  </video>
+
+  <div class="video-overlay">
+    <button id="soundBtn" class="sound-btn">
+      Разбудить Хранителя
+    </button>
+  </div>
+
+</div>
+
+<style>
+.video-wrap {
+  position: relative;
+  max-width: 420px;
+  margin: 0 auto 24px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* Видео */
+.video-wrap video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Затемнение поверх видео */
+.video-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.25);
+  transition: opacity 0.4s ease;
+}
+
+/* Кнопка */
+.sound-btn {
+  padding: 14px 22px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(180deg, #f1d8ad, #d7ae77);
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* После запуска */
+.video-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+</style>
+
+<script>
+const video = document.getElementById('totemVideo');
+const btn = document.getElementById('soundBtn');
+const overlay = document.querySelector('.video-overlay');
+
+// Видео НЕ запускается само (ждём пользователя)
+
+btn.addEventListener('click', () => {
+  video.muted = false;
+  video.currentTime = 0;
+  video.play();
+
+  // скрываем кнопку и затемнение
+  overlay.classList.add('hidden');
+});
+
+// если видео закончилось — можно вернуть кнопку (опционально)
+video.addEventListener('ended', () => {
+  // overlay.classList.remove('hidden'); // включи если нужно повторное воспроизведение
+});
+</script>
+
+<div id="totem-wheel-premium">
+  <div class="totem-badge">Ярославский Арт-Тотем</div>
+
+  <h2 class="totem-title">Путь к сокровищам Ярославской земли</h2>
+  <div class="totem-subtitle">
+    Доверься Хранителю. Он укажет, к каким дарам мастеров тебе стоит прикоснуться сегодня.
+  </div>
+
+  <div class="totem-wheel-stage">
+    <div class="totem-pointer"></div>
+    <div class="totem-halo halo-1"></div>
+    <div class="totem-halo halo-2"></div>
+
+    <div class="totem-wheel-shell">
+      <canvas id="totemWheelCanvas" width="420" height="420"></canvas>
+
+      <div class="totem-center-medallion">
+        <div class="medallion-outer">
+          <div class="medallion-inner">
+            <div class="medallion-bear">✦</div>
+            <div class="medallion-text">ХРАНИТЕЛЬ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button id="totemSpinBtn" class="totem-spin-btn">Поверить Хранителю</button>
+
+  <div id="totemResultBox" class="totem-result-box" style="display:none;">
+    <div class="totem-result-label">Путь открыт</div>
+    <div id="totemResultText" class="totem-result-text"></div>
+    <div class="totem-result-subtext">
+      Доверься зову Хранителя — или выбери путь самостоятельно
+    </div>
+
+    <div class="totem-result-buttons">
+      <a id="followBtn" class="totem-btn-primary" href="#">Следовать зову Хранителя</a>
+      <a id="chooseBtn" class="totem-btn-secondary" href="#choose-path">Выбрать свой путь</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  #totem-wheel-premium {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 30px 18px 34px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 32px;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(255,255,255,0.08), transparent 32%),
+      radial-gradient(circle at 50% 100%, rgba(255,220,170,0.06), transparent 28%),
+      linear-gradient(180deg, #7a5845 0%, #5a3d30 34%, #3e2a22 68%, #271914 100%);
+    box-shadow:
+      0 24px 60px rgba(0,0,0,0.28),
+      inset 0 1px 0 rgba(255,255,255,0.06);
+    color: #f4e7d2;
+    text-align: center;
+    font-family: Georgia, "Times New Roman", serif;
+  }
+
+  #totem-wheel-premium::before {
+    content: "";
+    position: absolute;
+    inset: 12px;
+    border-radius: 24px;
+    border: 1px solid rgba(232, 203, 158, 0.16);
+    pointer-events: none;
+  }
+
+  #totem-wheel-premium::after {
+    content: "";
+    position: absolute;
+    inset: 22px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.04);
+    pointer-events: none;
+  }
+
+  .totem-badge {
+    display: inline-block;
+    margin-bottom: 16px;
+    padding: 7px 16px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(234, 209, 167, 0.18);
+    color: #ead0a4;
+    font-size: 12px;
+    line-height: 1;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .totem-title {
+    margin: 0 0 12px;
+    font-size: 32px;
+    line-height: 1.1;
+    font-weight: 700;
+    color: #f3ddb2;
+  }
+
+  .totem-subtitle {
+    max-width: 400px;
+    margin: 0 auto 28px;
+    font-size: 15px;
+    line-height: 1.55;
+    color: #ebdcc3;
+  }
+
+  .totem-wheel-stage {
+    position: relative;
+    width: 420px;
+    height: 450px;
+    margin: 0 auto 18px;
+  }
+
+  .totem-wheel-shell {
+    position: relative;
+    width: 420px;
+    height: 420px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 50% 35%, rgba(255,255,255,0.08), transparent 26%),
+      radial-gradient(circle at 50% 50%, #8b6852 0%, #6c4c3b 48%, #4b3329 73%, #2b1c16 100%);
+    box-shadow:
+      inset 0 0 0 2px rgba(246, 224, 189, 0.12),
+      inset 0 0 0 12px rgba(78, 47, 36, 0.60),
+      inset 0 0 0 24px rgba(228, 200, 152, 0.08),
+      0 18px 40px rgba(0,0,0,0.34);
+    overflow: hidden;
+  }
+
+  #totemWheelCanvas {
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    display: block;
+    transition: transform 5.8s cubic-bezier(0.14, 0.82, 0.13, 1);
+  }
+
+  .totem-halo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .halo-1 {
+    width: 448px;
+    height: 448px;
+    box-shadow:
+      0 0 0 1px rgba(241, 216, 179, 0.10),
+      0 0 40px rgba(241, 216, 179, 0.05);
+  }
+
+  .halo-2 {
+    width: 470px;
+    height: 470px;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.04),
+      inset 0 0 0 1px rgba(241, 216, 179, 0.04);
+  }
+
+  .totem-pointer {
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 38px solid #e4c48b;
+    z-index: 10;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.30));
+  }
+
+  .totem-pointer::before {
+    content: "";
+    position: absolute;
+    left: -8px;
+    top: -40px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #654434;
+    border: 2px solid #f0d7ab;
+  }
+
+  .totem-center-medallion {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .medallion-outer {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 50% 35%, #f0d9af 0%, #d7b37a 52%, #9f7447 100%);
+    box-shadow:
+      0 10px 22px rgba(0,0,0,0.22),
+      inset 0 1px 0 rgba(255,255,255,0.35),
+      inset 0 0 0 5px rgba(104, 69, 47, 0.32);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .medallion-inner {
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 50% 35%, #7c5642 0%, #603f31 58%, #432b22 100%);
+    box-shadow:
+      inset 0 0 0 1px rgba(244, 223, 182, 0.16),
+      inset 0 0 0 10px rgba(255,255,255,0.02);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #f0d8ac;
+  }
+
+  .medallion-bear {
+    font-size: 20px;
+    line-height: 1;
+    margin-bottom: 5px;
+    opacity: 0.95;
+  }
+
+  .medallion-text {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+  }
+
+  .totem-spin-btn {
+    display: inline-block;
+    width: 100%;
+    max-width: 290px;
+    padding: 16px 24px;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: #2d1a13;
+    background:
+      linear-gradient(180deg, #f1d8ad 0%, #d8b07a 46%, #b8844d 100%);
+    box-shadow:
+      0 12px 24px rgba(0,0,0,0.20),
+      inset 0 1px 0 rgba(255,255,255,0.45);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  }
+
+  .totem-spin-btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .totem-spin-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .totem-result-box {
+    margin-top: 24px;
+    padding: 20px 18px 18px;
+    border-radius: 22px;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
+    border: 1px solid rgba(239, 214, 171, 0.15);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+
+  .totem-result-label {
+    margin-bottom: 10px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #dcbf91;
+  }
+
+  .totem-result-text {
+    margin-bottom: 12px;
+    font-size: 22px;
+    line-height: 1.35;
+    font-weight: 700;
+    color: #f4dfb6;
+  }
+
+  .totem-result-subtext {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #e7d7bd;
+    margin-bottom: 18px;
+  }
+
+  .totem-result-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .totem-btn-primary {
+    display: inline-block;
+    padding: 12px 18px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    background: linear-gradient(180deg, #f1d8ad, #d7ae77);
+    color: #2d1a13 !important;
+    text-align: center;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+  }
+
+  .totem-btn-secondary {
+    display: inline-block;
+    padding: 11px 18px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(241, 216, 173, 0.25);
+    color: #f3e7d3 !important;
+    text-align: center;
+  }
+
+  @media (max-width: 540px) {
+    #totem-wheel-premium {
+      padding: 24px 12px 28px;
+      border-radius: 26px;
+    }
+
+    .totem-title {
+      font-size: 25px;
+    }
+
+    .totem-subtitle {
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .totem-wheel-stage {
+      width: 320px;
+      height: 345px;
+    }
+
+    .totem-wheel-shell,
+    #totemWheelCanvas {
+      width: 320px;
+      height: 320px;
+    }
+
+    .halo-1 {
+      width: 340px;
+      height: 340px;
+    }
+
+    .halo-2 {
+      width: 356px;
+      height: 356px;
+    }
+
+    .medallion-outer {
+      width: 90px;
+      height: 90px;
+    }
+
+    .medallion-inner {
+      width: 68px;
+      height: 68px;
+    }
+
+    .medallion-bear {
+      font-size: 16px;
+    }
+
+    .medallion-text {
+      font-size: 8px;
+    }
+
+    .totem-result-text {
+      font-size: 18px;
+    }
+  }
+</style>
+
+<script>
+(function () {
+  const categories = [
+    { name: "Украшения", link: "#jewelry" },
+    { name: "Декор", link: "#decor" },
+    { name: "Сладости", link: "#sweet" },
+    { name: "Угощения", link: "#food" }
+  ];
+
+  const sectors = [
+    "Украшения",
+    "Декор",
+    "Сладости",
+    "Угощения",
+    "Украшения",
+    "Сладости",
+    "Декор",
+    "Угощения",
+    "Украшения",
+    "Декор",
+    "Сладости",
+    "Угощения",
+    "Украшения",
+    "Сладости",
+    "Декор",
+    "Угощения",
+    "Украшения",
+    "Декор",
+    "Сладости",
+    "Угощения",
+    "Украшения",
+    "Сладости",
+    "Декор",
+    "Угощения",
+    "Украшения"
+  ];
+
+  const palette = {
+    "Украшения": {
+      base: "#7a5543",
+      line: "rgba(243,223,182,0.18)",
+      dot: "rgba(243,223,182,0.14)"
+    },
+    "Декор": {
+      base: "#684536",
+      line: "rgba(241,216,179,0.16)",
+      dot: "rgba(241,216,179,0.13)"
+    },
+    "Сладости": {
+      base: "#8a624b",
+      line: "rgba(249,223,182,0.18)",
+      dot: "rgba(249,223,182,0.14)"
+    },
+    "Угощения": {
+      base: "#58392d",
+      line: "rgba(238,211,168,0.16)",
+      dot: "rgba(238,211,168,0.13)"
+    }
+  };
+
+  const canvas = document.getElementById("totemWheelCanvas");
+  const ctx = canvas.getContext("2d");
+  const spinBtn = document.getElementById("totemSpinBtn");
+  const resultBox = document.getElementById("totemResultBox");
+  const resultText = document.getElementById("totemResultText");
+  const followBtn = document.getElementById("followBtn");
+  const chooseBtn = document.getElementById("chooseBtn");
+
+  const size = 420;
+  const center = size / 2;
+  const radius = 188;
+  const sectorCount = sectors.length;
+  const arc = (Math.PI * 2) / sectorCount;
+
+  let currentRotation = 0;
+  let isSpinning = false;
+
+  function drawWheel() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    drawOuterOrnament();
+
+    for (let i = 0; i < sectorCount; i++) {
+      const startAngle = i * arc - Math.PI / 2;
+      const endAngle = startAngle + arc;
+      const label = sectors[i];
+      const colors = palette[label] || palette["Украшения"];
+
+      drawSector(startAngle, endAngle, colors.base);
+      drawSectorCarving(startAngle, endAngle, colors.line, colors.dot);
+      drawSectorText(startAngle, label);
+    }
+
+    drawInnerRings();
+  }
+
+  function drawOuterOrnament() {
+    ctx.save();
+    ctx.translate(center, center);
+
+    ctx.beginPath();
+    ctx.arc(0, 0, radius + 6, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(240,214,171,0.13)";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(0, 0, radius - 12, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(255,255,255,0.04)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    for (let i = 0; i < 50; i++) {
+      const a = (Math.PI * 2 / 50) * i;
+      const r = radius + 1;
+      const x = Math.cos(a) * r;
+      const y = Math.sin(a) * r;
+
+      ctx.beginPath();
+      ctx.arc(x, y, 1.7, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(239,213,169,0.20)";
+      ctx.fill();
+    }
+
+    ctx.restore();
+  }
+
+  function drawSector(startAngle, endAngle, fill) {
+    ctx.beginPath();
+    ctx.moveTo(center, center);
+    ctx.arc(center, center, radius, startAngle, endAngle);
+    ctx.closePath();
+    ctx.fillStyle = fill;
+    ctx.fill();
+
+    ctx.strokeStyle = "rgba(245,225,190,0.14)";
+    ctx.lineWidth = 1.1;
+    ctx.stroke();
+  }
+
+  function drawSectorCarving(startAngle, endAngle, lineColor, dotColor) {
+    const mid = startAngle + (endAngle - startAngle) / 2;
+
+    ctx.save();
+    ctx.translate(center, center);
+    ctx.rotate(mid);
+
+    ctx.strokeStyle = lineColor;
+    ctx.lineWidth = 1;
+
+    for (let r = 52; r <= 160; r += 24) {
+      ctx.beginPath();
+      ctx.arc(0, 0, r, -0.09, 0.09);
+      ctx.stroke();
+    }
+
+    for (let r = 70; r <= 154; r += 28) {
+      ctx.beginPath();
+      ctx.arc(r, 0, 2, 0, Math.PI * 2);
+      ctx.fillStyle = dotColor;
+      ctx.fill();
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(46, 0);
+    ctx.bezierCurveTo(70, -10, 98, -10, 120, 0);
+    ctx.bezierCurveTo(98, 10, 70, 10, 46, 0);
+    ctx.strokeStyle = lineColor;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(86, 0);
+    ctx.bezierCurveTo(96, -6, 108, -6, 118, 0);
+    ctx.bezierCurveTo(108, 6, 96, 6, 86, 0);
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  function drawSectorText(startAngle, label) {
+    ctx.save();
+    ctx.translate(center, center);
+    ctx.rotate(startAngle + arc / 2);
+
+    ctx.textAlign = "right";
+    ctx.fillStyle = "#f5e6ca";
+    ctx.font = "bold 12px Georgia";
+
+    const shortLabel = shorten(label);
+    ctx.fillText(shortLabel, radius - 18, 4);
+
+    ctx.restore();
+  }
+
+  function drawInnerRings() {
+    ctx.save();
+    ctx.translate(center, center);
+
+    ctx.beginPath();
+    ctx.arc(0, 0, 62, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(240,214,171,0.14)";
+    ctx.lineWidth = 1.4;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(0, 0, 78, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(255,255,255,0.04)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    for (let i = 0; i < 20; i++) {
+      const a = (Math.PI * 2 / 20) * i;
+      const x = Math.cos(a) * 70;
+      const y = Math.sin(a) * 70;
+
+      ctx.beginPath();
+      ctx.arc(x, y, 1.8, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(240,214,171,0.14)";
+      ctx.fill();
+    }
+
+    ctx.restore();
+  }
+
+  function shorten(text) {
+    return text;
+  }
+
+  function getCategoryLink(categoryName) {
+    const found = categories.find(item => item.name === categoryName);
+    return found ? found.link : "#";
+  }
+
+  function spinWheel() {
+    if (isSpinning) return;
+
+    isSpinning = true;
+    spinBtn.disabled = true;
+    resultBox.style.display = "none";
+
+    const winnerIndex = Math.floor(Math.random() * sectorCount);
+    const sectorAngle = 360 / sectorCount;
+
+    const targetAngle = 360 - (winnerIndex * sectorAngle + sectorAngle / 2);
+    const currentNormalized = ((currentRotation % 360) + 360) % 360;
+    const deltaToTarget = ((targetAngle - currentNormalized) + 360) % 360;
+    const extraSpins = 360 * (6 + Math.floor(Math.random() * 3));
+    const totalRotation = extraSpins + deltaToTarget;
+
+    currentRotation += totalRotation;
+    canvas.style.transform = `rotate(${currentRotation}deg)`;
+
+    setTimeout(() => {
+      const winner = sectors[winnerIndex];
+
+      resultText.textContent = `Хранитель ведёт тебя к этим сокровищам: ${winner}`;
+      followBtn.href = getCategoryLink(winner);
+      chooseBtn.href = "#choose-path";
+
+      resultBox.style.display = "block";
+      isSpinning = false;
+      spinBtn.disabled = false;
+    }, 5900);
+  }
+
+  drawWheel();
+  spinBtn.addEventListener("click", spinWheel);
+})();
+</script>
+
+
+
+<div id="choose-path" class="totem-paths-section">
+
+  <div class="totem-paths-badge">Выбери свой путь</div>
+
+  <h2 class="totem-paths-title">Все сокровища Ярославской земли открыты перед тобой</h2>
+
+  <div class="totem-paths-subtitle">
+    Хранитель указал путь — но ты можешь выбрать дорогу сам.
+  </div>
+
+  <div class="totem-paths-grid">
+
+    <div class="totem-path-card totem-card-jewelry">
+      <div class="totem-card-overlay"></div>
+      <div class="totem-card-glow"></div>
+
+      <div class="totem-card-content">
+        <div class="totem-card-top">
+          <div class="totem-card-mark">Украшения</div>
+          <div class="totem-card-title">Украшения</div>
+          <div class="totem-card-text">
+            Авторские серьги, кулоны, браслеты и украшения с характером.
+          </div>
+        </div>
+
+        <a href="#jewelry" class="totem-card-btn">Открыть путь</a>
+      </div>
+    </div>
+
+    <div class="totem-path-card totem-card-decor">
+      <div class="totem-card-overlay"></div>
+      <div class="totem-card-glow"></div>
+
+      <div class="totem-card-content">
+        <div class="totem-card-top">
+          <div class="totem-card-mark">Декор</div>
+          <div class="totem-card-title">Декор</div>
+          <div class="totem-card-text">
+            Предметы, которые делают пространство живым и атмосферным.
+          </div>
+        </div>
+
+        <a href="#decor" class="totem-card-btn">Открыть путь</a>
+      </div>
+    </div>
+
+    <div class="totem-path-card totem-card-sweet">
+      <div class="totem-card-overlay"></div>
+      <div class="totem-card-glow"></div>
+
+      <div class="totem-card-content">
+        <div class="totem-card-top">
+          <div class="totem-card-mark">Сладости</div>
+          <div class="totem-card-title">Сладости</div>
+          <div class="totem-card-text">
+            Десерты, пряники и сладкие подарки с настоящим вкусом.
+          </div>
+        </div>
+
+        <a href="#sweet" class="totem-card-btn">Открыть путь</a>
+      </div>
+    </div>
+
+    <div class="totem-path-card totem-card-food">
+      <div class="totem-card-overlay"></div>
+      <div class="totem-card-glow"></div>
+
+      <div class="totem-card-content">
+        <div class="totem-card-top">
+          <div class="totem-card-mark">Угощения</div>
+          <div class="totem-card-title">Угощения</div>
+          <div class="totem-card-text">
+            Сыры, мясные деликатесы и настоящие гастрономические находки.
+          </div>
+        </div>
+
+        <a href="#food" class="totem-card-btn">Открыть путь</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+.totem-paths-section {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 28px 14px 32px;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255,255,255,0.06), transparent 30%),
+    linear-gradient(180deg, #6f4c3b 0%, #4a3025 45%, #2a1b15 100%);
+  text-align: center;
+  color: #f4e7d2;
+  font-family: Georgia, serif;
+  box-shadow: 0 18px 42px rgba(0,0,0,0.22);
+}
+
+.totem-paths-badge {
+  display: inline-block;
+  margin-bottom: 14px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(234, 209, 167, 0.18);
+  color: #ead0a4;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.totem-paths-title {
+  font-size: 28px;
+  line-height: 1.1;
+  margin: 0 0 10px;
+  color: #f3ddb2;
+}
+
+.totem-paths-subtitle {
+  margin: 0 auto 22px;
+  color: #e8dcc5;
+  font-size: 14px;
+  line-height: 1.5;
+  max-width: 680px;
+}
+
+.totem-paths-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.totem-path-card {
+  position: relative;
+  min-height: 320px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow:
+    0 14px 28px rgba(0,0,0,0.24),
+    inset 0 0 0 1px rgba(241,216,173,0.10);
+  transform: translateY(0);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Вместо внешних картинок — стилизованные фоны категорий */
+.totem-card-jewelry {
+  background:
+    radial-gradient(circle at 58% 24%, rgba(255,220,170,0.18), transparent 18%),
+    radial-gradient(circle at 62% 68%, rgba(255,220,170,0.10), transparent 24%),
+    linear-gradient(180deg, #6f4a39 0%, #4c3025 54%, #2a1a15 100%);
+}
+
+.totem-card-decor {
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255,220,170,0.16), transparent 18%),
+    radial-gradient(circle at 72% 70%, rgba(255,220,170,0.10), transparent 24%),
+    linear-gradient(180deg, #6b4a3c 0%, #493127 52%, #291a15 100%);
+}
+
+.totem-card-sweet {
+  background:
+    radial-gradient(circle at 50% 25%, rgba(255,200,140,0.18), transparent 18%),
+    radial-gradient(circle at 50% 82%, rgba(255,200,140,0.12), transparent 24%),
+    linear-gradient(180deg, #5a3a2f 0%, #3f281f 54%, #211511 100%);
+}
+
+.totem-card-food {
+  background:
+    radial-gradient(circle at 55% 28%, rgba(255,190,120,0.17), transparent 17%),
+    radial-gradient(circle at 55% 78%, rgba(255,190,120,0.11), transparent 24%),
+    linear-gradient(180deg, #5f3d31 0%, #42291f 54%, #241612 100%);
+}
+
+.totem-card-overlay,
+.totem-card-glow {
+  position: absolute;
+  inset: 0;
+}
+
+.totem-card-overlay {
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.32) 40%, rgba(0,0,0,0.60) 100%);
+}
+
+.totem-card-glow {
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 24%, rgba(255,220,160,0.14), transparent 28%),
+    radial-gradient(circle at 50% 100%, rgba(255,195,110,0.12), transparent 38%);
+}
+
+.totem-path-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: 24px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.05),
+    inset 0 -70px 110px rgba(244, 196, 120, 0.08);
+}
+
+.totem-card-content {
+  position: relative;
+  z-index: 3;
+  height: 100%;
+  padding: 18px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.totem-card-top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.totem-card-mark {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  margin-bottom: 8px;
+  color: #e2c792;
+  text-transform: uppercase;
+}
+
+.totem-card-title {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.02;
+  margin-bottom: 10px;
+  color: #f4dfb6;
+}
+
+.totem-card-text {
+  font-size: 14px;
+  color: #f1e4cc;
+  line-height: 1.45;
+  max-width: 100%;
+}
+
+.totem-card-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #f1d8ad, #d7ae77);
+  color: #2d1a13 !important;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1;
+  box-shadow:
+    0 6px 14px rgba(0,0,0,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.35);
+  white-space: nowrap;
+  text-align: center;
+  align-self: flex-start;
+}
+
+@media (hover:hover) {
+  .totem-path-card:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 18px 34px rgba(0,0,0,0.28),
+      0 0 18px rgba(241, 198, 120, 0.16),
+      inset 0 0 0 1px rgba(241,216,173,0.12);
+  }
+}
+
+@media (max-width: 700px) {
+  .totem-paths-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .totem-path-card {
+    min-height: 250px;
+  }
+}
+
+@media (max-width: 540px) {
+  .totem-paths-section {
+    padding: 22px 10px 26px;
+    border-radius: 22px;
+  }
+
+  .totem-paths-title {
+    font-size: 24px;
+  }
+
+  .totem-paths-subtitle {
+    font-size: 13px;
+    margin-bottom: 18px;
+  }
+
+  .totem-paths-grid {
+    gap: 14px;
+  }
+
+  .totem-path-card {
+    min-height: 230px;
+    border-radius: 20px;
+  }
+
+  .totem-path-card::after {
+    border-radius: 20px;
+  }
+
+  .totem-card-content {
+    padding: 16px 14px 14px;
+  }
+
+  .totem-card-mark {
+    font-size: 10px;
+    margin-bottom: 6px;
+  }
+
+  .totem-card-title {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+
+  .totem-card-text {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .totem-card-btn {
+    min-height: 32px;
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+}
+</style>
