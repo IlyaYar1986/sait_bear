@@ -2,122 +2,198 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Хранитель Ярославской земли — сказка о медведе</title>
-  <meta name="description" content="Ты прикоснулся к метке на сувенире — Хранитель медведь приветствует тебя и ведёт к дарам мастеров Ярославля.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Гильдия мастеров Ярославля — Хранитель</title>
+  <meta name="description" content="Наследие Ярославля: медведь‑Хранитель, голос сувенира и путь к дарам местных мастеров.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --arch-bg: #121212;
+      --arch-bg-elev: #1a1a1a;
+      --arch-bg-card: #1e1e1e;
+      --arch-gold: #c5a059;
+      --arch-gold-bright: #d4b06e;
+      --arch-gold-dim: #8a7349;
+      --arch-line: rgba(197, 160, 89, 0.2);
+      --arch-text: #e8e4dc;
+      --arch-text-muted: #9a958c;
+      --arch-header-h: 52px;
+      --arch-nav-h: 64px;
+      --font-display: "Cinzel", Georgia, serif;
+      --font-body: "DM Sans", system-ui, sans-serif;
+    }
+
     *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: Georgia, "Times New Roman", serif;
-      color: #f4e7d2;
-      background: #0f0a08;
-      line-height: 1.5;
+      font-family: var(--font-body);
+      color: var(--arch-text);
+      background: var(--arch-bg);
+      line-height: 1.55;
+      padding-top: var(--arch-header-h);
+      padding-bottom: calc(var(--arch-nav-h) + env(safe-area-inset-bottom, 0px));
     }
 
-    .fairy-bg {
-      min-height: 100vh;
+    .arch-top {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      height: var(--arch-header-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px 0 10px;
+      background: rgba(18, 18, 18, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--arch-line);
+    }
+
+    .arch-top__btn {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background: transparent;
+      color: var(--arch-gold);
+      cursor: pointer;
+      padding: 0;
+      border-radius: 8px;
+    }
+
+    .arch-top__btn svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .arch-top__brand {
+      text-align: center;
+      flex: 1;
+      min-width: 0;
+      padding: 0 8px;
+    }
+
+    .arch-top__title {
+      font-family: var(--font-display);
+      font-size: clamp(0.78rem, 3.2vw, 0.95rem);
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--arch-gold);
+      margin: 0;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .arch-top__tagline {
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--arch-text-muted);
+      margin: 2px 0 0;
+    }
+
+    .arch-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-around;
+      align-items: stretch;
+      min-height: var(--arch-nav-h);
+      padding: 8px 6px calc(8px + env(safe-area-inset-bottom, 0px));
+      background: rgba(18, 18, 18, 0.96);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--arch-line);
+    }
+
+    .arch-nav__link {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      text-decoration: none;
+      color: var(--arch-text-muted);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      max-width: 100px;
+      border-radius: 10px;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+
+    .arch-nav__link svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.5;
+    }
+
+    .arch-nav__link:hover,
+    .arch-nav__link:focus-visible {
+      color: var(--arch-gold);
+      outline: none;
+    }
+
+    .arch-nav__link.is-active {
+      color: var(--arch-gold);
+    }
+
+    .arch-surface {
+      min-height: calc(100vh - var(--arch-header-h));
       background:
-        radial-gradient(ellipse 120% 80% at 50% -20%, rgba(90, 55, 40, 0.45), transparent 55%),
-        radial-gradient(ellipse 80% 50% at 80% 100%, rgba(45, 28, 22, 0.9), transparent 50%),
-        radial-gradient(ellipse 70% 40% at 10% 90%, rgba(60, 38, 30, 0.7), transparent 45%),
-        linear-gradient(180deg, #1a100c 0%, #2d1e18 35%, #1f1410 70%, #0f0a08 100%);
+        radial-gradient(ellipse 100% 70% at 50% -15%, rgba(197, 160, 89, 0.07), transparent 50%),
+        radial-gradient(ellipse 80% 50% at 100% 60%, rgba(197, 160, 89, 0.03), transparent 45%),
+        var(--arch-bg);
       position: relative;
       overflow-x: hidden;
-    }
-
-    .fairy-bg::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background-image:
-        radial-gradient(1px 1px at 10% 20%, rgba(255, 230, 200, 0.35) 0, transparent 100%),
-        radial-gradient(1px 1px at 70% 40%, rgba(255, 220, 180, 0.25) 0, transparent 100%),
-        radial-gradient(1px 1px at 30% 70%, rgba(255, 235, 210, 0.2) 0, transparent 100%),
-        radial-gradient(1px 1px at 90% 80%, rgba(255, 225, 190, 0.3) 0, transparent 100%),
-        radial-gradient(1.5px 1.5px at 50% 10%, rgba(255, 240, 215, 0.4) 0, transparent 100%),
-        radial-gradient(1px 1px at 85% 15%, rgba(255, 230, 200, 0.2) 0, transparent 100%),
-        radial-gradient(1px 1px at 15% 55%, rgba(255, 225, 195, 0.18) 0, transparent 100%);
-      z-index: 0;
-      opacity: 0.85;
-    }
-
-    @media (prefers-reduced-motion: no-preference) {
-      .fairy-bg::before {
-        animation: fairy-twinkle 14s ease-in-out infinite alternate;
-      }
-    }
-
-    @keyframes fairy-twinkle {
-      0% { opacity: 0.65; }
-      100% { opacity: 0.95; }
     }
 
     .page-inner {
       position: relative;
       z-index: 1;
-      max-width: 720px;
+      max-width: 560px;
       margin: 0 auto;
-      padding: 28px 18px 56px;
+      padding: 20px 18px 28px;
     }
 
-    .fairy-hero {
-      text-align: center;
-      padding: 8px 12px 28px;
-      border-radius: 28px;
-      margin-bottom: 8px;
-      background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
-      border: 1px solid rgba(234, 209, 167, 0.12);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+    #page-top {
+      height: 1px;
+      margin: 0;
+      padding: 0;
+      scroll-margin-top: calc(var(--arch-header-h) + 8px);
     }
 
-    .fairy-hero-badge {
-      display: inline-block;
-      margin-bottom: 14px;
-      padding: 6px 14px;
-      border-radius: 999px;
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: #dcbf91;
-      border: 1px solid rgba(234, 209, 167, 0.22);
-      background: rgba(0, 0, 0, 0.2);
-    }
-
-    .fairy-hero h1 {
-      margin: 0 0 14px;
-      font-size: clamp(1.45rem, 4.5vw, 1.85rem);
-      font-weight: 700;
-      color: #f3ddb2;
-      line-height: 1.2;
-    }
-
-    .fairy-hero-lead {
-      margin: 0 auto;
-      max-width: 34em;
-      font-size: 15px;
-      color: #e8dcc5;
-    }
-
-    .fairy-hero-lead strong {
-      color: #f0d8ac;
-      font-weight: 600;
-    }
-
-    /* —— Видео —— */
+    /* Видео */
+    #guardian-video.video-wrap,
     .video-wrap {
       position: relative;
       max-width: 420px;
-      margin: 0 auto 32px;
-      border-radius: 20px;
+      margin: 0 auto 12px;
+      border-radius: 4px;
       overflow: hidden;
-      box-shadow:
-        0 20px 50px rgba(0, 0, 0, 0.35),
-        0 0 0 1px rgba(241, 216, 179, 0.12);
+      border: 1px solid var(--arch-line);
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+      scroll-margin-top: calc(var(--arch-header-h) + 12px);
     }
 
     .video-wrap video {
@@ -129,12 +205,13 @@
 
     .video-caption {
       max-width: 420px;
-      margin: -20px auto 28px;
+      margin: 0 auto 32px;
       padding: 0 6px;
       text-align: center;
       font-size: 14px;
-      color: #d8c8b0;
+      color: var(--arch-text-muted);
       font-style: italic;
+      font-family: var(--font-body);
     }
 
     .video-overlay {
@@ -143,21 +220,27 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.45);
       transition: opacity 0.4s ease;
     }
 
     .sound-btn {
-      padding: 14px 22px;
-      border-radius: 999px;
-      border: none;
-      background: linear-gradient(180deg, #f1d8ad, #d7ae77);
-      font-weight: bold;
-      font-size: 16px;
-      font-family: inherit;
+      padding: 14px 24px;
+      border-radius: 2px;
+      border: 1px solid var(--arch-gold);
+      background: linear-gradient(180deg, rgba(197, 160, 89, 0.2), rgba(197, 160, 89, 0.08));
+      font-weight: 600;
+      font-size: 13px;
+      font-family: var(--font-display);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       cursor: pointer;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-      color: #2d1a13;
+      color: var(--arch-gold-bright);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    .sound-btn:hover {
+      background: linear-gradient(180deg, rgba(197, 160, 89, 0.35), rgba(197, 160, 89, 0.12));
     }
 
     .video-overlay.hidden {
@@ -165,100 +248,66 @@
       pointer-events: none;
     }
 
-    /* —— Сказка —— */
-    .fairy-tale-block {
-      max-width: 520px;
-      margin: 0 auto 36px;
-      padding: 22px 20px;
-      border-radius: 24px;
-      background:
-        radial-gradient(circle at 50% 0%, rgba(255, 220, 170, 0.08), transparent 40%),
-        linear-gradient(180deg, rgba(60, 40, 32, 0.6), rgba(35, 24, 20, 0.75));
-      border: 1px solid rgba(239, 214, 171, 0.14);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    }
-
-    .fairy-tale-block h2 {
-      margin: 0 0 12px;
-      font-size: 1.25rem;
-      color: #f3ddb2;
-    }
-
-    .fairy-tale-block p {
-      margin: 0 0 12px;
-      font-size: 15px;
-      color: #ebdcc3;
-    }
-
-    .fairy-tale-block p:last-child {
-      margin-bottom: 0;
-    }
-
-    /* —— Колесо (из оригинала) —— */
+    /* Колесо */
     #totem-wheel-premium {
       max-width: 520px;
       margin: 0 auto;
-      padding: 30px 18px 34px;
+      padding: 28px 16px 32px;
       position: relative;
       overflow: hidden;
-      border-radius: 32px;
-      background:
-        radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.08), transparent 32%),
-        radial-gradient(circle at 50% 100%, rgba(255, 220, 170, 0.06), transparent 28%),
-        linear-gradient(180deg, #7a5845 0%, #5a3d30 34%, #3e2a22 68%, #271914 100%);
-      box-shadow:
-        0 24px 60px rgba(0, 0, 0, 0.28),
-        inset 0 1px 0 rgba(255, 255, 255, 0.06);
-      color: #f4e7d2;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #181818 0%, #141414 100%);
+      border: 1px solid var(--arch-line);
+      box-shadow: 0 28px 56px rgba(0, 0, 0, 0.4);
+      color: var(--arch-text);
       text-align: center;
+      scroll-margin-top: calc(var(--arch-header-h) + 12px);
     }
 
     #totem-wheel-premium::before {
       content: "";
       position: absolute;
-      inset: 12px;
-      border-radius: 24px;
-      border: 1px solid rgba(232, 203, 158, 0.16);
+      inset: 10px;
+      border-radius: 2px;
+      border: 1px solid rgba(197, 160, 89, 0.08);
       pointer-events: none;
     }
 
     #totem-wheel-premium::after {
-      content: "";
-      position: absolute;
-      inset: 22px;
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      pointer-events: none;
+      display: none;
     }
 
     .totem-badge {
       display: inline-block;
-      margin-bottom: 16px;
-      padding: 7px 16px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(234, 209, 167, 0.18);
-      color: #ead0a4;
-      font-size: 12px;
+      margin-bottom: 14px;
+      padding: 6px 14px;
+      border-radius: 2px;
+      background: rgba(197, 160, 89, 0.08);
+      border: 1px solid var(--arch-line);
+      color: var(--arch-gold);
+      font-family: var(--font-display);
+      font-size: 10px;
       line-height: 1;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
     }
 
     .totem-title {
+      font-family: var(--font-display);
       margin: 0 0 12px;
-      font-size: 32px;
-      line-height: 1.1;
+      font-size: clamp(1.25rem, 4.5vw, 1.65rem);
+      line-height: 1.15;
       font-weight: 700;
-      color: #f3ddb2;
+      color: var(--arch-gold);
+      letter-spacing: 0.02em;
     }
 
     .totem-subtitle {
       max-width: 400px;
-      margin: 0 auto 28px;
-      font-size: 15px;
-      line-height: 1.55;
-      color: #ebdcc3;
+      margin: 0 auto 24px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--arch-text-muted);
     }
 
     .totem-wheel-stage {
@@ -275,13 +324,13 @@
       margin: 0 auto;
       border-radius: 50%;
       background:
-        radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.08), transparent 26%),
-        radial-gradient(circle at 50% 50%, #8b6852 0%, #6c4c3b 48%, #4b3329 73%, #2b1c16 100%);
+        radial-gradient(circle at 50% 35%, rgba(197, 160, 89, 0.06), transparent 28%),
+        radial-gradient(circle at 50% 50%, #252015 0%, #1a1812 50%, #12100c 100%);
       box-shadow:
-        inset 0 0 0 2px rgba(246, 224, 189, 0.12),
-        inset 0 0 0 12px rgba(78, 47, 36, 0.60),
-        inset 0 0 0 24px rgba(228, 200, 152, 0.08),
-        0 18px 40px rgba(0, 0, 0, 0.34);
+        inset 0 0 0 2px rgba(197, 160, 89, 0.12),
+        inset 0 0 0 14px rgba(0, 0, 0, 0.45),
+        inset 0 0 0 26px rgba(197, 160, 89, 0.04),
+        0 20px 40px rgba(0, 0, 0, 0.5);
       overflow: hidden;
     }
 
@@ -306,8 +355,8 @@
       width: 448px;
       height: 448px;
       box-shadow:
-        0 0 0 1px rgba(241, 216, 179, 0.10),
-        0 0 40px rgba(241, 216, 179, 0.05);
+        0 0 0 1px rgba(197, 160, 89, 0.12),
+        0 0 36px rgba(197, 160, 89, 0.06);
     }
 
     .halo-2 {
@@ -315,7 +364,7 @@
       height: 470px;
       box-shadow:
         0 0 0 1px rgba(255, 255, 255, 0.04),
-        inset 0 0 0 1px rgba(241, 216, 179, 0.04);
+        inset 0 0 0 1px rgba(197, 160, 89, 0.06);
     }
 
     .totem-pointer {
@@ -325,23 +374,23 @@
       transform: translateX(-50%);
       width: 0;
       height: 0;
-      border-left: 20px solid transparent;
-      border-right: 20px solid transparent;
-      border-top: 38px solid #e4c48b;
+      border-left: 18px solid transparent;
+      border-right: 18px solid transparent;
+      border-top: 34px solid var(--arch-gold);
       z-index: 10;
-      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.30));
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
     }
 
     .totem-pointer::before {
       content: "";
       position: absolute;
-      left: -8px;
-      top: -40px;
-      width: 16px;
-      height: 16px;
+      left: -7px;
+      top: -36px;
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
-      background: #654434;
-      border: 2px solid #f0d7ab;
+      background: #1a1510;
+      border: 2px solid var(--arch-gold-dim);
     }
 
     .totem-center-medallion {
@@ -358,11 +407,11 @@
       height: 110px;
       border-radius: 50%;
       background:
-        radial-gradient(circle at 50% 35%, #f0d9af 0%, #d7b37a 52%, #9f7447 100%);
+        radial-gradient(circle at 50% 30%, #3a3228 0%, #2a241c 55%, #1a1510 100%);
       box-shadow:
-        0 10px 22px rgba(0, 0, 0, 0.22),
-        inset 0 1px 0 rgba(255, 255, 255, 0.35),
-        inset 0 0 0 5px rgba(104, 69, 47, 0.32);
+        0 12px 28px rgba(0, 0, 0, 0.4),
+        inset 0 0 0 2px rgba(197, 160, 89, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -373,91 +422,90 @@
       height: 82px;
       border-radius: 50%;
       background:
-        radial-gradient(circle at 50% 35%, #7c5642 0%, #603f31 58%, #432b22 100%);
+        radial-gradient(circle at 50% 35%, #141210 0%, #0d0c0a 100%);
       box-shadow:
-        inset 0 0 0 1px rgba(244, 223, 182, 0.16),
-        inset 0 0 0 10px rgba(255, 255, 255, 0.02);
+        inset 0 0 0 1px rgba(197, 160, 89, 0.2);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      color: #f0d8ac;
+      color: var(--arch-gold);
     }
 
     .medallion-bear {
-      font-size: 20px;
+      font-size: 18px;
       line-height: 1;
-      margin-bottom: 5px;
+      margin-bottom: 4px;
       opacity: 0.95;
     }
 
     .medallion-text {
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      font-weight: 700;
+      font-family: var(--font-display);
+      font-size: 8px;
+      letter-spacing: 0.14em;
+      font-weight: 600;
     }
 
     .totem-spin-btn {
       display: inline-block;
       width: 100%;
-      max-width: 290px;
-      padding: 16px 24px;
-      border: none;
-      border-radius: 999px;
+      max-width: 300px;
+      padding: 15px 24px;
+      border: 1px solid var(--arch-gold);
+      border-radius: 2px;
       cursor: pointer;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 17px;
-      font-weight: 700;
-      color: #2d1a13;
-      background:
-        linear-gradient(180deg, #f1d8ad 0%, #d8b07a 46%, #b8844d 100%);
-      box-shadow:
-        0 12px 24px rgba(0, 0, 0, 0.20),
-        inset 0 1px 0 rgba(255, 255, 255, 0.45);
-      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--arch-gold-bright);
+      background: linear-gradient(180deg, rgba(197, 160, 89, 0.25), rgba(197, 160, 89, 0.08));
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease, opacity 0.2s ease;
     }
 
     .totem-spin-btn:hover {
       transform: translateY(-1px);
+      background: linear-gradient(180deg, rgba(197, 160, 89, 0.35), rgba(197, 160, 89, 0.12));
     }
 
     .totem-spin-btn:disabled {
-      opacity: 0.65;
+      opacity: 0.5;
       cursor: not-allowed;
       transform: none;
     }
 
     .totem-result-box {
-      margin-top: 24px;
-      padding: 20px 18px 18px;
-      border-radius: 22px;
-      background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.03));
-      border: 1px solid rgba(239, 214, 171, 0.15);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      margin-top: 22px;
+      padding: 20px 18px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--arch-line);
     }
 
     .totem-result-label {
-      margin-bottom: 10px;
-      font-size: 12px;
+      margin-bottom: 8px;
+      font-family: var(--font-display);
+      font-size: 10px;
       text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: #dcbf91;
+      letter-spacing: 0.16em;
+      color: var(--arch-gold-dim);
     }
 
     .totem-result-text {
       margin-bottom: 12px;
-      font-size: 22px;
+      font-family: var(--font-display);
+      font-size: clamp(1.05rem, 3.5vw, 1.35rem);
       line-height: 1.35;
-      font-weight: 700;
-      color: #f4dfb6;
+      font-weight: 600;
+      color: var(--arch-gold-bright);
     }
 
     .totem-result-subtext {
-      font-size: 14px;
+      font-size: 13px;
       line-height: 1.5;
-      color: #e7d7bd;
+      color: var(--arch-text-muted);
       margin-bottom: 18px;
     }
 
@@ -470,274 +518,412 @@
     .totem-btn-primary {
       display: inline-block;
       padding: 12px 18px;
-      border-radius: 999px;
+      border-radius: 2px;
       text-decoration: none;
-      font-weight: 700;
-      background: linear-gradient(180deg, #f1d8ad, #d7ae77);
-      color: #2d1a13 !important;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 1px solid var(--arch-gold);
+      background: rgba(197, 160, 89, 0.15);
+      color: var(--arch-gold-bright) !important;
       text-align: center;
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
     }
 
     .totem-btn-secondary {
       display: inline-block;
       padding: 11px 18px;
-      border-radius: 999px;
+      border-radius: 2px;
       text-decoration: none;
       font-weight: 600;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(241, 216, 173, 0.25);
-      color: #f3e7d3 !important;
+      font-size: 12px;
+      background: transparent;
+      border: 1px solid rgba(197, 160, 89, 0.25);
+      color: var(--arch-text) !important;
       text-align: center;
     }
 
-    /* Пути */
     .totem-paths-section {
       max-width: 980px;
       margin: 28px auto 0;
       padding: 28px 14px 32px;
-      border-radius: 28px;
-      background:
-        radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.06), transparent 30%),
-        linear-gradient(180deg, #6f4c3b 0%, #4a3025 45%, #2a1b15 100%);
+      border-radius: 4px;
+      background: #161616;
+      border: 1px solid var(--arch-line);
       text-align: center;
-      color: #f4e7d2;
-      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.22);
+      color: var(--arch-text);
+      scroll-margin-top: calc(var(--arch-header-h) + 12px);
     }
 
     .totem-paths-badge {
       display: inline-block;
-      margin-bottom: 14px;
-      padding: 7px 14px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(234, 209, 167, 0.18);
-      color: #ead0a4;
-      font-size: 12px;
-      line-height: 1;
-      letter-spacing: 0.12em;
+      margin-bottom: 12px;
+      padding: 6px 14px;
+      border-radius: 2px;
+      background: rgba(197, 160, 89, 0.08);
+      border: 1px solid var(--arch-line);
+      color: var(--arch-gold);
+      font-family: var(--font-display);
+      font-size: 10px;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
     }
 
     .totem-paths-title {
-      font-size: 28px;
-      line-height: 1.1;
+      font-family: var(--font-display);
+      font-size: clamp(1.15rem, 4vw, 1.45rem);
+      line-height: 1.15;
       margin: 0 0 10px;
-      color: #f3ddb2;
+      color: var(--arch-gold);
     }
 
     .totem-paths-subtitle {
-      margin: 0 auto 22px;
-      color: #e8dcc5;
+      margin: 0 auto 0;
+      color: var(--arch-text-muted);
       font-size: 14px;
-      line-height: 1.5;
+      line-height: 1.55;
       max-width: 680px;
     }
 
-    .totem-paths-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
-    }
-
-    .totem-path-card {
+    /* Витрина дара — премиальный блок категории */
+    .showcase-vitrine {
       position: relative;
-      min-height: 320px;
-      border-radius: 24px;
-      overflow: hidden;
+      max-width: 520px;
+      margin: 32px auto 0;
+      scroll-margin-top: calc(var(--arch-header-h) + 12px);
+      padding: 2px;
+      background: linear-gradient(
+        145deg,
+        rgba(212, 176, 110, 0.45) 0%,
+        rgba(138, 115, 73, 0.15) 35%,
+        rgba(197, 160, 89, 0.35) 70%,
+        rgba(90, 72, 42, 0.25) 100%
+      );
       box-shadow:
-        0 14px 28px rgba(0, 0, 0, 0.24),
-        inset 0 0 0 1px rgba(241, 216, 173, 0.10);
-      transform: translateY(0);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+        0 24px 48px rgba(0, 0, 0, 0.5),
+              0 0 60px rgba(197, 160, 89, 0.06);
     }
 
-    .totem-card-jewelry {
+    .showcase-vitrine:first-of-type {
+      margin-top: 24px;
+    }
+
+    .showcase-vitrine__inner {
+      position: relative;
+      padding: 32px 24px 36px;
+      text-align: center;
       background:
-        radial-gradient(circle at 58% 24%, rgba(255, 220, 170, 0.18), transparent 18%),
-        radial-gradient(circle at 62% 68%, rgba(255, 220, 170, 0.10), transparent 24%),
-        linear-gradient(180deg, #6f4a39 0%, #4c3025 54%, #2a1a15 100%);
+        radial-gradient(ellipse 100% 70% at 50% -10%, rgba(197, 160, 89, 0.12), transparent 45%),
+        radial-gradient(ellipse 80% 40% at 80% 90%, rgba(197, 160, 89, 0.05), transparent 40%),
+        linear-gradient(180deg, #161616 0%, #0c0c0c 100%);
+      border: 1px solid rgba(197, 160, 89, 0.22);
+      overflow: hidden;
     }
 
-    .totem-card-decor {
-      background:
-        radial-gradient(circle at 30% 24%, rgba(255, 220, 170, 0.16), transparent 18%),
-        radial-gradient(circle at 72% 70%, rgba(255, 220, 170, 0.10), transparent 24%),
-        linear-gradient(180deg, #6b4a3c 0%, #493127 52%, #291a15 100%);
-    }
-
-    .totem-card-sweet {
-      background:
-        radial-gradient(circle at 50% 25%, rgba(255, 200, 140, 0.18), transparent 18%),
-        radial-gradient(circle at 50% 82%, rgba(255, 200, 140, 0.12), transparent 24%),
-        linear-gradient(180deg, #5a3a2f 0%, #3f281f 54%, #211511 100%);
-    }
-
-    .totem-card-food {
-      background:
-        radial-gradient(circle at 55% 28%, rgba(255, 190, 120, 0.17), transparent 17%),
-        radial-gradient(circle at 55% 78%, rgba(255, 190, 120, 0.11), transparent 24%),
-        linear-gradient(180deg, #5f3d31 0%, #42291f 54%, #241612 100%);
-    }
-
-    .totem-card-overlay,
-    .totem-card-glow {
-      position: absolute;
-      inset: 0;
-    }
-
-    .totem-card-overlay {
-      z-index: 1;
-      background:
-        linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0.32) 40%, rgba(0, 0, 0, 0.60) 100%);
-    }
-
-    .totem-card-glow {
-      z-index: 2;
-      pointer-events: none;
-      background:
-        radial-gradient(circle at 50% 24%, rgba(255, 220, 160, 0.14), transparent 28%),
-        radial-gradient(circle at 50% 100%, rgba(255, 195, 110, 0.12), transparent 38%);
-    }
-
-    .totem-path-card::after {
+    .showcase-vitrine__inner::before {
       content: "";
       position: absolute;
       inset: 0;
-      z-index: 2;
+      opacity: 0.11;
       pointer-events: none;
-      border-radius: 24px;
-      box-shadow:
-        inset 0 0 0 1px rgba(255, 255, 255, 0.05),
-        inset 0 -70px 110px rgba(244, 196, 120, 0.08);
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
     }
 
-    .totem-card-content {
+    .showcase-vitrine__sparkle {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(1px 1px at 15% 25%, rgba(240, 215, 140, 0.5), transparent),
+        radial-gradient(1px 1px at 85% 18%, rgba(230, 200, 120, 0.45), transparent),
+        radial-gradient(1px 1px at 72% 78%, rgba(212, 176, 110, 0.35), transparent),
+        radial-gradient(1px 1px at 28% 85%, rgba(240, 215, 140, 0.3), transparent),
+        radial-gradient(1.5px 1.5px at 50% 12%, rgba(255, 235, 190, 0.4), transparent),
+        radial-gradient(1px 1px at 92% 55%, rgba(197, 160, 89, 0.25), transparent);
+      z-index: 0;
+    }
+
+    .showcase-vitrine__corner {
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      border-color: rgba(197, 160, 89, 0.45);
+      border-style: solid;
+      border-width: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .showcase-vitrine__corner--tl {
+      top: 12px;
+      left: 12px;
+      border-top-width: 1px;
+      border-left-width: 1px;
+    }
+
+    .showcase-vitrine__corner--tr {
+      top: 12px;
+      right: 12px;
+      border-top-width: 1px;
+      border-right-width: 1px;
+    }
+
+    .showcase-vitrine__corner--bl {
+      bottom: 12px;
+      left: 12px;
+      border-bottom-width: 1px;
+      border-left-width: 1px;
+    }
+
+    .showcase-vitrine__corner--br {
+      bottom: 12px;
+      right: 12px;
+      border-bottom-width: 1px;
+      border-right-width: 1px;
+    }
+
+    .showcase-vitrine__crest {
       position: relative;
-      z-index: 3;
-      height: 100%;
-      padding: 18px 18px 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      text-align: left;
+      z-index: 2;
+      width: 14px;
+      height: 14px;
+      margin: 0 auto 14px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, #f0d78c, #c5a059 50%, #7a5c32);
+      box-shadow: 0 0 14px rgba(197, 160, 89, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.35);
     }
 
-    .totem-card-top {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .totem-card-mark {
+    .showcase-vitrine__eyebrow {
+      position: relative;
+      z-index: 2;
+      margin: 0 0 12px;
+      font-family: var(--font-body);
       font-size: 10px;
-      letter-spacing: 0.12em;
-      margin-bottom: 8px;
-      color: #e2c792;
+      font-weight: 600;
+      letter-spacing: 0.28em;
       text-transform: uppercase;
+      color: var(--arch-gold-dim);
     }
 
-    .totem-card-title {
-      font-size: 28px;
+    .showcase-vitrine__filigree {
+      position: relative;
+      z-index: 2;
+      margin: 0 auto 16px;
+      max-width: 220px;
+      height: 12px;
+      color: rgba(197, 160, 89, 0.55);
+      opacity: 0.95;
+    }
+
+    .showcase-vitrine__title {
+      position: relative;
+      z-index: 2;
+      margin: 0 0 18px;
+      font-family: var(--font-display);
+      font-size: clamp(1.65rem, 6.5vw, 2.15rem);
       font-weight: 700;
-      line-height: 1.02;
-      margin-bottom: 10px;
-      color: #f4dfb6;
+      line-height: 1.1;
+      letter-spacing: 0.06em;
+      background: linear-gradient(180deg, #f5e2a8 0%, #d4b06e 35%, #c5a059 55%, #8a6f3d 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.65));
     }
 
-    .totem-card-text {
+    .showcase-vitrine__divider {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+      color: rgba(197, 160, 89, 0.5);
+    }
+
+    .showcase-vitrine__divider::before,
+    .showcase-vitrine__divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      max-width: 120px;
+      background: linear-gradient(90deg, transparent, rgba(197, 160, 89, 0.5), transparent);
+    }
+
+    .showcase-vitrine__divider svg {
+      flex-shrink: 0;
+      opacity: 0.85;
+    }
+
+    .showcase-vitrine__lead {
+      position: relative;
+      z-index: 2;
+      margin: 0 0 12px;
+      font-family: var(--font-body);
       font-size: 14px;
-      color: #f1e4cc;
-      line-height: 1.45;
-      max-width: 100%;
+      font-weight: 500;
+      color: rgba(232, 216, 180, 0.88);
+      line-height: 1.55;
     }
 
-    .totem-card-btn {
+    .showcase-vitrine__text {
+      position: relative;
+      z-index: 2;
+      margin: 0;
+      font-size: 13px;
+      color: var(--arch-text-muted);
+      line-height: 1.6;
+    }
+
+    .showcase-vitrine__btn {
+      position: relative;
+      z-index: 2;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 34px;
-      padding: 6px 14px;
-      border-radius: 999px;
-      background: linear-gradient(180deg, #f1d8ad, #d7ae77);
-      color: #2d1a13 !important;
-      text-decoration: none;
+      margin-top: 22px;
+      padding: 13px 28px;
+      font-family: var(--font-body);
+      font-size: 11px;
       font-weight: 700;
-      font-size: 12px;
-      line-height: 1;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--arch-gold-bright);
+      background: linear-gradient(180deg, rgba(28, 28, 28, 0.95), #121212);
+      border: 1px solid var(--arch-gold);
       box-shadow:
-        0 6px 14px rgba(0, 0, 0, 0.18),
-        inset 0 1px 0 rgba(255, 255, 255, 0.35);
-      white-space: nowrap;
-      text-align: center;
-      align-self: flex-start;
+        0 0 0 1px rgba(197, 160, 89, 0.25),
+        0 0 0 3px #0a0a0a,
+        0 0 0 4px rgba(197, 160, 89, 0.35),
+        0 12px 28px rgba(0, 0, 0, 0.45);
+      transition: color 0.2s, box-shadow 0.2s, background 0.2s;
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
     }
 
-    @media (hover: hover) {
-      .totem-path-card:hover {
-        transform: translateY(-2px);
-        box-shadow:
-          0 18px 34px rgba(0, 0, 0, 0.28),
-          0 0 18px rgba(241, 198, 120, 0.16),
-          inset 0 0 0 1px rgba(241, 216, 173, 0.12);
+    .showcase-vitrine__btn:focus-visible {
+      outline: 2px solid var(--arch-gold-bright);
+      outline-offset: 3px;
+    }
+
+    .showcase-vitrine__btn:hover {
+      color: #f5e2a8;
+      background: linear-gradient(180deg, rgba(197, 160, 89, 0.12), rgba(24, 24, 24, 0.98));
+      box-shadow:
+        0 0 0 1px rgba(212, 176, 110, 0.45),
+        0 0 0 3px #0a0a0a,
+        0 0 0 4px rgba(197, 160, 89, 0.45),
+        0 14px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    .showcase-vitrine__btn--toggle::after {
+      content: "";
+      display: inline-block;
+      margin-left: 10px;
+      width: 6px;
+      height: 6px;
+      border-right: 1.5px solid currentColor;
+      border-bottom: 1.5px solid currentColor;
+      transform: rotate(45deg) translateY(-2px);
+      transition: transform 0.25s ease;
+    }
+
+    .showcase-vitrine__btn--toggle[aria-expanded="true"]::after {
+      transform: rotate(-135deg) translateY(2px);
+    }
+
+    .showcase-vitrine__panel {
+      margin: -2px 2px 0;
+      border: 1px solid rgba(197, 160, 89, 0.22);
+      border-top: 1px solid rgba(197, 160, 89, 0.1);
+      background: linear-gradient(180deg, #121212 0%, #0a0a0a 100%);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.45s ease;
+    }
+
+    .showcase-vitrine__panel.is-open {
+      max-height: 22rem;
+    }
+
+    .showcase-vitrine__panel-inner {
+      padding: 18px 18px 20px;
+      text-align: center;
+    }
+
+    .showcase-vitrine__masters-label {
+      margin: 0 0 12px;
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--arch-gold-dim);
+    }
+
+    .showcase-vitrine__masters {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      text-align: left;
+    }
+
+    .showcase-vitrine__masters li + li {
+      border-top: 1px solid rgba(197, 160, 89, 0.1);
+    }
+
+    .showcase-vitrine__masters a {
+      display: block;
+      padding: 12px 10px;
+      color: var(--arch-text);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+
+    .showcase-vitrine__masters a:hover {
+      color: var(--arch-gold-bright);
+      background: rgba(197, 160, 89, 0.07);
+    }
+
+    .showcase-vitrine__masters a:focus-visible {
+      outline: 1px solid var(--arch-gold);
+      outline-offset: -1px;
+    }
+
+    @media (max-width: 400px) {
+      .showcase-vitrine__inner {
+        padding: 26px 16px 30px;
+      }
+
+      .showcase-vitrine__btn {
+        padding: 12px 22px;
+        font-size: 10px;
       }
     }
 
-    /* Якорные категории */
-    .fairy-category {
-      max-width: 520px;
-      margin: 32px auto 0;
-      padding: 20px 20px 22px;
-      border-radius: 22px;
-      scroll-margin-top: 20px;
-      border: 1px solid rgba(239, 214, 171, 0.12);
-      background: rgba(30, 20, 16, 0.5);
-    }
-
-    .fairy-category h3 {
-      margin: 0 0 10px;
-      font-size: 1.35rem;
-      color: #f3ddb2;
-    }
-
-    .fairy-category p {
-      margin: 0;
-      font-size: 14px;
-      color: #d8c8b0;
-      line-height: 1.5;
-    }
-
     .fairy-footer {
-      margin-top: 40px;
+      margin-top: 36px;
       padding-top: 24px;
-      border-top: 1px solid rgba(234, 209, 167, 0.12);
+      border-top: 1px solid var(--arch-line);
       text-align: center;
-      font-size: 13px;
-      color: #a89888;
+      font-size: 12px;
+      color: var(--arch-text-muted);
     }
 
     .fairy-footer em {
-      color: #c9b49a;
-      font-style: normal;
+      font-style: italic;
+      color: var(--arch-gold-dim);
     }
 
     @media (max-width: 540px) {
       .page-inner {
-        padding: 18px 12px 40px;
-      }
-
-      #totem-wheel-premium {
-        padding: 24px 12px 28px;
-        border-radius: 26px;
-      }
-
-      .totem-title {
-        font-size: 25px;
-      }
-
-      .totem-subtitle {
-        font-size: 14px;
-        margin-bottom: 20px;
+        padding: 16px 14px 20px;
       }
 
       .totem-wheel-stage {
@@ -772,128 +958,54 @@
       }
 
       .medallion-bear {
-        font-size: 16px;
+        font-size: 15px;
       }
 
       .medallion-text {
-        font-size: 8px;
+        font-size: 7px;
       }
 
       .totem-result-text {
-        font-size: 18px;
+        font-size: 1.05rem;
       }
     }
 
-    @media (max-width: 700px) {
-      .totem-paths-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .totem-path-card {
-        min-height: 250px;
-      }
-    }
-
-    @media (max-width: 540px) {
-      .totem-paths-section {
-        padding: 22px 10px 26px;
-        border-radius: 22px;
-      }
-
-      .totem-paths-title {
-        font-size: 24px;
-      }
-
-      .totem-paths-subtitle {
-        font-size: 13px;
-        margin-bottom: 18px;
-      }
-
-      .totem-paths-grid {
-        gap: 14px;
-      }
-
-      .totem-path-card {
-        min-height: 230px;
-        border-radius: 20px;
-      }
-
-      .totem-path-card::after {
-        border-radius: 20px;
-      }
-
-      .totem-card-content {
-        padding: 16px 14px 14px;
-      }
-
-      .totem-card-mark {
-        font-size: 10px;
-        margin-bottom: 6px;
-      }
-
-      .totem-card-title {
-        font-size: 24px;
-        margin-bottom: 8px;
-      }
-
-      .totem-card-text {
-        font-size: 13px;
-        line-height: 1.4;
-      }
-
-      .totem-card-btn {
-        min-height: 32px;
-        padding: 6px 12px;
-        font-size: 11px;
-      }
-    }
   </style>
 </head>
 <body>
-  <div class="fairy-bg">
+  <header class="arch-top" role="banner">
+    <button type="button" class="arch-top__btn" aria-label="Меню">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <div class="arch-top__brand">
+      <p class="arch-top__title">Хранитель</p>
+      <p class="arch-top__tagline">Наследие Ярославля</p>
+    </div>
+    <button type="button" class="arch-top__btn" aria-label="Профиль">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="3.5"/><path d="M5 20v-1a7 7 0 0 1 14 0v1"/></svg>
+    </button>
+  </header>
+
+  <div class="arch-surface">
     <div class="page-inner">
+      <div id="page-top" aria-hidden="true"></div>
 
-      <header class="fairy-hero">
-        <span class="fairy-hero-badge">Метка на сувенире сработала</span>
-        <h1>Добро пожаловать в сказку Ярославской земли</h1>
-        <p class="fairy-hero-lead">
-          Ты держишь в руках маленького <strong>медведя‑Хранителя</strong> — он связал тебя с этим местом волшебной нитью.
-          Дальше тебя ждёт его голос, история о <strong>создателе сувенира</strong> и о <strong>мастерах древнего Ярославля</strong>,
-          чьи дары ты можешь открыть, когда захочешь.
-        </p>
-      </header>
-
-      <div class="video-wrap">
-        <video id="totemVideo" playsinline muted preload="metadata" poster="">
+      <div id="guardian-video" class="video-wrap">
+        <video id="totemVideo" playsinline muted preload="metadata">
           <source src="ear1_smaller.mp4" type="video/mp4">
         </video>
         <div class="video-overlay">
-          <button type="button" id="soundBtn" class="sound-btn">
-            Разбудить Хранителя
-          </button>
+          <button type="button" id="soundBtn" class="sound-btn">Разбудить Хранителя</button>
         </div>
       </div>
-      <p class="video-caption">Нажми кнопку — медведь проснётся и расскажет о том, кто дал ему жизнь, и о ремесленниках города над Волгой.</p>
-
-      <section class="fairy-tale-block" aria-label="О Хранителе">
-        <h2>Почему это похоже на сказку</h2>
-        <p>
-          В наших краях давно верили: добрый зверь может хранить память о дороге домой и о людях, которые трудятся честно.
-          Твой медведь — не просто фигурка: это знак того, что <strong>кто‑то вложил в неё тепло и замысел</strong>, а город
-          за его спиной — это столетия ремёсел, лавок, праздников и узоров.
-        </p>
-        <p>
-          После встречи с Хранителем <strong>колесо Арт‑Тотема</strong> подскажет, к какой линии ярославских даров
-          тебе захочется прикоснуться сегодня — украшениям, декору, сладостям или угощениям. Или выбери путь сам: все дороги открыты.
-        </p>
-      </section>
+      <p class="video-caption">Коснись знака — медведь расскажет о создателе сувенира и мастерах Ярославля.</p>
 
       <div id="totem-wheel-premium">
-        <div class="totem-badge">Ярославский Арт-Тотем</div>
+        <div class="totem-badge">Ярославский Арт‑Тотем</div>
 
-        <h2 class="totem-title">Путь к сокровищам Ярославской земли</h2>
+        <h2 class="totem-title">Путь к сокровищам земли</h2>
         <div class="totem-subtitle">
-          Доверься Хранителю. Он укажет, к каким дарам мастеров тебе стоит прикоснуться сегодня.
+          Хранитель укажет, к каким дарам мастеров прикоснуться сегодня.
         </div>
 
         <div class="totem-wheel-stage">
@@ -908,7 +1020,7 @@
               <div class="medallion-outer">
                 <div class="medallion-inner">
                   <div class="medallion-bear">✦</div>
-                  <div class="medallion-text">ХРАНИТЕЛЬ</div>
+                  <div class="medallion-text">Хранитель</div>
                 </div>
               </div>
             </div>
@@ -921,7 +1033,7 @@
           <div class="totem-result-label">Путь открыт</div>
           <div id="totemResultText" class="totem-result-text"></div>
           <div class="totem-result-subtext">
-            Доверься зову Хранителя — или выбери путь самостоятельно
+            Следуй зову — или открой витрины вручную ниже.
           </div>
 
           <div class="totem-result-buttons">
@@ -932,130 +1044,192 @@
       </div>
 
       <div id="choose-path" class="totem-paths-section">
+        <div class="totem-paths-badge">Архив даров</div>
 
-        <div class="totem-paths-badge">Выбери свой путь</div>
-
-        <h2 class="totem-paths-title">Все сокровища Ярославской земли открыты перед тобой</h2>
+        <h2 class="totem-paths-title">Все сокровища открыты</h2>
 
         <div class="totem-paths-subtitle">
-          Хранитель указал путь — но ты можешь выбрать дорогу сам.
-        </div>
-
-        <div class="totem-paths-grid">
-
-          <div class="totem-path-card totem-card-jewelry">
-            <div class="totem-card-overlay"></div>
-            <div class="totem-card-glow"></div>
-
-            <div class="totem-card-content">
-              <div class="totem-card-top">
-                <div class="totem-card-mark">Украшения</div>
-                <div class="totem-card-title">Украшения</div>
-                <div class="totem-card-text">
-                  Авторские серьги, кулоны, браслеты и украшения с характером.
-                </div>
-              </div>
-
-              <a href="#jewelry" class="totem-card-btn">Открыть путь</a>
-            </div>
-          </div>
-
-          <div class="totem-path-card totem-card-decor">
-            <div class="totem-card-overlay"></div>
-            <div class="totem-card-glow"></div>
-
-            <div class="totem-card-content">
-              <div class="totem-card-top">
-                <div class="totem-card-mark">Декор</div>
-                <div class="totem-card-title">Декор</div>
-                <div class="totem-card-text">
-                  Предметы, которые делают пространство живым и атмосферным.
-                </div>
-              </div>
-
-              <a href="#decor" class="totem-card-btn">Открыть путь</a>
-            </div>
-          </div>
-
-          <div class="totem-path-card totem-card-sweet">
-            <div class="totem-card-overlay"></div>
-            <div class="totem-card-glow"></div>
-
-            <div class="totem-card-content">
-              <div class="totem-card-top">
-                <div class="totem-card-mark">Сладости</div>
-                <div class="totem-card-title">Сладости</div>
-                <div class="totem-card-text">
-                  Десерты, пряники и сладкие подарки с настоящим вкусом.
-                </div>
-              </div>
-
-              <a href="#sweet" class="totem-card-btn">Открыть путь</a>
-            </div>
-          </div>
-
-          <div class="totem-path-card totem-card-food">
-            <div class="totem-card-overlay"></div>
-            <div class="totem-card-glow"></div>
-
-            <div class="totem-card-content">
-              <div class="totem-card-top">
-                <div class="totem-card-mark">Угощения</div>
-                <div class="totem-card-title">Угощения</div>
-                <div class="totem-card-text">
-                  Сыры, мясные деликатесы и настоящие гастрономические находки.
-                </div>
-              </div>
-
-              <a href="#food" class="totem-card-btn">Открыть путь</a>
-            </div>
-          </div>
-
+          Ниже — витрины даров. Нажми «Открыть витрину», чтобы увидеть мастеров и перейти к ним.
         </div>
       </div>
 
-      <section id="jewelry" class="fairy-category">
-        <h3>Украшения</h3>
-        <p>Здесь можно разместить каталог или ссылки на ярославских ювелиров и авторов украшений. Пока это якорь для кнопок «Хранителя» и карточек.</p>
+      <section id="jewelry" class="showcase-vitrine" aria-labelledby="jewelry-title">
+        <div class="showcase-vitrine__inner">
+          <div class="showcase-vitrine__sparkle" aria-hidden="true"></div>
+          <span class="showcase-vitrine__corner showcase-vitrine__corner--tl" aria-hidden="true"></span>
+          <span class="showcase-vitrine__corner showcase-vitrine__corner--tr" aria-hidden="true"></span>
+          <span class="showcase-vitrine__corner showcase-vitrine__corner--bl" aria-hidden="true"></span>
+          <span class="showcase-vitrine__corner showcase-vitrine__corner--br" aria-hidden="true"></span>
+          <div class="showcase-vitrine__crest" aria-hidden="true"></div>
+          <p class="showcase-vitrine__eyebrow">Витрина дара</p>
+          <div class="showcase-vitrine__filigree" aria-hidden="true">
+            <svg viewBox="0 0 200 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 7c20-6 40 6 60 0s40-6 60 0 40 6 60 0" stroke="currentColor" stroke-width="0.85"/><path d="M100 2v10M94 5.5h12" stroke="currentColor" stroke-width="0.6"/></svg>
+          </div>
+          <h3 id="jewelry-title" class="showcase-vitrine__title">Украшения</h3>
+          <div class="showcase-vitrine__divider" aria-hidden="true">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/></svg>
+          </div>
+          <p class="showcase-vitrine__lead">Авторские украшения ручной работы от мастеров Ярославля.</p>
+          <p class="showcase-vitrine__text">Изящные серьги, колье и браслеты — каждый предмет с характером и историей ремесла.</p>
+          <div class="showcase-vitrine__divider" aria-hidden="true">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/></svg>
+          </div>
+          <button type="button" class="showcase-vitrine__btn showcase-vitrine__btn--toggle js-vitrine-toggle" id="jewelry-vitrine-btn" aria-expanded="false" aria-controls="jewelry-panel">Открыть витрину</button>
+        </div>
+        <div id="jewelry-panel" class="showcase-vitrine__panel" role="region" aria-labelledby="jewelry-vitrine-btn" hidden>
+          <div class="showcase-vitrine__panel-inner">
+            <p class="showcase-vitrine__masters-label">Мастера</p>
+            <ul class="showcase-vitrine__masters">
+              <li><a href="#">Анна Волкова — ювелирная мастерская</a></li>
+              <li><a href="#">Сергей Златокузнец</a></li>
+              <li><a href="#">Мария Узорная — авторские украшения</a></li>
+            </ul>
+          </div>
+        </div>
       </section>
 
-      <section id="decor" class="fairy-category">
-        <h3>Декор</h3>
-        <p>Страница для мастеров интерьера, керамики, текстиля и сувенирного декора из Ярославля и области.</p>
+      <section id="decor" class="showcase-vitrine" aria-labelledby="decor-title">
+        <div class="showcase-vitrine__inner">
+          <div class="showcase-vitrine__sparkle" aria-hidden="true"></div>
+          <span class="showcase-vitrine__corner showcase-vitrine__corner--tl" aria-hidden="true"></span>
+          <span class="showcase-vitrine__corner showcase-vitrine__corner--tr" aria-hidden="true"></span>
+          <span class="showcase-vitrine__corner showcase-vitrine__corner--bl" aria-hidden="true"></span>
+          <span class="showcase-vitrine__corner showcase-vitrine__corner--br" aria-hidden="true"></span>
+          <div class="showcase-vitrine__crest" aria-hidden="true"></div>
+          <p class="showcase-vitrine__eyebrow">Витрина дара</p>
+          <div class="showcase-vitrine__filigree" aria-hidden="true">
+            <svg viewBox="0 0 200 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 7c20-6 40 6 60 0s40-6 60 0 40 6 60 0" stroke="currentColor" stroke-width="0.85"/><path d="M100 2v10M94 5.5h12" stroke="currentColor" stroke-width="0.6"/></svg>
+          </div>
+          <h3 id="decor-title" class="showcase-vitrine__title">Декор</h3>
+          <div class="showcase-vitrine__divider" aria-hidden="true">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/></svg>
+          </div>
+          <p class="showcase-vitrine__lead">Предметы, которые наполняют дом теплом и смыслом.</p>
+          <p class="showcase-vitrine__text">Керамика, текстиль, свет и сувенирный декор из мастерских Ярославля и области.</p>
+          <div class="showcase-vitrine__divider" aria-hidden="true">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/></svg>
+          </div>
+          <button type="button" class="showcase-vitrine__btn showcase-vitrine__btn--toggle js-vitrine-toggle" id="decor-vitrine-btn" aria-expanded="false" aria-controls="decor-panel">Открыть витрину</button>
+        </div>
+        <div id="decor-panel" class="showcase-vitrine__panel" role="region" aria-labelledby="decor-vitrine-btn" hidden>
+          <div class="showcase-vitrine__panel-inner">
+            <p class="showcase-vitrine__masters-label">Мастера</p>
+            <ul class="showcase-vitrine__masters">
+              <li><a href="#">Студия «Терем» — декор и текстиль</a></li>
+              <li><a href="#">Иван Древесный — резьба и дерево</a></li>
+              <li><a href="#">Керамическая мастерская «Гончарный круг»</a></li>
+            </ul>
+          </div>
+        </div>
       </section>
 
-      <section id="sweet" class="fairy-category">
-        <h3>Сладости</h3>
-        <p>Блок для кондитерских, пряничных мастерских и сладких коллективных брендов региона.</p>
+      <section id="sweet" class="showcase-vitrine" aria-labelledby="sweet-title">
+        <div class="showcase-vitrine__inner">
+          <div class="showcase-vitrine__sparkle" aria-hidden="true"></div>
+          <span class="showcase-vitrine__corner showcase-vitrine__corner--tl" aria-hidden="true"></span>
+          <span class="showcase-vitrine__corner showcase-vitrine__corner--tr" aria-hidden="true"></span>
+          <span class="showcase-vitrine__corner showcase-vitrine__corner--bl" aria-hidden="true"></span>
+          <span class="showcase-vitrine__corner showcase-vitrine__corner--br" aria-hidden="true"></span>
+          <div class="showcase-vitrine__crest" aria-hidden="true"></div>
+          <p class="showcase-vitrine__eyebrow">Витрина дара</p>
+          <div class="showcase-vitrine__filigree" aria-hidden="true">
+            <svg viewBox="0 0 200 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 7c20-6 40 6 60 0s40-6 60 0 40 6 60 0" stroke="currentColor" stroke-width="0.85"/><path d="M100 2v10M94 5.5h12" stroke="currentColor" stroke-width="0.6"/></svg>
+          </div>
+          <h3 id="sweet-title" class="showcase-vitrine__title">Сладости</h3>
+          <div class="showcase-vitrine__divider" aria-hidden="true">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/></svg>
+          </div>
+          <p class="showcase-vitrine__lead">Сладкие дары с узнаваемым вкусом региона.</p>
+          <p class="showcase-vitrine__text">Пряники, десерты и подарочные наборы от кондитерских и мастерских Ярославля.</p>
+          <div class="showcase-vitrine__divider" aria-hidden="true">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/></svg>
+          </div>
+          <button type="button" class="showcase-vitrine__btn showcase-vitrine__btn--toggle js-vitrine-toggle" id="sweet-vitrine-btn" aria-expanded="false" aria-controls="sweet-panel">Открыть витрину</button>
+        </div>
+        <div id="sweet-panel" class="showcase-vitrine__panel" role="region" aria-labelledby="sweet-vitrine-btn" hidden>
+          <div class="showcase-vitrine__panel-inner">
+            <p class="showcase-vitrine__masters-label">Мастера</p>
+            <ul class="showcase-vitrine__masters">
+              <li><a href="#">Пекарня «Пряниковый дом»</a></li>
+              <li><a href="#">Елена Коричневая — десерты ручной работы</a></li>
+              <li><a href="#">Кондитерская лаборатория «Волжский сахар»</a></li>
+            </ul>
+          </div>
+        </div>
       </section>
 
-      <section id="food" class="fairy-category">
-        <h3>Угощения</h3>
-        <p>Место для гастрономии: сыры, колбасы, деликатесы — всё, что можно описать и отдать подборкой ссылок или витриной.</p>
+      <section id="food" class="showcase-vitrine" aria-labelledby="food-title">
+        <div class="showcase-vitrine__inner">
+          <div class="showcase-vitrine__sparkle" aria-hidden="true"></div>
+          <span class="showcase-vitrine__corner showcase-vitrine__corner--tl" aria-hidden="true"></span>
+          <span class="showcase-vitrine__corner showcase-vitrine__corner--tr" aria-hidden="true"></span>
+          <span class="showcase-vitrine__corner showcase-vitrine__corner--bl" aria-hidden="true"></span>
+          <span class="showcase-vitrine__corner showcase-vitrine__corner--br" aria-hidden="true"></span>
+          <div class="showcase-vitrine__crest" aria-hidden="true"></div>
+          <p class="showcase-vitrine__eyebrow">Витрина дара</p>
+          <div class="showcase-vitrine__filigree" aria-hidden="true">
+            <svg viewBox="0 0 200 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 7c20-6 40 6 60 0s40-6 60 0 40 6 60 0" stroke="currentColor" stroke-width="0.85"/><path d="M100 2v10M94 5.5h12" stroke="currentColor" stroke-width="0.6"/></svg>
+          </div>
+          <h3 id="food-title" class="showcase-vitrine__title">Угощения</h3>
+          <div class="showcase-vitrine__divider" aria-hidden="true">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/></svg>
+          </div>
+          <p class="showcase-vitrine__lead">Гастрономическая витрина: сыры, мясо, деликатесы.</p>
+          <p class="showcase-vitrine__text">Настоящие находки от производителей и мастеров вкуса Ярославской земли.</p>
+          <div class="showcase-vitrine__divider" aria-hidden="true">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/></svg>
+          </div>
+          <button type="button" class="showcase-vitrine__btn showcase-vitrine__btn--toggle js-vitrine-toggle" id="food-vitrine-btn" aria-expanded="false" aria-controls="food-panel">Открыть витрину</button>
+        </div>
+        <div id="food-panel" class="showcase-vitrine__panel" role="region" aria-labelledby="food-vitrine-btn" hidden>
+          <div class="showcase-vitrine__panel-inner">
+            <p class="showcase-vitrine__masters-label">Мастера</p>
+            <ul class="showcase-vitrine__masters">
+              <li><a href="#">Сыроварня «Волга»</a></li>
+              <li><a href="#">Деликатесная лавка «Яръ»</a></li>
+              <li><a href="#">Фермерское объединение «Русское поле»</a></li>
+            </ul>
+          </div>
+        </div>
       </section>
 
       <footer class="fairy-footer">
-        <p><em>Хранитель ждёт тебя снова — достаточно снова прикоснуться к метке на медведе.</em></p>
-        <p>Образ и голос сувенира поддерживают идею родного ремесла и гостеприимства Ярославля.</p>
+        <p><em>Снова прикоснись к метке на медведе — Хранитель встретит тебя здесь.</em></p>
+        <p>Ремесло и гостеприимство Ярославской земли.</p>
       </footer>
-
     </div>
   </div>
+
+  <nav class="arch-nav" aria-label="Основная навигация">
+    <a class="arch-nav__link" href="#page-top" data-nav="home">
+      <svg viewBox="0 0 24 24"><path d="M4 10.5L12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5z"/></svg>
+      Главная
+    </a>
+    <a class="arch-nav__link" href="#choose-path" data-nav="archive">
+      <svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/></svg>
+      Архив
+    </a>
+    <a class="arch-nav__link" href="#guardian-video" data-nav="gallery">
+      <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3V9z"/></svg>
+      Галерея
+    </a>
+    <a class="arch-nav__link" href="#totem-wheel-premium" data-nav="keeper">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>
+      Хранитель
+    </a>
+  </nav>
 
   <script>
     (function () {
       const video = document.getElementById('totemVideo');
       const btn = document.getElementById('soundBtn');
       const overlay = document.querySelector('.video-wrap .video-overlay');
-
       btn.addEventListener('click', function () {
         video.muted = false;
         video.currentTime = 0;
         video.play().catch(function () {});
         overlay.classList.add('hidden');
       });
-
-      video.addEventListener('ended', function () {});
     })();
   </script>
 
@@ -1067,7 +1241,6 @@
         { name: "Сладости", link: "#sweet" },
         { name: "Угощения", link: "#food" }
       ];
-
       const sectors = [
         "Украшения", "Декор", "Сладости", "Угощения",
         "Украшения", "Сладости", "Декор", "Угощения",
@@ -1077,27 +1250,26 @@
         "Украшения", "Сладости", "Декор", "Угощения",
         "Украшения"
       ];
-
       const palette = {
         "Украшения": {
-          base: "#7a5543",
-          line: "rgba(243,223,182,0.18)",
-          dot: "rgba(243,223,182,0.14)"
+          base: "#2e2820",
+          line: "rgba(197,160,89,0.2)",
+          dot: "rgba(197,160,89,0.12)"
         },
         "Декор": {
-          base: "#684536",
-          line: "rgba(241,216,179,0.16)",
-          dot: "rgba(241,216,179,0.13)"
+          base: "#252015",
+          line: "rgba(197,160,89,0.18)",
+          dot: "rgba(197,160,89,0.1)"
         },
         "Сладости": {
-          base: "#8a624b",
-          line: "rgba(249,223,182,0.18)",
-          dot: "rgba(249,223,182,0.14)"
+          base: "#322a20",
+          line: "rgba(212,176,110,0.2)",
+          dot: "rgba(212,176,110,0.12)"
         },
         "Угощения": {
-          base: "#58392d",
-          line: "rgba(238,211,168,0.16)",
-          dot: "rgba(238,211,168,0.13)"
+          base: "#1e1a14",
+          line: "rgba(197,160,89,0.16)",
+          dot: "rgba(197,160,89,0.09)"
         }
       };
 
@@ -1138,7 +1310,7 @@
         ctx.translate(center, center);
         ctx.beginPath();
         ctx.arc(0, 0, radius + 6, 0, Math.PI * 2);
-        ctx.strokeStyle = "rgba(240,214,171,0.13)";
+        ctx.strokeStyle = "rgba(197,160,89,0.15)";
         ctx.lineWidth = 2;
         ctx.stroke();
         ctx.beginPath();
@@ -1153,7 +1325,7 @@
           const y = Math.sin(a) * r;
           ctx.beginPath();
           ctx.arc(x, y, 1.7, 0, Math.PI * 2);
-          ctx.fillStyle = "rgba(239,213,169,0.20)";
+          ctx.fillStyle = "rgba(197,160,89,0.18)";
           ctx.fill();
         }
         ctx.restore();
@@ -1166,7 +1338,7 @@
         ctx.closePath();
         ctx.fillStyle = fill;
         ctx.fill();
-        ctx.strokeStyle = "rgba(245,225,190,0.14)";
+        ctx.strokeStyle = "rgba(197,160,89,0.14)";
         ctx.lineWidth = 1.1;
         ctx.stroke();
       }
@@ -1208,8 +1380,8 @@
         ctx.translate(center, center);
         ctx.rotate(startAngle + arc / 2);
         ctx.textAlign = "right";
-        ctx.fillStyle = "#f5e6ca";
-        ctx.font = "bold 12px Georgia";
+        ctx.fillStyle = "#d4c4a8";
+        ctx.font = "600 11px 'DM Sans', sans-serif";
         ctx.fillText(label, radius - 18, 4);
         ctx.restore();
       }
@@ -1219,7 +1391,7 @@
         ctx.translate(center, center);
         ctx.beginPath();
         ctx.arc(0, 0, 62, 0, Math.PI * 2);
-        ctx.strokeStyle = "rgba(240,214,171,0.14)";
+        ctx.strokeStyle = "rgba(197,160,89,0.14)";
         ctx.lineWidth = 1.4;
         ctx.stroke();
         ctx.beginPath();
@@ -1233,7 +1405,7 @@
           const y = Math.sin(a) * 70;
           ctx.beginPath();
           ctx.arc(x, y, 1.8, 0, Math.PI * 2);
-          ctx.fillStyle = "rgba(240,214,171,0.14)";
+          ctx.fillStyle = "rgba(197,160,89,0.12)";
           ctx.fill();
         }
         ctx.restore();
@@ -1260,7 +1432,7 @@
         canvas.style.transform = "rotate(" + currentRotation + "deg)";
         setTimeout(function () {
           const winner = sectors[winnerIndex];
-          resultText.textContent = "Хранитель ведёт тебя к этим сокровищам: " + winner;
+          resultText.textContent = "Хранитель ведёт к: " + winner;
           followBtn.href = getCategoryLink(winner);
           chooseBtn.href = "#choose-path";
           resultBox.style.display = "block";
@@ -1271,6 +1443,90 @@
 
       drawWheel();
       spinBtn.addEventListener("click", spinWheel);
+    })();
+  </script>
+
+  <script>
+    (function () {
+      var links = document.querySelectorAll(".arch-nav__link");
+      var sections = [
+        { id: "page-top", nav: "home" },
+        { id: "guardian-video", nav: "gallery" },
+        { id: "choose-path", nav: "archive" },
+        { id: "totem-wheel-premium", nav: "keeper" }
+      ];
+      function setActive(navKey) {
+        links.forEach(function (l) {
+          l.classList.toggle("is-active", l.getAttribute("data-nav") === navKey);
+        });
+      }
+      if ("IntersectionObserver" in window) {
+        var obs = new IntersectionObserver(
+          function (entries) {
+            entries.sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+            var top = entries[0];
+            if (top && top.isIntersecting && top.target.id) {
+              var found = sections.find(function (s) { return s.id === top.target.id; });
+              if (found) setActive(found.nav);
+            }
+          },
+          { rootMargin: "-38% 0px -45% 0px", threshold: [0, 0.15, 0.35, 0.55] }
+        );
+        sections.forEach(function (s) {
+          var el = document.getElementById(s.id);
+          if (el) obs.observe(el);
+        });
+      }
+      window.addEventListener("hashchange", function () {
+        var h = (location.hash || "").slice(1);
+        var found = sections.find(function (s) { return s.id === h; });
+        if (found) setActive(found.nav);
+      });
+    })();
+  </script>
+
+  <script>
+    (function () {
+      var toggles = document.querySelectorAll(".js-vitrine-toggle");
+      var animMs = 450;
+
+      function hidePanel(panel) {
+        if (!panel || panel.hasAttribute("hidden")) return;
+        panel.classList.remove("is-open");
+        window.setTimeout(function () {
+          if (!panel.classList.contains("is-open")) panel.setAttribute("hidden", "");
+        }, animMs);
+      }
+
+      toggles.forEach(function (btn) {
+        var panelId = btn.getAttribute("aria-controls");
+        var panel = panelId ? document.getElementById(panelId) : null;
+        if (!panel) return;
+
+        btn.addEventListener("click", function () {
+          var isOpen = btn.getAttribute("aria-expanded") === "true";
+
+          toggles.forEach(function (other) {
+            if (other === btn) return;
+            other.setAttribute("aria-expanded", "false");
+            var p = document.getElementById(other.getAttribute("aria-controls"));
+            hidePanel(p);
+          });
+
+          if (isOpen) {
+            btn.setAttribute("aria-expanded", "false");
+            hidePanel(panel);
+          } else {
+            btn.setAttribute("aria-expanded", "true");
+            panel.removeAttribute("hidden");
+            requestAnimationFrame(function () {
+              requestAnimationFrame(function () {
+                panel.classList.add("is-open");
+              });
+            });
+          }
+        });
+      });
     })();
   </script>
 </body>
