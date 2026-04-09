@@ -569,8 +569,8 @@ function pickWeightedCategory() {
 
 
 /* ─────────────────────────────────────────────────────────
-   BEAR ASSEMBLY — видео напрямую от позиции скролла (без GSAP scrub).
-   Медленный скролл → медленное смещение времени, быстрый → быстрое.
+   BEAR ASSEMBLY — дискретные кадры по скроллу (FPS ≈ data-bear-scroll-fps).
+   Время ролика = index / fps; смена кадра не чаще 1/50 с (не более 50 смен/с).
 ───────────────────────────────────────────────────────── */
 function initBearAssemblyScrub() {
   const track = document.getElementById('heroBearScrollTrack');
@@ -579,6 +579,8 @@ function initBearAssemblyScrub() {
   if (!track || !video) return;
 
   const inverted = track.getAttribute('data-bear-scroll-inverted') === 'true';
+  const fps = Math.max(12, Math.min(60, parseFloat(track.getAttribute('data-bear-scroll-fps')) || 30));
+  const MIN_FRAME_MS = 1000 / 50;
 
   if (PERF.reducedMotion) {
     video.pause();
@@ -597,21 +599,20 @@ function initBearAssemblyScrub() {
       video.preload = 'auto';
       try { video.load(); } catch (e) { /* ignore */ }
     };
-    const io = new IntersectionObserver(
+    const ioPre = new IntersectionObserver(
       (entries) => {
         if (entries[0] && entries[0].isIntersecting) {
           loadHeavy();
-          io.disconnect();
+          ioPre.disconnect();
         }
       },
       { rootMargin: '320px 0px', threshold: 0 }
     );
-    io.observe(track);
+    ioPre.observe(track);
   }
 
   video.pause();
 
-  /** Как у ScrollTrigger start/end «top top» / «bottom bottom»: доля прокрутки по длине трека. */
   function scrollProgress01() {
     const scrollY = window.pageYOffset || document.documentElement.scrollTop;
     const top = track.getBoundingClientRect().top + scrollY;
@@ -623,36 +624,80 @@ function initBearAssemblyScrub() {
     return Math.max(0, Math.min(1, (scrollY - startScroll) / range));
   }
 
-  let rafId = null;
-  function syncVideoToScroll() {
-    rafId = null;
-    if (!video.duration || isNaN(video.duration)) return;
+  function targetFrameIndex(duration) {
+    const n = Math.max(1, Math.floor(duration * fps));
     const p = scrollProgress01();
-    const t = inverted ? (1 - p) * video.duration : p * video.duration;
-    try {
-      video.currentTime = Math.max(0, Math.min(video.duration, t));
-    } catch (e) { /* ignore */ }
+    const pr = inverted ? 1 - p : p;
+    const idx = Math.floor(pr * n);
+    return Math.min(n - 1, Math.max(0, idx));
+  }
+
+  let rafLoopId = null;
+  let trackVisible = true;
+  let lastAppliedFrame = -1;
+  let lastSeekTime = -Infinity;
+
+  const ioVis = new IntersectionObserver(
+    (entries) => {
+      const e = entries[0];
+      trackVisible = !!(e && e.isIntersecting && e.intersectionRatio > 0);
+      if (trackVisible) {
+        lastSeekTime = -Infinity;
+        lastAppliedFrame = -1;
+        requestLoop();
+      }
+    },
+    { rootMargin: '80px 0px', threshold: 0 }
+  );
+  ioVis.observe(track);
+
+  function step() {
+    rafLoopId = null;
+    const duration = video.duration;
+    if (!duration || isNaN(duration)) return;
+
+    const p = scrollProgress01();
     if (hint) hint.classList.toggle('is-faded', p > 0.14);
+
+    const targetFrame = targetFrameIndex(duration);
+    const now = performance.now();
+
+    if (!trackVisible) return;
+
+    const canSeek = now - lastSeekTime >= MIN_FRAME_MS;
+    if (canSeek && targetFrame !== lastAppliedFrame) {
+      lastAppliedFrame = targetFrame;
+      lastSeekTime = now;
+      try {
+        video.currentTime = lastAppliedFrame / fps;
+      } catch (e) { /* ignore */ }
+    }
+
+    if (targetFrame !== lastAppliedFrame) {
+      rafLoopId = requestAnimationFrame(step);
+    }
   }
 
-  function requestSync() {
-    if (rafId != null) return;
-    rafId = requestAnimationFrame(syncVideoToScroll);
+  function requestLoop() {
+    if (rafLoopId != null) return;
+    rafLoopId = requestAnimationFrame(step);
   }
 
-  window.addEventListener('scroll', requestSync, { passive: true });
-  window.addEventListener('resize', requestSync, { passive: true });
+  window.addEventListener('scroll', requestLoop, { passive: true });
+  window.addEventListener('resize', requestLoop, { passive: true });
 
   video.addEventListener('loadedmetadata', () => {
+    const d = video.duration;
+    if (!d || isNaN(d)) return;
+    lastAppliedFrame = targetFrameIndex(d);
+    lastSeekTime = performance.now();
     try {
-      const p = scrollProgress01();
-      const t = inverted ? (1 - p) * video.duration : p * video.duration;
-      video.currentTime = Math.max(0, Math.min(video.duration, t));
+      video.currentTime = lastAppliedFrame / fps;
     } catch (e) { /* ignore */ }
-    requestSync();
+    requestLoop();
   });
 
-  requestSync();
+  requestLoop();
 }
 
 (function bootBearScrollVideo() {

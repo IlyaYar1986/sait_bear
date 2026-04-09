@@ -444,8 +444,8 @@ ul { list-style: none; }
 
 @media (max-width: 680px) {
   .hero__bear-scroll-track {
-    /* Короче трек — меньше событий скролла и нагрузка на seek видео */
-    --bear-scroll-height: 240vh;
+    /* Длинный трек: меньше смены времени ролика на пиксель — мягче для декодера */
+    --bear-scroll-height: 500vh;
   }
   .hero__intro {
     min-height: 0;
