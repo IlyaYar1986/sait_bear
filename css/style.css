@@ -367,10 +367,11 @@ ul { list-style: none; }
   justify-content: center;
 }
 
+/* Горизонтальный ролик: вписать в sticky-экран целиком (обычно на телефоне — на всю ширину, полосы сверху/снизу) */
 .hero__bear-scroll-video {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center center;
   display: block;
   background: var(--bg);
@@ -445,10 +446,6 @@ ul { list-style: none; }
   .hero__bear-scroll-track {
     /* Короче трек — меньше событий скролла и нагрузка на seek видео */
     --bear-scroll-height: 240vh;
-  }
-  .hero__bear-scroll-video {
-    object-fit: cover;
-    object-position: center 42%;
   }
   .hero__intro {
     min-height: 0;
