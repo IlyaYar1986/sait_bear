@@ -1,1533 +1,574 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Гильдия мастеров Ярославля — Хранитель</title>
-  <meta name="description" content="Наследие Ярославля: медведь‑Хранитель, голос сувенира и путь к дарам местных мастеров.">
+  <title>Гильдия мастеров Ярославии — Хранитель</title>
+  <meta name="description" content="Мы — Гильдия мастеров Ярославии. Ремесленники, которые создают с душой — и продают без посредников. Украшения, декор, сладости, угощения от местных мастеров.">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Гильдия мастеров Ярославии — Хранитель">
+  <meta property="og:description" content="Медведь-Хранитель ведёт к дарам ярославских мастеров. Украшения, декор, сладости, угощения — созданные с душой.">
+  <meta property="og:url" content="https://ilyayar1986.github.io/sait_bear/">
+  <!-- После генерации по prompts-scroll-stop-guild.html (блок og:image): -->
+  <!-- <meta property="og:image" content="https://ilyayar1986.github.io/sait_bear/images/og-guild.jpg"> -->
+  <!-- <meta property="og:image:width" content="1200"> -->
+  <!-- <meta property="og:image:height" content="630"> -->
+
+  <!-- Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Гильдия мастеров Ярославии",
+    "description": "Творческое сообщество ярославских мастеров и ремесленников",
+    "url": "https://ilyayar1986.github.io/sait_bear/",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Ярославль",
+      "addressCountry": "RU"
+    }
+  }
+  </script>
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --arch-bg: #121212;
-      --arch-bg-elev: #1a1a1a;
-      --arch-bg-card: #1e1e1e;
-      --arch-gold: #c5a059;
-      --arch-gold-bright: #d4b06e;
-      --arch-gold-dim: #8a7349;
-      --arch-line: rgba(197, 160, 89, 0.2);
-      --arch-text: #e8e4dc;
-      --arch-text-muted: #9a958c;
-      --arch-header-h: 52px;
-      --arch-nav-h: 64px;
-      --font-display: "Cinzel", Georgia, serif;
-      --font-body: "DM Sans", system-ui, sans-serif;
-    }
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
-    *, *::before, *::after { box-sizing: border-box; }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: var(--font-body);
-      color: var(--arch-text);
-      background: var(--arch-bg);
-      line-height: 1.55;
-      padding-top: var(--arch-header-h);
-      padding-bottom: calc(var(--arch-nav-h) + env(safe-area-inset-bottom, 0px));
-    }
-
-    .arch-top {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      height: var(--arch-header-h);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 14px 0 10px;
-      background: rgba(18, 18, 18, 0.92);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--arch-line);
-    }
-
-    .arch-top__btn {
-      width: 44px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      background: transparent;
-      color: var(--arch-gold);
-      cursor: pointer;
-      padding: 0;
-      border-radius: 8px;
-    }
-
-    .arch-top__btn svg {
-      width: 22px;
-      height: 22px;
-    }
-
-    .arch-top__brand {
-      text-align: center;
-      flex: 1;
-      min-width: 0;
-      padding: 0 8px;
-    }
-
-    .arch-top__title {
-      font-family: var(--font-display);
-      font-size: clamp(0.78rem, 3.2vw, 0.95rem);
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--arch-gold);
-      margin: 0;
-      line-height: 1.2;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .arch-top__tagline {
-      font-size: 9px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--arch-text-muted);
-      margin: 2px 0 0;
-    }
-
-    .arch-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-around;
-      align-items: stretch;
-      min-height: var(--arch-nav-h);
-      padding: 8px 6px calc(8px + env(safe-area-inset-bottom, 0px));
-      background: rgba(18, 18, 18, 0.96);
-      backdrop-filter: blur(12px);
-      border-top: 1px solid var(--arch-line);
-    }
-
-    .arch-nav__link {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      text-decoration: none;
-      color: var(--arch-text-muted);
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      max-width: 100px;
-      border-radius: 10px;
-      transition: color 0.2s ease, background 0.2s ease;
-    }
-
-    .arch-nav__link svg {
-      width: 22px;
-      height: 22px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 1.5;
-    }
-
-    .arch-nav__link:hover,
-    .arch-nav__link:focus-visible {
-      color: var(--arch-gold);
-      outline: none;
-    }
-
-    .arch-nav__link.is-active {
-      color: var(--arch-gold);
-    }
-
-    .arch-surface {
-      min-height: calc(100vh - var(--arch-header-h));
-      background:
-        radial-gradient(ellipse 100% 70% at 50% -15%, rgba(197, 160, 89, 0.07), transparent 50%),
-        radial-gradient(ellipse 80% 50% at 100% 60%, rgba(197, 160, 89, 0.03), transparent 45%),
-        var(--arch-bg);
-      position: relative;
-      overflow-x: hidden;
-    }
-
-    .page-inner {
-      position: relative;
-      z-index: 1;
-      max-width: 560px;
-      margin: 0 auto;
-      padding: 20px 18px 28px;
-    }
-
-    #page-top {
-      height: 1px;
-      margin: 0;
-      padding: 0;
-      scroll-margin-top: calc(var(--arch-header-h) + 8px);
-    }
-
-    /* Видео */
-    #guardian-video.video-wrap,
-    .video-wrap {
-      position: relative;
-      max-width: 420px;
-      margin: 0 auto 12px;
-      border-radius: 4px;
-      overflow: hidden;
-      border: 1px solid var(--arch-line);
-      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
-      scroll-margin-top: calc(var(--arch-header-h) + 12px);
-    }
-
-    .video-wrap video {
-      width: 100%;
-      height: auto;
-      display: block;
-      vertical-align: middle;
-    }
-
-    .video-caption {
-      max-width: 420px;
-      margin: 0 auto 32px;
-      padding: 0 6px;
-      text-align: center;
-      font-size: 14px;
-      color: var(--arch-text-muted);
-      font-style: italic;
-      font-family: var(--font-body);
-    }
-
-    .video-overlay {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0, 0, 0, 0.45);
-      transition: opacity 0.4s ease;
-    }
-
-    .sound-btn {
-      padding: 14px 24px;
-      border-radius: 2px;
-      border: 1px solid var(--arch-gold);
-      background: linear-gradient(180deg, rgba(197, 160, 89, 0.2), rgba(197, 160, 89, 0.08));
-      font-weight: 600;
-      font-size: 13px;
-      font-family: var(--font-display);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      cursor: pointer;
-      color: var(--arch-gold-bright);
-      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
-    }
-
-    .sound-btn:hover {
-      background: linear-gradient(180deg, rgba(197, 160, 89, 0.35), rgba(197, 160, 89, 0.12));
-    }
-
-    .video-overlay.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    /* Колесо */
-    #totem-wheel-premium {
-      max-width: 520px;
-      margin: 0 auto;
-      padding: 28px 16px 32px;
-      position: relative;
-      overflow: hidden;
-      border-radius: 4px;
-      background: linear-gradient(180deg, #181818 0%, #141414 100%);
-      border: 1px solid var(--arch-line);
-      box-shadow: 0 28px 56px rgba(0, 0, 0, 0.4);
-      color: var(--arch-text);
-      text-align: center;
-      scroll-margin-top: calc(var(--arch-header-h) + 12px);
-    }
-
-    #totem-wheel-premium::before {
-      content: "";
-      position: absolute;
-      inset: 10px;
-      border-radius: 2px;
-      border: 1px solid rgba(197, 160, 89, 0.08);
-      pointer-events: none;
-    }
-
-    #totem-wheel-premium::after {
-      display: none;
-    }
-
-    .totem-badge {
-      display: inline-block;
-      margin-bottom: 14px;
-      padding: 6px 14px;
-      border-radius: 2px;
-      background: rgba(197, 160, 89, 0.08);
-      border: 1px solid var(--arch-line);
-      color: var(--arch-gold);
-      font-family: var(--font-display);
-      font-size: 10px;
-      line-height: 1;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
-    .totem-title {
-      font-family: var(--font-display);
-      margin: 0 0 12px;
-      font-size: clamp(1.25rem, 4.5vw, 1.65rem);
-      line-height: 1.15;
-      font-weight: 700;
-      color: var(--arch-gold);
-      letter-spacing: 0.02em;
-    }
-
-    .totem-subtitle {
-      max-width: 400px;
-      margin: 0 auto 24px;
-      font-size: 14px;
-      line-height: 1.6;
-      color: var(--arch-text-muted);
-    }
-
-    .totem-wheel-stage {
-      position: relative;
-      width: 420px;
-      height: 450px;
-      margin: 0 auto 18px;
-    }
-
-    .totem-wheel-shell {
-      position: relative;
-      width: 420px;
-      height: 420px;
-      margin: 0 auto;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 50% 35%, rgba(197, 160, 89, 0.06), transparent 28%),
-        radial-gradient(circle at 50% 50%, #252015 0%, #1a1812 50%, #12100c 100%);
-      box-shadow:
-        inset 0 0 0 2px rgba(197, 160, 89, 0.12),
-        inset 0 0 0 14px rgba(0, 0, 0, 0.45),
-        inset 0 0 0 26px rgba(197, 160, 89, 0.04),
-        0 20px 40px rgba(0, 0, 0, 0.5);
-      overflow: hidden;
-    }
-
-    #totemWheelCanvas {
-      width: 420px;
-      height: 420px;
-      border-radius: 50%;
-      display: block;
-      transition: transform 5.8s cubic-bezier(0.14, 0.82, 0.13, 1);
-    }
-
-    .totem-halo {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-    }
-
-    .halo-1 {
-      width: 448px;
-      height: 448px;
-      box-shadow:
-        0 0 0 1px rgba(197, 160, 89, 0.12),
-        0 0 36px rgba(197, 160, 89, 0.06);
-    }
-
-    .halo-2 {
-      width: 470px;
-      height: 470px;
-      box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.04),
-        inset 0 0 0 1px rgba(197, 160, 89, 0.06);
-    }
-
-    .totem-pointer {
-      position: absolute;
-      top: -2px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 0;
-      border-left: 18px solid transparent;
-      border-right: 18px solid transparent;
-      border-top: 34px solid var(--arch-gold);
-      z-index: 10;
-      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
-    }
-
-    .totem-pointer::before {
-      content: "";
-      position: absolute;
-      left: -7px;
-      top: -36px;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: #1a1510;
-      border: 2px solid var(--arch-gold-dim);
-    }
-
-    .totem-center-medallion {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-    }
-
-    .medallion-outer {
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 50% 30%, #3a3228 0%, #2a241c 55%, #1a1510 100%);
-      box-shadow:
-        0 12px 28px rgba(0, 0, 0, 0.4),
-        inset 0 0 0 2px rgba(197, 160, 89, 0.35),
-        inset 0 1px 0 rgba(255, 255, 255, 0.06);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .medallion-inner {
-      width: 82px;
-      height: 82px;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 50% 35%, #141210 0%, #0d0c0a 100%);
-      box-shadow:
-        inset 0 0 0 1px rgba(197, 160, 89, 0.2);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: var(--arch-gold);
-    }
-
-    .medallion-bear {
-      font-size: 18px;
-      line-height: 1;
-      margin-bottom: 4px;
-      opacity: 0.95;
-    }
-
-    .medallion-text {
-      font-family: var(--font-display);
-      font-size: 8px;
-      letter-spacing: 0.14em;
-      font-weight: 600;
-    }
-
-    .totem-spin-btn {
-      display: inline-block;
-      width: 100%;
-      max-width: 300px;
-      padding: 15px 24px;
-      border: 1px solid var(--arch-gold);
-      border-radius: 2px;
-      cursor: pointer;
-      font-family: var(--font-display);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--arch-gold-bright);
-      background: linear-gradient(180deg, rgba(197, 160, 89, 0.25), rgba(197, 160, 89, 0.08));
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
-      transition: transform 0.2s ease, opacity 0.2s ease;
-    }
-
-    .totem-spin-btn:hover {
-      transform: translateY(-1px);
-      background: linear-gradient(180deg, rgba(197, 160, 89, 0.35), rgba(197, 160, 89, 0.12));
-    }
-
-    .totem-spin-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .totem-result-box {
-      margin-top: 22px;
-      padding: 20px 18px;
-      border-radius: 4px;
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid var(--arch-line);
-    }
-
-    .totem-result-label {
-      margin-bottom: 8px;
-      font-family: var(--font-display);
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--arch-gold-dim);
-    }
-
-    .totem-result-text {
-      margin-bottom: 12px;
-      font-family: var(--font-display);
-      font-size: clamp(1.05rem, 3.5vw, 1.35rem);
-      line-height: 1.35;
-      font-weight: 600;
-      color: var(--arch-gold-bright);
-    }
-
-    .totem-result-subtext {
-      font-size: 13px;
-      line-height: 1.5;
-      color: var(--arch-text-muted);
-      margin-bottom: 18px;
-    }
-
-    .totem-result-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .totem-btn-primary {
-      display: inline-block;
-      padding: 12px 18px;
-      border-radius: 2px;
-      text-decoration: none;
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      border: 1px solid var(--arch-gold);
-      background: rgba(197, 160, 89, 0.15);
-      color: var(--arch-gold-bright) !important;
-      text-align: center;
-    }
-
-    .totem-btn-secondary {
-      display: inline-block;
-      padding: 11px 18px;
-      border-radius: 2px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 12px;
-      background: transparent;
-      border: 1px solid rgba(197, 160, 89, 0.25);
-      color: var(--arch-text) !important;
-      text-align: center;
-    }
-
-    .totem-paths-section {
-      max-width: 980px;
-      margin: 28px auto 0;
-      padding: 28px 14px 32px;
-      border-radius: 4px;
-      background: #161616;
-      border: 1px solid var(--arch-line);
-      text-align: center;
-      color: var(--arch-text);
-      scroll-margin-top: calc(var(--arch-header-h) + 12px);
-    }
-
-    .totem-paths-badge {
-      display: inline-block;
-      margin-bottom: 12px;
-      padding: 6px 14px;
-      border-radius: 2px;
-      background: rgba(197, 160, 89, 0.08);
-      border: 1px solid var(--arch-line);
-      color: var(--arch-gold);
-      font-family: var(--font-display);
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
-
-    .totem-paths-title {
-      font-family: var(--font-display);
-      font-size: clamp(1.15rem, 4vw, 1.45rem);
-      line-height: 1.15;
-      margin: 0 0 10px;
-      color: var(--arch-gold);
-    }
-
-    .totem-paths-subtitle {
-      margin: 0 auto 0;
-      color: var(--arch-text-muted);
-      font-size: 14px;
-      line-height: 1.55;
-      max-width: 680px;
-    }
-
-    /* Витрина дара — премиальный блок категории */
-    .showcase-vitrine {
-      position: relative;
-      max-width: 520px;
-      margin: 32px auto 0;
-      scroll-margin-top: calc(var(--arch-header-h) + 12px);
-      padding: 2px;
-      background: linear-gradient(
-        145deg,
-        rgba(212, 176, 110, 0.45) 0%,
-        rgba(138, 115, 73, 0.15) 35%,
-        rgba(197, 160, 89, 0.35) 70%,
-        rgba(90, 72, 42, 0.25) 100%
-      );
-      box-shadow:
-        0 24px 48px rgba(0, 0, 0, 0.5),
-              0 0 60px rgba(197, 160, 89, 0.06);
-    }
-
-    .showcase-vitrine:first-of-type {
-      margin-top: 24px;
-    }
-
-    .showcase-vitrine__inner {
-      position: relative;
-      padding: 32px 24px 36px;
-      text-align: center;
-      background:
-        radial-gradient(ellipse 100% 70% at 50% -10%, rgba(197, 160, 89, 0.12), transparent 45%),
-        radial-gradient(ellipse 80% 40% at 80% 90%, rgba(197, 160, 89, 0.05), transparent 40%),
-        linear-gradient(180deg, #161616 0%, #0c0c0c 100%);
-      border: 1px solid rgba(197, 160, 89, 0.22);
-      overflow: hidden;
-    }
-
-    .showcase-vitrine__inner::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      opacity: 0.11;
-      pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      mix-blend-mode: overlay;
-    }
-
-    .showcase-vitrine__sparkle {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background-image:
-        radial-gradient(1px 1px at 15% 25%, rgba(240, 215, 140, 0.5), transparent),
-        radial-gradient(1px 1px at 85% 18%, rgba(230, 200, 120, 0.45), transparent),
-        radial-gradient(1px 1px at 72% 78%, rgba(212, 176, 110, 0.35), transparent),
-        radial-gradient(1px 1px at 28% 85%, rgba(240, 215, 140, 0.3), transparent),
-        radial-gradient(1.5px 1.5px at 50% 12%, rgba(255, 235, 190, 0.4), transparent),
-        radial-gradient(1px 1px at 92% 55%, rgba(197, 160, 89, 0.25), transparent);
-      z-index: 0;
-    }
-
-    .showcase-vitrine__corner {
-      position: absolute;
-      width: 36px;
-      height: 36px;
-      border-color: rgba(197, 160, 89, 0.45);
-      border-style: solid;
-      border-width: 0;
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    .showcase-vitrine__corner--tl {
-      top: 12px;
-      left: 12px;
-      border-top-width: 1px;
-      border-left-width: 1px;
-    }
-
-    .showcase-vitrine__corner--tr {
-      top: 12px;
-      right: 12px;
-      border-top-width: 1px;
-      border-right-width: 1px;
-    }
-
-    .showcase-vitrine__corner--bl {
-      bottom: 12px;
-      left: 12px;
-      border-bottom-width: 1px;
-      border-left-width: 1px;
-    }
-
-    .showcase-vitrine__corner--br {
-      bottom: 12px;
-      right: 12px;
-      border-bottom-width: 1px;
-      border-right-width: 1px;
-    }
-
-    .showcase-vitrine__crest {
-      position: relative;
-      z-index: 2;
-      width: 14px;
-      height: 14px;
-      margin: 0 auto 14px;
-      transform: rotate(45deg);
-      background: linear-gradient(135deg, #f0d78c, #c5a059 50%, #7a5c32);
-      box-shadow: 0 0 14px rgba(197, 160, 89, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.35);
-    }
-
-    .showcase-vitrine__eyebrow {
-      position: relative;
-      z-index: 2;
-      margin: 0 0 12px;
-      font-family: var(--font-body);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: var(--arch-gold-dim);
-    }
-
-    .showcase-vitrine__filigree {
-      position: relative;
-      z-index: 2;
-      margin: 0 auto 16px;
-      max-width: 220px;
-      height: 12px;
-      color: rgba(197, 160, 89, 0.55);
-      opacity: 0.95;
-    }
-
-    .showcase-vitrine__title {
-      position: relative;
-      z-index: 2;
-      margin: 0 0 18px;
-      font-family: var(--font-display);
-      font-size: clamp(1.65rem, 6.5vw, 2.15rem);
-      font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: 0.06em;
-      background: linear-gradient(180deg, #f5e2a8 0%, #d4b06e 35%, #c5a059 55%, #8a6f3d 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.65));
-    }
-
-    .showcase-vitrine__divider {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin: 20px 0;
-      color: rgba(197, 160, 89, 0.5);
-    }
-
-    .showcase-vitrine__divider::before,
-    .showcase-vitrine__divider::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      max-width: 120px;
-      background: linear-gradient(90deg, transparent, rgba(197, 160, 89, 0.5), transparent);
-    }
-
-    .showcase-vitrine__divider svg {
-      flex-shrink: 0;
-      opacity: 0.85;
-    }
-
-    .showcase-vitrine__lead {
-      position: relative;
-      z-index: 2;
-      margin: 0 0 12px;
-      font-family: var(--font-body);
-      font-size: 14px;
-      font-weight: 500;
-      color: rgba(232, 216, 180, 0.88);
-      line-height: 1.55;
-    }
-
-    .showcase-vitrine__text {
-      position: relative;
-      z-index: 2;
-      margin: 0;
-      font-size: 13px;
-      color: var(--arch-text-muted);
-      line-height: 1.6;
-    }
-
-    .showcase-vitrine__btn {
-      position: relative;
-      z-index: 2;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 22px;
-      padding: 13px 28px;
-      font-family: var(--font-body);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: var(--arch-gold-bright);
-      background: linear-gradient(180deg, rgba(28, 28, 28, 0.95), #121212);
-      border: 1px solid var(--arch-gold);
-      box-shadow:
-        0 0 0 1px rgba(197, 160, 89, 0.25),
-        0 0 0 3px #0a0a0a,
-        0 0 0 4px rgba(197, 160, 89, 0.35),
-        0 12px 28px rgba(0, 0, 0, 0.45);
-      transition: color 0.2s, box-shadow 0.2s, background 0.2s;
-      cursor: pointer;
-      -webkit-appearance: none;
-      appearance: none;
-    }
-
-    .showcase-vitrine__btn:focus-visible {
-      outline: 2px solid var(--arch-gold-bright);
-      outline-offset: 3px;
-    }
-
-    .showcase-vitrine__btn:hover {
-      color: #f5e2a8;
-      background: linear-gradient(180deg, rgba(197, 160, 89, 0.12), rgba(24, 24, 24, 0.98));
-      box-shadow:
-        0 0 0 1px rgba(212, 176, 110, 0.45),
-        0 0 0 3px #0a0a0a,
-        0 0 0 4px rgba(197, 160, 89, 0.45),
-        0 14px 32px rgba(0, 0, 0, 0.5);
-    }
-
-    .showcase-vitrine__btn--toggle::after {
-      content: "";
-      display: inline-block;
-      margin-left: 10px;
-      width: 6px;
-      height: 6px;
-      border-right: 1.5px solid currentColor;
-      border-bottom: 1.5px solid currentColor;
-      transform: rotate(45deg) translateY(-2px);
-      transition: transform 0.25s ease;
-    }
-
-    .showcase-vitrine__btn--toggle[aria-expanded="true"]::after {
-      transform: rotate(-135deg) translateY(2px);
-    }
-
-    .showcase-vitrine__panel {
-      margin: -2px 2px 0;
-      border: 1px solid rgba(197, 160, 89, 0.22);
-      border-top: 1px solid rgba(197, 160, 89, 0.1);
-      background: linear-gradient(180deg, #121212 0%, #0a0a0a 100%);
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.45s ease;
-    }
-
-    .showcase-vitrine__panel.is-open {
-      max-height: 22rem;
-    }
-
-    .showcase-vitrine__panel-inner {
-      padding: 18px 18px 20px;
-      text-align: center;
-    }
-
-    .showcase-vitrine__masters-label {
-      margin: 0 0 12px;
-      font-family: var(--font-display);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--arch-gold-dim);
-    }
-
-    .showcase-vitrine__masters {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      text-align: left;
-    }
-
-    .showcase-vitrine__masters li + li {
-      border-top: 1px solid rgba(197, 160, 89, 0.1);
-    }
-
-    .showcase-vitrine__masters a {
-      display: block;
-      padding: 12px 10px;
-      color: var(--arch-text);
-      text-decoration: none;
-      font-size: 14px;
-      transition: color 0.2s ease, background 0.2s ease;
-    }
-
-    .showcase-vitrine__masters a:hover {
-      color: var(--arch-gold-bright);
-      background: rgba(197, 160, 89, 0.07);
-    }
-
-    .showcase-vitrine__masters a:focus-visible {
-      outline: 1px solid var(--arch-gold);
-      outline-offset: -1px;
-    }
-
-    @media (max-width: 400px) {
-      .showcase-vitrine__inner {
-        padding: 26px 16px 30px;
-      }
-
-      .showcase-vitrine__btn {
-        padding: 12px 22px;
-        font-size: 10px;
-      }
-    }
-
-    .fairy-footer {
-      margin-top: 36px;
-      padding-top: 24px;
-      border-top: 1px solid var(--arch-line);
-      text-align: center;
-      font-size: 12px;
-      color: var(--arch-text-muted);
-    }
-
-    .fairy-footer em {
-      font-style: italic;
-      color: var(--arch-gold-dim);
-    }
-
-    @media (max-width: 540px) {
-      .page-inner {
-        padding: 16px 14px 20px;
-      }
-
-      .totem-wheel-stage {
-        width: 320px;
-        height: 345px;
-      }
-
-      .totem-wheel-shell,
-      #totemWheelCanvas {
-        width: 320px;
-        height: 320px;
-      }
-
-      .halo-1 {
-        width: 340px;
-        height: 340px;
-      }
-
-      .halo-2 {
-        width: 356px;
-        height: 356px;
-      }
-
-      .medallion-outer {
-        width: 90px;
-        height: 90px;
-      }
-
-      .medallion-inner {
-        width: 68px;
-        height: 68px;
-      }
-
-      .medallion-bear {
-        font-size: 15px;
-      }
-
-      .medallion-text {
-        font-size: 7px;
-      }
-
-      .totem-result-text {
-        font-size: 1.05rem;
-      }
-    }
-
-  </style>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header class="arch-top" role="banner">
-    <button type="button" class="arch-top__btn" aria-label="Меню">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-    </button>
-    <div class="arch-top__brand">
-      <p class="arch-top__title">Хранитель</p>
-      <p class="arch-top__tagline">Наследие Ярославля</p>
+
+  <!-- ═══════════════════════════════════════════
+       NAVIGATION
+  ═══════════════════════════════════════════ -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#page-top" class="nav__logo" aria-label="На главную">
+        <span class="nav__logo-symbol">✦</span>
+        <span class="nav__logo-text">Гильдия мастеров</span>
+      </a>
+      <ul class="nav__links">
+        <li><a href="#choose-path" class="nav__link">Дары</a></li>
+        <li><a href="#creator" class="nav__link">Создатель</a></li>
+        <li><a href="#about" class="nav__link">О Гильдии</a></li>
+        <li><a href="#footer" class="nav__link nav__link--cta">Связаться</a></li>
+      </ul>
+      <button class="nav__theme-toggle" id="themeToggle" aria-label="Переключить тему" title="Светлая / тёмная тема">
+        <span class="nav__theme-icon nav__theme-icon--dark">☽</span>
+        <span class="nav__theme-icon nav__theme-icon--light">☀</span>
+      </button>
+      <button class="nav__burger" id="navBurger" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
     </div>
-    <button type="button" class="arch-top__btn" aria-label="Профиль">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="3.5"/><path d="M5 20v-1a7 7 0 0 1 14 0v1"/></svg>
-    </button>
-  </header>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div class="nav__mobile" id="navMobile">
+    <ul>
+      <li><a href="#choose-path" class="nav__link">Дары</a></li>
+      <li><a href="#creator" class="nav__link">Создатель</a></li>
+      <li><a href="#about" class="nav__link">О Гильдии</a></li>
+      <li><a href="#footer" class="nav__link">Связаться</a></li>
+    </ul>
+  </div>
 
   <div class="arch-surface">
     <div class="page-inner">
       <div id="page-top" aria-hidden="true"></div>
 
-      <div id="guardian-video" class="video-wrap">
-        <video id="totemVideo" playsinline muted preload="metadata">
-          <source src="ear1_smaller.mp4" type="video/mp4">
-        </video>
-        <div class="video-overlay">
-          <button type="button" id="soundBtn" class="sound-btn">Разбудить Хранителя</button>
+      <!-- ═══════════════════════════════════════════
+           HERO — VIDEO BEAR
+      ═══════════════════════════════════════════ -->
+      <section class="hero" id="hero">
+
+        <div class="hero__intro">
+          <p class="hero__caption">
+            Коснись знака — медведь расскажет о создателе сувенира и мастерах Ярославии.
+          </p>
+
+          <div class="hero__video-wrap" id="guardianVideo">
+            <video id="totemVideo" playsinline muted preload="metadata"
+                   aria-label="Медведь-Хранитель рассказывает о мастерах Ярославии">
+              <source src="https://ilyayar1986.github.io/sait_bear/ear1_smaller.mp4" type="video/mp4">
+            </video>
+
+            <div class="hero__video-overlay">
+              <button type="button" id="soundBtn" class="hero__sound-btn" aria-label="Разбудить Хранителя">
+                <span class="hero__sound-icon">&#9654;</span>
+                Разбудить Хранителя
+              </button>
+            </div>
+
+            <div class="hero__video-vignette" aria-hidden="true"></div>
+          </div>
         </div>
-      </div>
-      <p class="video-caption">Коснись знака — медведь расскажет о создателе сувенира и мастерах Ярославля.</p>
 
-      <div id="totem-wheel-premium">
-        <div class="totem-badge">Ярославский Арт‑Тотем</div>
-
-        <h2 class="totem-title">Путь к сокровищам земли</h2>
-        <div class="totem-subtitle">
-          Хранитель укажет, к каким дарам мастеров прикоснуться сегодня.
+        <!-- Скролл-сборка сувенира: прогресс скролла = время видео. Если ролик наоборот (сначала целый, в конце осколки) — data-bear-scroll-inverted="true" -->
+        <div class="hero__bear-scroll-track" id="heroBearScrollTrack"
+             aria-label="Сувенир собирается при прокрутке"
+             data-bear-scroll-inverted="false">
+          <div class="hero__bear-scroll-sticky">
+            <video id="bearAssemblyVideo" class="hero__bear-scroll-video" muted playsinline preload="auto"
+                   aria-hidden="true">
+              <source src="media/bear-fragments-assemble.mp4" type="video/mp4">
+            </video>
+            <div class="hero__bear-scroll-vignette" aria-hidden="true"></div>
+            <div class="hero__bear-scroll-fade hero__bear-scroll-fade--bottom" aria-hidden="true"></div>
+            <p class="hero__bear-scroll-hint" id="bearScrollHint">
+              <span class="hero__bear-scroll-hint__arrow" aria-hidden="true">↓</span>
+              Листайте вниз — дары мастеров сходятся в единый тотем
+            </p>
+          </div>
         </div>
 
-        <div class="totem-wheel-stage">
-          <div class="totem-pointer"></div>
-          <div class="totem-halo halo-1"></div>
-          <div class="totem-halo halo-2"></div>
+        <div class="hero__headline" id="heroHeadline">
+          <div class="hero__badge gs-reveal">Ярославский Арт&#8209;Тотем</div>
+          <h1 class="hero__title gs-reveal">
+            Путь к сокровищам<br><em>земли</em>
+          </h1>
+          <p class="hero__subtitle gs-reveal">
+            Хранитель укажет, к каким дарам мастеров прикоснуться сегодня.
+          </p>
+        </div>
+      </section>
 
-          <div class="totem-wheel-shell">
-            <canvas id="totemWheelCanvas" width="420" height="420"></canvas>
+      <!-- ═══════════════════════════════════════════
+           TOTEM WHEEL
+      ═══════════════════════════════════════════ -->
+      <section class="totem" id="totem-wheel-premium" aria-label="Тотем-Хранитель">
+        <div class="totem__wheel-wrap gs-reveal">
+          <!-- Pointer at top -->
+          <div class="totem__pointer" aria-hidden="true">
+            <svg class="totem__pointer-svg" viewBox="0 0 28 36" width="26" height="34" aria-hidden="true">
+              <defs>
+                <linearGradient id="totemPointerGrad" x1="14" y1="4" x2="14" y2="34" gradientUnits="userSpaceOnUse">
+                  <stop offset="0" stop-color="var(--gold-light)"/>
+                  <stop offset="1" stop-color="var(--bronze)"/>
+                </linearGradient>
+              </defs>
+              <!-- Остриё вниз, к колесу -->
+              <path fill="url(#totemPointerGrad)" stroke="var(--gold)" stroke-width="0.55" stroke-linejoin="round"
+                    d="M14 34 L4 11 C4 5 8 2 14 2 20 2 24 5 24 11 L14 34z"/>
+            </svg>
+          </div>
 
-            <div class="totem-center-medallion">
-              <div class="medallion-outer">
-                <div class="medallion-inner">
-                  <div class="medallion-bear">✦</div>
-                  <div class="medallion-text">Хранитель</div>
-                </div>
+          <!-- Canvas wheel -->
+          <canvas id="totemWheel" width="360" height="360"
+                  aria-label="Колесо Хранителя — 24 сектора четырёх даров"></canvas>
+
+          <!-- Center medallion overlay -->
+          <div class="totem__medallion" id="totemMedallion" aria-hidden="true">
+            <div class="totem__medallion-outer">
+              <div class="totem__medallion-inner">
+                <div class="totem__medallion-bear">✦</div>
+                <div class="totem__medallion-label">Хранитель</div>
               </div>
             </div>
           </div>
         </div>
 
-        <button type="button" id="totemSpinBtn" class="totem-spin-btn">Поверить Хранителю</button>
+        <button type="button" id="totemSpinBtn" class="btn btn--primary totem__spin-btn gs-reveal">
+          Вращать колесо
+        </button>
 
-        <div id="totemResultBox" class="totem-result-box" style="display:none;">
-          <div class="totem-result-label">Путь открыт</div>
-          <div id="totemResultText" class="totem-result-text"></div>
-          <div class="totem-result-subtext">
+        <div id="totemResultBox" class="totem__result" hidden>
+          <div class="totem__result-label">Путь открыт</div>
+          <div id="totemResultText" class="totem__result-text"></div>
+          <p class="totem__result-sub">
             Следуй зову — или открой витрины вручную ниже.
-          </div>
-
-          <div class="totem-result-buttons">
-            <a id="followBtn" class="totem-btn-primary" href="#">Следовать зову Хранителя</a>
-            <a id="chooseBtn" class="totem-btn-secondary" href="#choose-path">Выбрать свой путь</a>
+          </p>
+          <div class="totem__result-btns">
+            <a id="followBtn" href="#choose-path" class="btn btn--primary">Следовать зову Хранителя</a>
+            <a href="#choose-path" class="btn btn--ghost">Выбрать свой путь</a>
           </div>
         </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════
+           VITRINES (GIFT ARCHIVE)
+      ═══════════════════════════════════════════ -->
+      <div id="choose-path" class="paths">
+        <div class="paths__header gs-reveal">
+          <div class="paths__badge">Архив даров</div>
+          <h2 class="paths__title">Все сокровища открыты</h2>
+          <p class="paths__sub">
+            Ниже — витрины даров. Нажми «Открыть витрину», чтобы увидеть мастеров.
+          </p>
+        </div>
+
+        <!-- JEWELRY -->
+        <section id="jewelry" class="vitrine gs-reveal" aria-labelledby="jewelry-title">
+          <div class="vitrine__inner">
+            <span class="vitrine__corner vitrine__corner--tl" aria-hidden="true"></span>
+            <span class="vitrine__corner vitrine__corner--tr" aria-hidden="true"></span>
+            <span class="vitrine__corner vitrine__corner--bl" aria-hidden="true"></span>
+            <span class="vitrine__corner vitrine__corner--br" aria-hidden="true"></span>
+            <div class="vitrine__sparkle" aria-hidden="true"></div>
+            <p class="vitrine__eyebrow">Витрина дара</p>
+            <svg class="vitrine__filigree" viewBox="0 0 200 14" fill="none" aria-hidden="true">
+              <path d="M0 7c20-6 40 6 60 0s40-6 60 0 40 6 60 0" stroke="currentColor" stroke-width="0.85"/>
+              <path d="M100 2v10M94 5.5h12" stroke="currentColor" stroke-width="0.6"/>
+            </svg>
+            <h3 id="jewelry-title" class="vitrine__title">Украшения</h3>
+            <svg class="vitrine__divider" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+              <path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/>
+            </svg>
+            <p class="vitrine__lead">Авторские украшения ручной работы от мастеров Ярославии.</p>
+            <p class="vitrine__text">Изящные серьги, колье и браслеты — каждый предмет с характером и историей ремесла.</p>
+            <svg class="vitrine__divider" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+              <path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/>
+            </svg>
+            <button type="button" class="vitrine__toggle js-vitrine-toggle btn btn--outline"
+                    id="jewelry-btn" aria-expanded="false" aria-controls="jewelry-panel">
+              Открыть витрину
+            </button>
+          </div>
+          <div id="jewelry-panel" class="vitrine__panel" role="region" aria-labelledby="jewelry-btn">
+            <div class="vitrine__panel-inner">
+              <p class="vitrine__masters-label">Мастера</p>
+              <ul class="vitrine__masters">
+                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Анна Волкова — ювелирная мастерская</a></li>
+                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Сергей Златокузнец</a></li>
+                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Мария Узорная — авторские украшения</a></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- DECOR -->
+        <section id="decor" class="vitrine gs-reveal" aria-labelledby="decor-title">
+          <div class="vitrine__inner">
+            <span class="vitrine__corner vitrine__corner--tl" aria-hidden="true"></span>
+            <span class="vitrine__corner vitrine__corner--tr" aria-hidden="true"></span>
+            <span class="vitrine__corner vitrine__corner--bl" aria-hidden="true"></span>
+            <span class="vitrine__corner vitrine__corner--br" aria-hidden="true"></span>
+            <div class="vitrine__sparkle" aria-hidden="true"></div>
+            <p class="vitrine__eyebrow">Витрина дара</p>
+            <svg class="vitrine__filigree" viewBox="0 0 200 14" fill="none" aria-hidden="true">
+              <path d="M0 7c20-6 40 6 60 0s40-6 60 0 40 6 60 0" stroke="currentColor" stroke-width="0.85"/>
+              <path d="M100 2v10M94 5.5h12" stroke="currentColor" stroke-width="0.6"/>
+            </svg>
+            <h3 id="decor-title" class="vitrine__title">Декор</h3>
+            <svg class="vitrine__divider" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+              <path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/>
+            </svg>
+            <p class="vitrine__lead">Предметы, которые наполняют дом теплом и смыслом.</p>
+            <p class="vitrine__text">Керамика, текстиль, свет и сувенирный декор из мастерских Ярославии и области.</p>
+            <svg class="vitrine__divider" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+              <path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/>
+            </svg>
+            <button type="button" class="vitrine__toggle js-vitrine-toggle btn btn--outline"
+                    id="decor-btn" aria-expanded="false" aria-controls="decor-panel">
+              Открыть витрину
+            </button>
+          </div>
+          <div id="decor-panel" class="vitrine__panel" role="region" aria-labelledby="decor-btn">
+            <div class="vitrine__panel-inner">
+              <p class="vitrine__masters-label">Мастера</p>
+              <ul class="vitrine__masters">
+                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Студия «Терем» — декор и текстиль</a></li>
+                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Иван Древесный — резьба и дерево</a></li>
+                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Керамическая мастерская «Гончарный круг»</a></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- SWEET -->
+        <section id="sweet" class="vitrine gs-reveal" aria-labelledby="sweet-title">
+          <div class="vitrine__inner">
+            <span class="vitrine__corner vitrine__corner--tl" aria-hidden="true"></span>
+            <span class="vitrine__corner vitrine__corner--tr" aria-hidden="true"></span>
+            <span class="vitrine__corner vitrine__corner--bl" aria-hidden="true"></span>
+            <span class="vitrine__corner vitrine__corner--br" aria-hidden="true"></span>
+            <div class="vitrine__sparkle" aria-hidden="true"></div>
+            <p class="vitrine__eyebrow">Витрина дара</p>
+            <svg class="vitrine__filigree" viewBox="0 0 200 14" fill="none" aria-hidden="true">
+              <path d="M0 7c20-6 40 6 60 0s40-6 60 0 40 6 60 0" stroke="currentColor" stroke-width="0.85"/>
+              <path d="M100 2v10M94 5.5h12" stroke="currentColor" stroke-width="0.6"/>
+            </svg>
+            <h3 id="sweet-title" class="vitrine__title">Сладости</h3>
+            <svg class="vitrine__divider" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+              <path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/>
+            </svg>
+            <p class="vitrine__lead">Сладкие дары с узнаваемым вкусом региона.</p>
+            <p class="vitrine__text">Пряники, десерты и подарочные наборы от кондитерских и мастерских Ярославии.</p>
+            <svg class="vitrine__divider" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+              <path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/>
+            </svg>
+            <button type="button" class="vitrine__toggle js-vitrine-toggle btn btn--outline"
+                    id="sweet-btn" aria-expanded="false" aria-controls="sweet-panel">
+              Открыть витрину
+            </button>
+          </div>
+          <div id="sweet-panel" class="vitrine__panel" role="region" aria-labelledby="sweet-btn">
+            <div class="vitrine__panel-inner">
+              <p class="vitrine__masters-label">Мастера</p>
+              <ul class="vitrine__masters">
+                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Пекарня «Пряниковый дом»</a></li>
+                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Елена Коричневая — десерты ручной работы</a></li>
+                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Кондитерская лаборатория «Волжский сахар»</a></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- FOOD -->
+        <section id="food" class="vitrine gs-reveal" aria-labelledby="food-title">
+          <div class="vitrine__inner">
+            <span class="vitrine__corner vitrine__corner--tl" aria-hidden="true"></span>
+            <span class="vitrine__corner vitrine__corner--tr" aria-hidden="true"></span>
+            <span class="vitrine__corner vitrine__corner--bl" aria-hidden="true"></span>
+            <span class="vitrine__corner vitrine__corner--br" aria-hidden="true"></span>
+            <div class="vitrine__sparkle" aria-hidden="true"></div>
+            <p class="vitrine__eyebrow">Витрина дара</p>
+            <svg class="vitrine__filigree" viewBox="0 0 200 14" fill="none" aria-hidden="true">
+              <path d="M0 7c20-6 40 6 60 0s40-6 60 0 40 6 60 0" stroke="currentColor" stroke-width="0.85"/>
+              <path d="M100 2v10M94 5.5h12" stroke="currentColor" stroke-width="0.6"/>
+            </svg>
+            <h3 id="food-title" class="vitrine__title">Угощения</h3>
+            <svg class="vitrine__divider" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+              <path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/>
+            </svg>
+            <p class="vitrine__lead">Гастрономическая витрина: сыры, мясо, деликатесы.</p>
+            <p class="vitrine__text">Настоящие находки от производителей и мастеров вкуса Ярославской земли.</p>
+            <svg class="vitrine__divider" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+              <path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/>
+            </svg>
+            <button type="button" class="vitrine__toggle js-vitrine-toggle btn btn--outline"
+                    id="food-btn" aria-expanded="false" aria-controls="food-panel">
+              Открыть витрину
+            </button>
+          </div>
+          <div id="food-panel" class="vitrine__panel" role="region" aria-labelledby="food-btn">
+            <div class="vitrine__panel-inner">
+              <p class="vitrine__masters-label">Мастера</p>
+              <ul class="vitrine__masters">
+                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Сыроварня «Волга»</a></li>
+                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Деликатесная лавка «Яръ»</a></li>
+                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Фермерское объединение «Русское поле»</a></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div><!-- /paths -->
+
+      <!-- ═══════════════════════════════════════════
+           SOCIAL PROOF
+           Заменить placeholder на реальные отзывы
+      ═══════════════════════════════════════════ -->
+      <section class="reviews" id="reviews" aria-label="Отзывы">
+        <div class="reviews__header gs-reveal">
+          <div class="reviews__badge">Голоса гостей</div>
+          <h2 class="reviews__title">Что говорят о Гильдии</h2>
+        </div>
+
+        <div class="reviews__grid">
+          <!-- ОТЗЫВ 1: заменить на реальный -->
+          <article class="review gs-reveal">
+            <div class="review__stars" aria-label="5 звёзд">★★★★★</div>
+            <p class="review__text">
+              <!-- ОТЗЫВ: вставить текст -->
+              «Нашла здесь украшение, которое искала годами. Мастер рассказала всю историю создания — это особенно тронуло.»
+            </p>
+            <footer class="review__author">
+              <span class="review__name"><!-- ИМЯ -->Мария, Москва</span>
+              <span class="review__source"><!-- ИСТОЧНИК -->ВКонтакте</span>
+            </footer>
+          </article>
+
+          <!-- ОТЗЫВ 2: заменить на реальный -->
+          <article class="review gs-reveal">
+            <div class="review__stars" aria-label="5 звёзд">★★★★★</div>
+            <p class="review__text">
+              <!-- ОТЗЫВ: вставить текст -->
+              «Купил пряники на ярмарке — привёз коллегам. Теперь они сами просят заказать ещё. Вкус настоящий, ярославский.»
+            </p>
+            <footer class="review__author">
+              <span class="review__name"><!-- ИМЯ -->Алексей, Ярославль</span>
+              <span class="review__source"><!-- ИСТОЧНИК -->2ГИС</span>
+            </footer>
+          </article>
+
+          <!-- ОТЗЫВ 3: заменить на реальный -->
+          <article class="review gs-reveal">
+            <div class="review__stars" aria-label="5 звёзд">★★★★★</div>
+            <p class="review__text">
+              <!-- ОТЗЫВ: вставить текст -->
+              «Декор из «Гончарного круга» стоит у нас на видном месте уже два года. Каждый гость спрашивает, откуда.»
+            </p>
+            <footer class="review__author">
+              <span class="review__name"><!-- ИМЯ -->Светлана, Санкт-Петербург</span>
+              <span class="review__source"><!-- ИСТОЧНИК -->Яндекс Карты</span>
+            </footer>
+          </article>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════
+           CREATOR — IRINA CHURILOVA
+      ═══════════════════════════════════════════ -->
+      <section class="creator" id="creator" aria-label="Создатель Хранителя">
+        <div class="creator__inner">
+
+          <div class="creator__photo-wrap gs-reveal">
+            <div class="creator__photo-frame">
+              <img
+                src="assets/irina-churilova.jpg"
+                alt="Ирина Чурилова — создатель медведя-Хранителя"
+                class="creator__photo"
+                loading="lazy"
+                width="380"
+                height="480"
+              >
+              <div class="creator__photo-glow" aria-hidden="true"></div>
+            </div>
+          </div>
+
+          <div class="creator__content gs-reveal">
+            <div class="creator__badge">Создатель Хранителя</div>
+            <h2 class="creator__title">Ирина<br><em>Чурилова</em></h2>
+            <p class="creator__role">Дизайнер украшений и предметов интерьера · Ярославль</p>
+
+            <blockquote class="creator__quote">
+              «Дарю своё тепло и любовь, вкладывая их в свои изделия. Подчёркиваю красоту и уникальность каждой женщины с помощью своих украшений.»
+            </blockquote>
+
+            <p class="creator__text">
+              Ирина работает в смешанных техниках — эпоксидная смола, деревянные заготовки, натуральные камни, стекло, декоративные металлические элементы. Каждое изделие создаётся вручную и несёт в себе историю.
+            </p>
+
+            <p class="creator__text">
+              Проработав 15 лет на железной дороге, Ирина выбрала себя — и ушла за мечтой. Медведь-Хранитель стал одним из её первых больших проектов: сувенир, в котором живёт дух Ярославии.
+            </p>
+
+            <div class="creator__tags">
+              <span class="creator__tag">Эпоксидная смола</span>
+              <span class="creator__tag">Украшения ручной работы</span>
+              <span class="creator__tag">Декор интерьера</span>
+              <span class="creator__tag">Лимитированные коллекции</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════
+           ABOUT THE GUILD
+      ═══════════════════════════════════════════ -->
+      <section class="about" id="about" aria-label="О Гильдии">
+        <div class="about__inner">
+          <div class="about__content gs-reveal">
+            <div class="about__badge">О нас</div>
+            <h2 class="about__title">Гильдия мастеров<br><em>Ярославии</em></h2>
+
+            <p class="about__lead">
+              Мы — Гильдия мастеров Ярославии. Ремесленники, которые создают с душой — и продают без посредников. Приходите на ярмарки или заказывайте.
+            </p>
+
+            <p class="about__text">
+              Творческое сообщество ярославских мастеров и ремесленников. Наша задача — содействовать развитию малого предпринимательства и ремесленничества, организовывать взаимодействие между мастерами и теми, кто ценит настоящее.
+            </p>
+
+            <p class="about__text">
+              Вы узнаете, кто и как создал понравившийся сувенир. Мы рассказываем об истории — начиная с идеи, заканчивая процессом. Вы поддерживаете местных производителей. Мы дарим вам эмоции и память.
+            </p>
+
+            <p class="about__text about__text--accent">
+              Мы делаем то, что любим.<br>А вы — те, ради кого мы творим.<br>
+              <strong>Вместе создадим живую культуру Ярославии.</strong>
+            </p>
+
+            <div class="about__values">
+              <div class="about__value">
+                <span class="about__value-icon">✦</span>
+                <span>Без посредников</span>
+              </div>
+              <div class="about__value">
+                <span class="about__value-icon">✦</span>
+                <span>История каждого изделия</span>
+              </div>
+              <div class="about__value">
+                <span class="about__value-icon">✦</span>
+                <span>Поддержка местных</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="about__deco gs-reveal" aria-hidden="true">
+            <div class="about__deco-ring about__deco-ring--1"></div>
+            <div class="about__deco-ring about__deco-ring--2"></div>
+            <div class="about__deco-ring about__deco-ring--3"></div>
+            <div class="about__deco-symbol">✦</div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /page-inner -->
+  </div><!-- /arch-surface -->
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer class="footer" id="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <span class="footer__symbol" aria-hidden="true">✦</span>
+        <span class="footer__name">Гильдия мастеров Ярославии</span>
+        <p class="footer__tagline">Наследие Ярославии — в каждом изделии</p>
       </div>
 
-      <div id="choose-path" class="totem-paths-section">
-        <div class="totem-paths-badge">Архив даров</div>
+      <nav class="footer__nav" aria-label="Подвал">
+        <a href="#hero">Главная</a>
+        <a href="#choose-path">Дары</a>
+        <a href="#about">О нас</a>
+      </nav>
 
-        <h2 class="totem-paths-title">Все сокровища открыты</h2>
-
-        <div class="totem-paths-subtitle">
-          Ниже — витрины даров. Нажми «Открыть витрину», чтобы увидеть мастеров и перейти к ним.
-        </div>
+      <div class="footer__contact">
+        <p class="footer__contact-label">Связаться с Гильдией</p>
+        <!-- КОНТАКТ: добавить email/телефон/ссылку -->
+        <a href="#" class="footer__contact-link btn btn--primary btn--sm"><!-- КОНТАКТ -->Написать нам</a>
       </div>
-
-      <section id="jewelry" class="showcase-vitrine" aria-labelledby="jewelry-title">
-        <div class="showcase-vitrine__inner">
-          <div class="showcase-vitrine__sparkle" aria-hidden="true"></div>
-          <span class="showcase-vitrine__corner showcase-vitrine__corner--tl" aria-hidden="true"></span>
-          <span class="showcase-vitrine__corner showcase-vitrine__corner--tr" aria-hidden="true"></span>
-          <span class="showcase-vitrine__corner showcase-vitrine__corner--bl" aria-hidden="true"></span>
-          <span class="showcase-vitrine__corner showcase-vitrine__corner--br" aria-hidden="true"></span>
-          <div class="showcase-vitrine__crest" aria-hidden="true"></div>
-          <p class="showcase-vitrine__eyebrow">Витрина дара</p>
-          <div class="showcase-vitrine__filigree" aria-hidden="true">
-            <svg viewBox="0 0 200 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 7c20-6 40 6 60 0s40-6 60 0 40 6 60 0" stroke="currentColor" stroke-width="0.85"/><path d="M100 2v10M94 5.5h12" stroke="currentColor" stroke-width="0.6"/></svg>
-          </div>
-          <h3 id="jewelry-title" class="showcase-vitrine__title">Украшения</h3>
-          <div class="showcase-vitrine__divider" aria-hidden="true">
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/></svg>
-          </div>
-          <p class="showcase-vitrine__lead">Авторские украшения ручной работы от мастеров Ярославля.</p>
-          <p class="showcase-vitrine__text">Изящные серьги, колье и браслеты — каждый предмет с характером и историей ремесла.</p>
-          <div class="showcase-vitrine__divider" aria-hidden="true">
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/></svg>
-          </div>
-          <button type="button" class="showcase-vitrine__btn showcase-vitrine__btn--toggle js-vitrine-toggle" id="jewelry-vitrine-btn" aria-expanded="false" aria-controls="jewelry-panel">Открыть витрину</button>
-        </div>
-        <div id="jewelry-panel" class="showcase-vitrine__panel" role="region" aria-labelledby="jewelry-vitrine-btn" hidden>
-          <div class="showcase-vitrine__panel-inner">
-            <p class="showcase-vitrine__masters-label">Мастера</p>
-            <ul class="showcase-vitrine__masters">
-              <li><a href="#">Анна Волкова — ювелирная мастерская</a></li>
-              <li><a href="#">Сергей Златокузнец</a></li>
-              <li><a href="#">Мария Узорная — авторские украшения</a></li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section id="decor" class="showcase-vitrine" aria-labelledby="decor-title">
-        <div class="showcase-vitrine__inner">
-          <div class="showcase-vitrine__sparkle" aria-hidden="true"></div>
-          <span class="showcase-vitrine__corner showcase-vitrine__corner--tl" aria-hidden="true"></span>
-          <span class="showcase-vitrine__corner showcase-vitrine__corner--tr" aria-hidden="true"></span>
-          <span class="showcase-vitrine__corner showcase-vitrine__corner--bl" aria-hidden="true"></span>
-          <span class="showcase-vitrine__corner showcase-vitrine__corner--br" aria-hidden="true"></span>
-          <div class="showcase-vitrine__crest" aria-hidden="true"></div>
-          <p class="showcase-vitrine__eyebrow">Витрина дара</p>
-          <div class="showcase-vitrine__filigree" aria-hidden="true">
-            <svg viewBox="0 0 200 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 7c20-6 40 6 60 0s40-6 60 0 40 6 60 0" stroke="currentColor" stroke-width="0.85"/><path d="M100 2v10M94 5.5h12" stroke="currentColor" stroke-width="0.6"/></svg>
-          </div>
-          <h3 id="decor-title" class="showcase-vitrine__title">Декор</h3>
-          <div class="showcase-vitrine__divider" aria-hidden="true">
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/></svg>
-          </div>
-          <p class="showcase-vitrine__lead">Предметы, которые наполняют дом теплом и смыслом.</p>
-          <p class="showcase-vitrine__text">Керамика, текстиль, свет и сувенирный декор из мастерских Ярославля и области.</p>
-          <div class="showcase-vitrine__divider" aria-hidden="true">
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/></svg>
-          </div>
-          <button type="button" class="showcase-vitrine__btn showcase-vitrine__btn--toggle js-vitrine-toggle" id="decor-vitrine-btn" aria-expanded="false" aria-controls="decor-panel">Открыть витрину</button>
-        </div>
-        <div id="decor-panel" class="showcase-vitrine__panel" role="region" aria-labelledby="decor-vitrine-btn" hidden>
-          <div class="showcase-vitrine__panel-inner">
-            <p class="showcase-vitrine__masters-label">Мастера</p>
-            <ul class="showcase-vitrine__masters">
-              <li><a href="#">Студия «Терем» — декор и текстиль</a></li>
-              <li><a href="#">Иван Древесный — резьба и дерево</a></li>
-              <li><a href="#">Керамическая мастерская «Гончарный круг»</a></li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section id="sweet" class="showcase-vitrine" aria-labelledby="sweet-title">
-        <div class="showcase-vitrine__inner">
-          <div class="showcase-vitrine__sparkle" aria-hidden="true"></div>
-          <span class="showcase-vitrine__corner showcase-vitrine__corner--tl" aria-hidden="true"></span>
-          <span class="showcase-vitrine__corner showcase-vitrine__corner--tr" aria-hidden="true"></span>
-          <span class="showcase-vitrine__corner showcase-vitrine__corner--bl" aria-hidden="true"></span>
-          <span class="showcase-vitrine__corner showcase-vitrine__corner--br" aria-hidden="true"></span>
-          <div class="showcase-vitrine__crest" aria-hidden="true"></div>
-          <p class="showcase-vitrine__eyebrow">Витрина дара</p>
-          <div class="showcase-vitrine__filigree" aria-hidden="true">
-            <svg viewBox="0 0 200 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 7c20-6 40 6 60 0s40-6 60 0 40 6 60 0" stroke="currentColor" stroke-width="0.85"/><path d="M100 2v10M94 5.5h12" stroke="currentColor" stroke-width="0.6"/></svg>
-          </div>
-          <h3 id="sweet-title" class="showcase-vitrine__title">Сладости</h3>
-          <div class="showcase-vitrine__divider" aria-hidden="true">
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/></svg>
-          </div>
-          <p class="showcase-vitrine__lead">Сладкие дары с узнаваемым вкусом региона.</p>
-          <p class="showcase-vitrine__text">Пряники, десерты и подарочные наборы от кондитерских и мастерских Ярославля.</p>
-          <div class="showcase-vitrine__divider" aria-hidden="true">
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/></svg>
-          </div>
-          <button type="button" class="showcase-vitrine__btn showcase-vitrine__btn--toggle js-vitrine-toggle" id="sweet-vitrine-btn" aria-expanded="false" aria-controls="sweet-panel">Открыть витрину</button>
-        </div>
-        <div id="sweet-panel" class="showcase-vitrine__panel" role="region" aria-labelledby="sweet-vitrine-btn" hidden>
-          <div class="showcase-vitrine__panel-inner">
-            <p class="showcase-vitrine__masters-label">Мастера</p>
-            <ul class="showcase-vitrine__masters">
-              <li><a href="#">Пекарня «Пряниковый дом»</a></li>
-              <li><a href="#">Елена Коричневая — десерты ручной работы</a></li>
-              <li><a href="#">Кондитерская лаборатория «Волжский сахар»</a></li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section id="food" class="showcase-vitrine" aria-labelledby="food-title">
-        <div class="showcase-vitrine__inner">
-          <div class="showcase-vitrine__sparkle" aria-hidden="true"></div>
-          <span class="showcase-vitrine__corner showcase-vitrine__corner--tl" aria-hidden="true"></span>
-          <span class="showcase-vitrine__corner showcase-vitrine__corner--tr" aria-hidden="true"></span>
-          <span class="showcase-vitrine__corner showcase-vitrine__corner--bl" aria-hidden="true"></span>
-          <span class="showcase-vitrine__corner showcase-vitrine__corner--br" aria-hidden="true"></span>
-          <div class="showcase-vitrine__crest" aria-hidden="true"></div>
-          <p class="showcase-vitrine__eyebrow">Витрина дара</p>
-          <div class="showcase-vitrine__filigree" aria-hidden="true">
-            <svg viewBox="0 0 200 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 7c20-6 40 6 60 0s40-6 60 0 40 6 60 0" stroke="currentColor" stroke-width="0.85"/><path d="M100 2v10M94 5.5h12" stroke="currentColor" stroke-width="0.6"/></svg>
-          </div>
-          <h3 id="food-title" class="showcase-vitrine__title">Угощения</h3>
-          <div class="showcase-vitrine__divider" aria-hidden="true">
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/></svg>
-          </div>
-          <p class="showcase-vitrine__lead">Гастрономическая витрина: сыры, мясо, деликатесы.</p>
-          <p class="showcase-vitrine__text">Настоящие находки от производителей и мастеров вкуса Ярославской земли.</p>
-          <div class="showcase-vitrine__divider" aria-hidden="true">
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/></svg>
-          </div>
-          <button type="button" class="showcase-vitrine__btn showcase-vitrine__btn--toggle js-vitrine-toggle" id="food-vitrine-btn" aria-expanded="false" aria-controls="food-panel">Открыть витрину</button>
-        </div>
-        <div id="food-panel" class="showcase-vitrine__panel" role="region" aria-labelledby="food-vitrine-btn" hidden>
-          <div class="showcase-vitrine__panel-inner">
-            <p class="showcase-vitrine__masters-label">Мастера</p>
-            <ul class="showcase-vitrine__masters">
-              <li><a href="#">Сыроварня «Волга»</a></li>
-              <li><a href="#">Деликатесная лавка «Яръ»</a></li>
-              <li><a href="#">Фермерское объединение «Русское поле»</a></li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <footer class="fairy-footer">
-        <p><em>Снова прикоснись к метке на медведе — Хранитель встретит тебя здесь.</em></p>
-        <p>Ремесло и гостеприимство Ярославской земли.</p>
-      </footer>
     </div>
-  </div>
 
-  <nav class="arch-nav" aria-label="Основная навигация">
-    <a class="arch-nav__link" href="#page-top" data-nav="home">
-      <svg viewBox="0 0 24 24"><path d="M4 10.5L12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5z"/></svg>
-      Главная
-    </a>
-    <a class="arch-nav__link" href="#choose-path" data-nav="archive">
-      <svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/></svg>
-      Архив
-    </a>
-    <a class="arch-nav__link" href="#guardian-video" data-nav="gallery">
-      <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3V9z"/></svg>
-      Галерея
-    </a>
-    <a class="arch-nav__link" href="#totem-wheel-premium" data-nav="keeper">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>
-      Хранитель
-    </a>
-  </nav>
+    <div class="footer__credits" aria-label="Создатели сайта и контент">
+      <div class="footer__credit">
+        <p class="footer__credit-label">Разработка сайта</p>
+        <p class="footer__credit-name">Чурилов Илья Владимирович</p>
+        <p class="footer__credit-links">
+          <a href="https://vk.com/ilyachurilov" target="_blank" rel="noopener noreferrer">ВКонтакте</a>
+          <span class="footer__credit-sep" aria-hidden="true">·</span>
+          <a href="tel:+79622013300">+7&nbsp;962&nbsp;201‑33‑00</a>
+        </p>
+        <p class="footer__credit-note">Телефон и мессенджеры (WhatsApp, Telegram)</p>
+        <p class="footer__credit-messengers">
+          <a href="https://wa.me/79622013300" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+          <span class="footer__credit-sep" aria-hidden="true">·</span>
+          <a href="https://t.me/+79622013300" target="_blank" rel="noopener noreferrer">Telegram</a>
+        </p>
+      </div>
+      <div class="footer__credit">
+        <p class="footer__credit-label">Создание ИИ-роликов</p>
+        <p class="footer__credit-name">AI creator — Анна Шамшурина</p>
+        <p class="footer__credit-links">
+          <a href="https://vk.ru/club186578506" target="_blank" rel="noopener noreferrer">Группа ВКонтакте</a>
+        </p>
+      </div>
+    </div>
 
-  <script>
-    (function () {
-      const video = document.getElementById('totemVideo');
-      const btn = document.getElementById('soundBtn');
-      const overlay = document.querySelector('.video-wrap .video-overlay');
-      btn.addEventListener('click', function () {
-        video.muted = false;
-        video.currentTime = 0;
-        video.play().catch(function () {});
-        overlay.classList.add('hidden');
-      });
-    })();
-  </script>
+    <div class="footer__bottom">
+      <p>© 2026 Гильдия мастеров Ярославии. Все права защищены.</p>
+    </div>
+  </footer>
 
-  <script>
-    (function () {
-      const categories = [
-        { name: "Украшения", link: "#jewelry" },
-        { name: "Декор", link: "#decor" },
-        { name: "Сладости", link: "#sweet" },
-        { name: "Угощения", link: "#food" }
-      ];
-      const sectors = [
-        "Украшения", "Декор", "Сладости", "Угощения",
-        "Украшения", "Сладости", "Декор", "Угощения",
-        "Украшения", "Декор", "Сладости", "Угощения",
-        "Украшения", "Сладости", "Декор", "Угощения",
-        "Украшения", "Декор", "Сладости", "Угощения",
-        "Украшения", "Сладости", "Декор", "Угощения",
-        "Украшения"
-      ];
-      const palette = {
-        "Украшения": {
-          base: "#2e2820",
-          line: "rgba(197,160,89,0.2)",
-          dot: "rgba(197,160,89,0.12)"
-        },
-        "Декор": {
-          base: "#252015",
-          line: "rgba(197,160,89,0.18)",
-          dot: "rgba(197,160,89,0.1)"
-        },
-        "Сладости": {
-          base: "#322a20",
-          line: "rgba(212,176,110,0.2)",
-          dot: "rgba(212,176,110,0.12)"
-        },
-        "Угощения": {
-          base: "#1e1a14",
-          line: "rgba(197,160,89,0.16)",
-          dot: "rgba(197,160,89,0.09)"
-        }
-      };
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 
-      const canvas = document.getElementById("totemWheelCanvas");
-      const ctx = canvas.getContext("2d");
-      const spinBtn = document.getElementById("totemSpinBtn");
-      const resultBox = document.getElementById("totemResultBox");
-      const resultText = document.getElementById("totemResultText");
-      const followBtn = document.getElementById("followBtn");
-      const chooseBtn = document.getElementById("chooseBtn");
-
-      const size = 420;
-      const center = size / 2;
-      const radius = 188;
-      const sectorCount = sectors.length;
-      const arc = (Math.PI * 2) / sectorCount;
-
-      let currentRotation = 0;
-      let isSpinning = false;
-
-      function drawWheel() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawOuterOrnament();
-        for (let i = 0; i < sectorCount; i++) {
-          const startAngle = i * arc - Math.PI / 2;
-          const endAngle = startAngle + arc;
-          const label = sectors[i];
-          const colors = palette[label] || palette["Украшения"];
-          drawSector(startAngle, endAngle, colors.base);
-          drawSectorCarving(startAngle, endAngle, colors.line, colors.dot);
-          drawSectorText(startAngle, label);
-        }
-        drawInnerRings();
-      }
-
-      function drawOuterOrnament() {
-        ctx.save();
-        ctx.translate(center, center);
-        ctx.beginPath();
-        ctx.arc(0, 0, radius + 6, 0, Math.PI * 2);
-        ctx.strokeStyle = "rgba(197,160,89,0.15)";
-        ctx.lineWidth = 2;
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(0, 0, radius - 12, 0, Math.PI * 2);
-        ctx.strokeStyle = "rgba(255,255,255,0.04)";
-        ctx.lineWidth = 1;
-        ctx.stroke();
-        for (let i = 0; i < 50; i++) {
-          const a = (Math.PI * 2 / 50) * i;
-          const r = radius + 1;
-          const x = Math.cos(a) * r;
-          const y = Math.sin(a) * r;
-          ctx.beginPath();
-          ctx.arc(x, y, 1.7, 0, Math.PI * 2);
-          ctx.fillStyle = "rgba(197,160,89,0.18)";
-          ctx.fill();
-        }
-        ctx.restore();
-      }
-
-      function drawSector(startAngle, endAngle, fill) {
-        ctx.beginPath();
-        ctx.moveTo(center, center);
-        ctx.arc(center, center, radius, startAngle, endAngle);
-        ctx.closePath();
-        ctx.fillStyle = fill;
-        ctx.fill();
-        ctx.strokeStyle = "rgba(197,160,89,0.14)";
-        ctx.lineWidth = 1.1;
-        ctx.stroke();
-      }
-
-      function drawSectorCarving(startAngle, endAngle, lineColor, dotColor) {
-        const mid = startAngle + (endAngle - startAngle) / 2;
-        ctx.save();
-        ctx.translate(center, center);
-        ctx.rotate(mid);
-        ctx.strokeStyle = lineColor;
-        ctx.lineWidth = 1;
-        for (let r = 52; r <= 160; r += 24) {
-          ctx.beginPath();
-          ctx.arc(0, 0, r, -0.09, 0.09);
-          ctx.stroke();
-        }
-        for (let r = 70; r <= 154; r += 28) {
-          ctx.beginPath();
-          ctx.arc(r, 0, 2, 0, Math.PI * 2);
-          ctx.fillStyle = dotColor;
-          ctx.fill();
-        }
-        ctx.beginPath();
-        ctx.moveTo(46, 0);
-        ctx.bezierCurveTo(70, -10, 98, -10, 120, 0);
-        ctx.bezierCurveTo(98, 10, 70, 10, 46, 0);
-        ctx.strokeStyle = lineColor;
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(86, 0);
-        ctx.bezierCurveTo(96, -6, 108, -6, 118, 0);
-        ctx.bezierCurveTo(108, 6, 96, 6, 86, 0);
-        ctx.stroke();
-        ctx.restore();
-      }
-
-      function drawSectorText(startAngle, label) {
-        ctx.save();
-        ctx.translate(center, center);
-        ctx.rotate(startAngle + arc / 2);
-        ctx.textAlign = "right";
-        ctx.fillStyle = "#d4c4a8";
-        ctx.font = "600 11px 'DM Sans', sans-serif";
-        ctx.fillText(label, radius - 18, 4);
-        ctx.restore();
-      }
-
-      function drawInnerRings() {
-        ctx.save();
-        ctx.translate(center, center);
-        ctx.beginPath();
-        ctx.arc(0, 0, 62, 0, Math.PI * 2);
-        ctx.strokeStyle = "rgba(197,160,89,0.14)";
-        ctx.lineWidth = 1.4;
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.arc(0, 0, 78, 0, Math.PI * 2);
-        ctx.strokeStyle = "rgba(255,255,255,0.04)";
-        ctx.lineWidth = 1;
-        ctx.stroke();
-        for (let i = 0; i < 20; i++) {
-          const a = (Math.PI * 2 / 20) * i;
-          const x = Math.cos(a) * 70;
-          const y = Math.sin(a) * 70;
-          ctx.beginPath();
-          ctx.arc(x, y, 1.8, 0, Math.PI * 2);
-          ctx.fillStyle = "rgba(197,160,89,0.12)";
-          ctx.fill();
-        }
-        ctx.restore();
-      }
-
-      function getCategoryLink(categoryName) {
-        const found = categories.find(function (item) { return item.name === categoryName; });
-        return found ? found.link : "#";
-      }
-
-      function spinWheel() {
-        if (isSpinning) return;
-        isSpinning = true;
-        spinBtn.disabled = true;
-        resultBox.style.display = "none";
-        const winnerIndex = Math.floor(Math.random() * sectorCount);
-        const sectorAngle = 360 / sectorCount;
-        const targetAngle = 360 - (winnerIndex * sectorAngle + sectorAngle / 2);
-        const currentNormalized = ((currentRotation % 360) + 360) % 360;
-        const deltaToTarget = ((targetAngle - currentNormalized) + 360) % 360;
-        const extraSpins = 360 * (6 + Math.floor(Math.random() * 3));
-        const totalRotation = extraSpins + deltaToTarget;
-        currentRotation += totalRotation;
-        canvas.style.transform = "rotate(" + currentRotation + "deg)";
-        setTimeout(function () {
-          const winner = sectors[winnerIndex];
-          resultText.textContent = "Хранитель ведёт к: " + winner;
-          followBtn.href = getCategoryLink(winner);
-          chooseBtn.href = "#choose-path";
-          resultBox.style.display = "block";
-          isSpinning = false;
-          spinBtn.disabled = false;
-        }, 5900);
-      }
-
-      drawWheel();
-      spinBtn.addEventListener("click", spinWheel);
-    })();
-  </script>
-
-  <script>
-    (function () {
-      var links = document.querySelectorAll(".arch-nav__link");
-      var sections = [
-        { id: "page-top", nav: "home" },
-        { id: "guardian-video", nav: "gallery" },
-        { id: "choose-path", nav: "archive" },
-        { id: "totem-wheel-premium", nav: "keeper" }
-      ];
-      function setActive(navKey) {
-        links.forEach(function (l) {
-          l.classList.toggle("is-active", l.getAttribute("data-nav") === navKey);
-        });
-      }
-      if ("IntersectionObserver" in window) {
-        var obs = new IntersectionObserver(
-          function (entries) {
-            entries.sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
-            var top = entries[0];
-            if (top && top.isIntersecting && top.target.id) {
-              var found = sections.find(function (s) { return s.id === top.target.id; });
-              if (found) setActive(found.nav);
-            }
-          },
-          { rootMargin: "-38% 0px -45% 0px", threshold: [0, 0.15, 0.35, 0.55] }
-        );
-        sections.forEach(function (s) {
-          var el = document.getElementById(s.id);
-          if (el) obs.observe(el);
-        });
-      }
-      window.addEventListener("hashchange", function () {
-        var h = (location.hash || "").slice(1);
-        var found = sections.find(function (s) { return s.id === h; });
-        if (found) setActive(found.nav);
-      });
-    })();
-  </script>
-
-  <script>
-    (function () {
-      var toggles = document.querySelectorAll(".js-vitrine-toggle");
-      var animMs = 450;
-
-      function hidePanel(panel) {
-        if (!panel || panel.hasAttribute("hidden")) return;
-        panel.classList.remove("is-open");
-        window.setTimeout(function () {
-          if (!panel.classList.contains("is-open")) panel.setAttribute("hidden", "");
-        }, animMs);
-      }
-
-      toggles.forEach(function (btn) {
-        var panelId = btn.getAttribute("aria-controls");
-        var panel = panelId ? document.getElementById(panelId) : null;
-        if (!panel) return;
-
-        btn.addEventListener("click", function () {
-          var isOpen = btn.getAttribute("aria-expanded") === "true";
-
-          toggles.forEach(function (other) {
-            if (other === btn) return;
-            other.setAttribute("aria-expanded", "false");
-            var p = document.getElementById(other.getAttribute("aria-controls"));
-            hidePanel(p);
-          });
-
-          if (isOpen) {
-            btn.setAttribute("aria-expanded", "false");
-            hidePanel(panel);
-          } else {
-            btn.setAttribute("aria-expanded", "true");
-            panel.removeAttribute("hidden");
-            requestAnimationFrame(function () {
-              requestAnimationFrame(function () {
-                panel.classList.add("is-open");
-              });
-            });
-          }
-        });
-      });
-    })();
-  </script>
+  <script src="js/main.js" defer></script>
 </body>
 </html>
