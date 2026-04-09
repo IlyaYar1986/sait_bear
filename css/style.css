@@ -1678,3 +1678,28 @@ body {
 .nav, .vitrine, .review, .about, .creator, .footer, .totem__result {
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
+
+/* Слабые устройства (класс из main.js): меньше постоянных анимаций и плавного скролла */
+html.perf-low {
+  scroll-behavior: auto;
+}
+
+html.perf-low body {
+  transition-duration: 0.15s;
+}
+
+html.perf-low .totem__medallion-bear,
+html.perf-low .hero__bear-scroll-hint__arrow {
+  animation: none !important;
+}
+
+html.perf-low .about__deco-ring,
+html.perf-low .about__deco-symbol {
+  animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

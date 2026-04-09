@@ -6,13 +6,41 @@
 'use strict';
 
 /* ─────────────────────────────────────────────────────────
+   PERFORMANCE — слабые устройства, экономия трафика, reduced motion
+───────────────────────────────────────────────────────── */
+function detectPerfProfile() {
+  const cores = typeof navigator.hardwareConcurrency === 'number' ? navigator.hardwareConcurrency : 4;
+  const mem = navigator.deviceMemory;
+  const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const saveData = !!(conn && conn.saveData);
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const lowMem = typeof mem === 'number' && mem <= 4;
+  const lowCores = cores <= 4;
+  const narrow = window.matchMedia('(max-width: 768px)').matches;
+  const coarse = window.matchMedia('(pointer: coarse)').matches;
+  const lowEnd = reduced || saveData || lowMem || (narrow && coarse && lowCores);
+  return {
+    lowEnd,
+    reducedMotion: reduced,
+    saveData,
+    coarse,
+    narrow,
+  };
+}
+
+const PERF = detectPerfProfile();
+if (typeof document !== 'undefined' && document.documentElement) {
+  document.documentElement.classList.toggle('perf-low', PERF.lowEnd);
+}
+
+/* ─────────────────────────────────────────────────────────
    CATEGORIES & WHEEL CONFIG
 ───────────────────────────────────────────────────────── */
 const CATEGORIES = [
-  { name: 'Украшения', anchor: '#jewelry', weight: 0.30 },
-  { name: 'Декор',     anchor: '#decor',   weight: 0.2333 },
-  { name: 'Сладости',  anchor: '#sweet',   weight: 0.2333 },
-  { name: 'Угощения',  anchor: '#food',    weight: 0.2334 },
+  { name: 'Украшения', anchor: '#jewelry', weight: 0.4 },
+  { name: 'Декор',     anchor: '#decor',   weight: 0.2 },
+  { name: 'Сладости',  anchor: '#sweet',   weight: 0.2 },
+  { name: 'Угощения',  anchor: '#food',    weight: 0.2 },
 ];
 
 const SECTOR_COUNT    = 24;
@@ -67,8 +95,14 @@ let currentTheme  = 'dark';
   const burger = document.getElementById('navBurger');
   const mobile = document.getElementById('navMobile');
 
+  let navScrollTick = false;
   window.addEventListener('scroll', () => {
-    nav.classList.toggle('is-scrolled', window.scrollY > 40);
+    if (navScrollTick) return;
+    navScrollTick = true;
+    requestAnimationFrame(() => {
+      navScrollTick = false;
+      nav.classList.toggle('is-scrolled', window.scrollY > 40);
+    });
   }, { passive: true });
 
   burger.addEventListener('click', () => {
@@ -121,6 +155,7 @@ let currentTheme  = 'dark';
 ───────────────────────────────────────────────────────── */
 const canvas  = document.getElementById('totemWheel');
 const ctx     = canvas ? canvas.getContext('2d') : null;
+let wheelCanvasDpr = 1;
 
 /* Shuffle 24 sectors (6 per category, Fisher–Yates) */
 function buildSectors() {
@@ -216,7 +251,7 @@ function drawCategoryNameRadial(catIdx, midAngle, cx, cy, R, Ri) {
 function drawWheel(angleDeg) {
   if (!ctx) return;
 
-  const DPR = window.devicePixelRatio || 1;
+  const DPR = wheelCanvasDpr || 1;
   const W   = canvas.width  / DPR;   // logical size
   const H   = canvas.height / DPR;
   const cx  = W / 2;
@@ -328,7 +363,9 @@ function drawWheel(angleDeg) {
 /* Handle HiDPI / retina screens — один размер для обёртки и canvas (без конфликта с CSS). */
 function setupCanvas() {
   if (!canvas) return;
-  const DPR  = window.devicePixelRatio || 1;
+  const rawDpr = window.devicePixelRatio || 1;
+  const capDpr = PERF.lowEnd ? 1.25 : Math.min(rawDpr, 2.5);
+  const DPR = Math.max(1, Math.min(rawDpr, capDpr));
   const cap  = window.innerWidth >= 720 ? 420 : 360;
   const gutter = window.innerWidth <= 420 ? 32 : 48;
   const size = Math.min(cap, Math.max(260, window.innerWidth - gutter));
@@ -338,6 +375,7 @@ function setupCanvas() {
   canvas.width  = Math.round(size * DPR);
   canvas.height = Math.round(size * DPR);
   ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  wheelCanvasDpr = DPR;
 
   const wrap = canvas.closest('.totem__wheel-wrap');
   if (wrap) {
@@ -358,10 +396,14 @@ function setupCanvas() {
   setupCanvas();
   drawWheel(0);
 
+  let resizeTimer;
   window.addEventListener('resize', () => {
-    setupCanvas();
-    drawWheel(wheelAngle);
-  });
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      setupCanvas();
+      drawWheel(wheelAngle);
+    }, 120);
+  }, { passive: true });
 
   const spinBtn    = document.getElementById('totemSpinBtn');
   const resultBox  = document.getElementById('totemResultBox');
@@ -405,12 +447,17 @@ function setupCanvas() {
     // 4. Animate with GSAP if available, else manual rAF
     if (window.gsap) {
       const proxy = { val: wheelAngle };
+      let spinDrawSkip = 0;
       gsap.to(proxy, {
         val:      targetAngle,
-        duration: 4.5,
+        duration: PERF.lowEnd ? 3.8 : 4.5,
         ease:     'power4.out',
         onUpdate() {
           wheelAngle = proxy.val;
+          if (PERF.lowEnd) {
+            spinDrawSkip++;
+            if (spinDrawSkip % 2 !== 0) return;
+          }
           drawWheel(wheelAngle);
         },
         onComplete: () => showResult(chosen),
@@ -424,11 +471,12 @@ function setupCanvas() {
   function animateSpin(from, to, duration, onDone) {
     const start = performance.now();
     function easeOut(t) { return 1 - Math.pow(1 - t, 4); }
+    let skip = 0;
 
     function frame(now) {
       const t = Math.min((now - start) / duration, 1);
       wheelAngle = from + (to - from) * easeOut(t);
-      drawWheel(wheelAngle);
+      if (!PERF.lowEnd || ++skip % 2 === 0) drawWheel(wheelAngle);
       if (t < 1) requestAnimationFrame(frame);
       else onDone();
     }
@@ -448,15 +496,22 @@ function setupCanvas() {
 
     // Smooth scroll into view
     setTimeout(() => {
-      resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      resultBox.scrollIntoView({
+        behavior: PERF.lowEnd || PERF.reducedMotion ? 'auto' : 'smooth',
+        block: 'nearest',
+      });
     }, 150);
 
     // Pulse medallion
     const med = document.getElementById('totemMedallion');
     if (med && window.gsap) {
-      gsap.fromTo(med, { scale: 0.85 }, {
-        scale: 1, duration: 0.6, ease: 'elastic.out(1, 0.5)',
-      });
+      if (PERF.lowEnd) {
+        gsap.fromTo(med, { scale: 0.96 }, { scale: 1, duration: 0.25, ease: 'power2.out' });
+      } else {
+        gsap.fromTo(med, { scale: 0.85 }, {
+          scale: 1, duration: 0.6, ease: 'elastic.out(1, 0.5)',
+        });
+      }
     }
   }
 })();
@@ -501,7 +556,12 @@ function pickWeightedCategory() {
       if (panel) panel.classList.toggle('is-open', !isOpen);
 
       if (!isOpen) {
-        setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 120);
+        setTimeout(() => {
+          panel.scrollIntoView({
+            behavior: PERF.lowEnd || PERF.reducedMotion ? 'auto' : 'smooth',
+            block: 'nearest',
+          });
+        }, 120);
       }
     });
   });
@@ -509,18 +569,18 @@ function pickWeightedCategory() {
 
 
 /* ─────────────────────────────────────────────────────────
-   BEAR ASSEMBLY — scroll-scrubbed video (sticky track)
+   BEAR ASSEMBLY — видео напрямую от позиции скролла (без GSAP scrub).
+   Медленный скролл → медленное смещение времени, быстрый → быстрое.
 ───────────────────────────────────────────────────────── */
 function initBearAssemblyScrub() {
   const track = document.getElementById('heroBearScrollTrack');
   const video = document.getElementById('bearAssemblyVideo');
   const hint  = document.getElementById('bearScrollHint');
-  const ST = window.ScrollTrigger;
-  if (!track || !video || !ST) return;
+  if (!track || !video) return;
 
   const inverted = track.getAttribute('data-bear-scroll-inverted') === 'true';
 
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  if (PERF.reducedMotion) {
     video.pause();
     const settle = () => {
       if (!video.duration || isNaN(video.duration)) return;
@@ -531,56 +591,80 @@ function initBearAssemblyScrub() {
     return;
   }
 
+  if (PERF.lowEnd) {
+    video.preload = 'none';
+    const loadHeavy = () => {
+      video.preload = 'auto';
+      try { video.load(); } catch (e) { /* ignore */ }
+    };
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0] && entries[0].isIntersecting) {
+          loadHeavy();
+          io.disconnect();
+        }
+      },
+      { rootMargin: '320px 0px', threshold: 0 }
+    );
+    io.observe(track);
+  }
+
   video.pause();
 
-  let targetTime = 0;
+  /** Как у ScrollTrigger start/end «top top» / «bottom bottom»: доля прокрутки по длине трека. */
+  function scrollProgress01() {
+    const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+    const top = track.getBoundingClientRect().top + scrollY;
+    const vh = window.innerHeight;
+    const startScroll = top;
+    const endScroll = top + track.offsetHeight - vh;
+    const range = endScroll - startScroll;
+    if (range <= 0) return scrollY >= endScroll ? 1 : 0;
+    return Math.max(0, Math.min(1, (scrollY - startScroll) / range));
+  }
+
   let rafId = null;
-
-  const prefersCoarse = window.matchMedia('(pointer: coarse)').matches;
-  const lowBandwidthScroll = window.matchMedia('(max-width: 768px)').matches;
-
-  function applyVideoTime() {
+  function syncVideoToScroll() {
     rafId = null;
     if (!video.duration || isNaN(video.duration)) return;
-    const t = Math.max(0, Math.min(video.duration, targetTime));
+    const p = scrollProgress01();
+    const t = inverted ? (1 - p) * video.duration : p * video.duration;
     try {
-      video.currentTime = t;
+      video.currentTime = Math.max(0, Math.min(video.duration, t));
     } catch (e) { /* ignore */ }
+    if (hint) hint.classList.toggle('is-faded', p > 0.14);
   }
 
-  function queueSeek(t) {
-    targetTime = t;
+  function requestSync() {
     if (rafId != null) return;
-    rafId = requestAnimationFrame(applyVideoTime);
+    rafId = requestAnimationFrame(syncVideoToScroll);
   }
 
-  ST.create({
-    trigger: track,
-    start: 'top top',
-    end: 'bottom bottom',
-    scrub: prefersCoarse || lowBandwidthScroll ? 1.15 : 0.55,
-    onUpdate: (self) => {
-      const p = self.progress;
-      if (!video.duration || isNaN(video.duration)) return;
-      const t = inverted ? (1 - p) * video.duration : p * video.duration;
-      queueSeek(t);
-      if (hint) hint.classList.toggle('is-faded', p > 0.14);
-    },
-  });
-
-  let resizeT;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeT);
-    resizeT = setTimeout(() => ST.refresh(), 150);
-  }, { passive: true });
+  window.addEventListener('scroll', requestSync, { passive: true });
+  window.addEventListener('resize', requestSync, { passive: true });
 
   video.addEventListener('loadedmetadata', () => {
-    ST.refresh();
     try {
-      video.currentTime = inverted ? Math.max(0, video.duration - 0.02) : 0;
+      const p = scrollProgress01();
+      const t = inverted ? (1 - p) * video.duration : p * video.duration;
+      video.currentTime = Math.max(0, Math.min(video.duration, t));
     } catch (e) { /* ignore */ }
+    requestSync();
   });
+
+  requestSync();
 }
+
+(function bootBearScrollVideo() {
+  function go() {
+    initBearAssemblyScrub();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', go);
+  } else {
+    go();
+  }
+})();
 
 
 /* ─────────────────────────────────────────────────────────
@@ -593,42 +677,52 @@ function initBearAssemblyScrub() {
       return;
     }
     gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.config({
+      autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load',
+      ignoreMobileResize: true,
+    });
+    if (PERF.lowEnd && typeof gsap.ticker !== 'undefined' && typeof gsap.ticker.fps === 'function') {
+      gsap.ticker.fps(30);
+    }
 
-    initBearAssemblyScrub();
-
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (PERF.reducedMotion) {
       gsap.set('.gs-reveal', { opacity: 1, y: 0 });
       return;
     }
 
-    // Batch reveals
+    const dFast = PERF.lowEnd ? 0.45 : 0.75;
+    const stFast = PERF.lowEnd ? 0.04 : 0.1;
+
     ScrollTrigger.batch('.gs-reveal', {
       onEnter: batch => gsap.to(batch, {
-        opacity: 1, y: 0, duration: 0.75, stagger: 0.1, ease: 'power3.out',
+        opacity: 1, y: 0, duration: dFast, stagger: stFast, ease: 'power3.out',
       }),
       start: 'top 90%',
       once:  true,
     });
 
-    // Hero headline (above fold)
     gsap.to('#heroHeadline .gs-reveal', {
-      opacity: 1, y: 0, duration: 0.9, stagger: 0.18, ease: 'power3.out', delay: 0.3,
+      opacity: 1, y: 0,
+      duration: PERF.lowEnd ? 0.55 : 0.9,
+      stagger: PERF.lowEnd ? 0.1 : 0.18,
+      ease: 'power3.out',
+      delay: PERF.lowEnd ? 0.15 : 0.3,
     });
 
-    // Wheel wrap
-    gsap.from('.totem__wheel-wrap.gs-reveal', {
-      scale: 0.88, opacity: 0, duration: 1, ease: 'power3.out',
-      scrollTrigger: { trigger: '#totem-wheel-premium', start: 'top 75%', once: true },
-    });
-
-    // About deco rings
     gsap.from('.about__deco-ring', {
-      scale: 0, opacity: 0, duration: 1, stagger: 0.15, ease: 'power3.out',
+      scale: 0, opacity: 0,
+      duration: PERF.lowEnd ? 0.55 : 1,
+      stagger: PERF.lowEnd ? 0.08 : 0.15,
+      ease: 'power3.out',
       scrollTrigger: { trigger: '.about', start: 'top 72%', once: true },
     });
 
-    // Nav
-    gsap.from('.nav', { y: -24, opacity: 0, duration: 0.5, ease: 'power2.out', delay: 0.1 });
+    gsap.from('.nav', {
+      y: -24, opacity: 0,
+      duration: PERF.lowEnd ? 0.35 : 0.5,
+      ease: 'power2.out',
+      delay: 0.1,
+    });
   }
   tryInit();
 })();
@@ -642,6 +736,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     const target = document.querySelector(a.getAttribute('href'));
     if (!target) return;
     e.preventDefault();
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const smooth = !PERF.lowEnd && !PERF.reducedMotion;
+    target.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
   });
 });
