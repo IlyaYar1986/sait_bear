@@ -375,6 +375,8 @@ ul { list-style: none; }
   display: block;
   background: var(--bg);
   pointer-events: none;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .hero__bear-scroll-vignette {
@@ -441,7 +443,8 @@ ul { list-style: none; }
 
 @media (max-width: 680px) {
   .hero__bear-scroll-track {
-    --bear-scroll-height: 300vh;
+    /* Короче трек — меньше событий скролла и нагрузка на seek видео */
+    --bear-scroll-height: 240vh;
   }
   .hero__bear-scroll-video {
     object-fit: cover;
@@ -588,12 +591,16 @@ ul { list-style: none; }
   margin: 0 0 72px;
 }
 
-/* ── Canvas wheel wrapper ── */
+/* ── Canvas wheel wrapper (размеры задаёт main.js setupCanvas — не переопределять !important) ── */
 .totem__wheel-wrap {
   position: relative;
   width: 360px;
   height: 360px;
   margin: 0 auto 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
   filter: drop-shadow(0 8px 28px rgba(0,0,0,0.35))
           drop-shadow(0 0 40px rgba(197,160,89,0.12));
 }
@@ -626,20 +633,6 @@ ul { list-style: none; }
   }
 }
 
-@media (max-width: 420px) {
-  .totem__wheel-wrap {
-    width: 290px;
-    height: 290px;
-  }
-  .totem__wheel-wrap::before {
-    inset: -8px;
-  }
-  #totemWheel {
-    width: 290px !important;
-    height: 290px !important;
-  }
-}
-
 #totemWheel {
   display: block;
   position: relative;
@@ -648,12 +641,19 @@ ul { list-style: none; }
   height: 360px;
   border-radius: 50%;
   cursor: default;
+  flex-shrink: 0;
 }
 
 @media (min-width: 720px) {
   #totemWheel {
     width: 420px;
     height: 420px;
+  }
+}
+
+@media (max-width: 420px) {
+  .totem__wheel-wrap::before {
+    inset: -8px;
   }
 }
 

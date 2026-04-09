@@ -325,20 +325,20 @@ function drawWheel(angleDeg) {
   ctx.stroke();
 }
 
-/* Handle HiDPI / retina screens */
+/* Handle HiDPI / retina screens — один размер для обёртки и canvas (без конфликта с CSS). */
 function setupCanvas() {
   if (!canvas) return;
   const DPR  = window.devicePixelRatio || 1;
   const cap  = window.innerWidth >= 720 ? 420 : 360;
-  const size = Math.min(cap, Math.max(260, window.innerWidth - 48));
+  const gutter = window.innerWidth <= 420 ? 32 : 48;
+  const size = Math.min(cap, Math.max(260, window.innerWidth - gutter));
 
   canvas.style.width  = size + 'px';
   canvas.style.height = size + 'px';
-  canvas.width  = size * DPR;
-  canvas.height = size * DPR;
+  canvas.width  = Math.round(size * DPR);
+  canvas.height = Math.round(size * DPR);
   ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
 
-  // Sync wrapper size
   const wrap = canvas.closest('.totem__wheel-wrap');
   if (wrap) {
     wrap.style.width  = size + 'px';
@@ -536,16 +536,16 @@ function initBearAssemblyScrub() {
   let targetTime = 0;
   let rafId = null;
 
+  const prefersCoarse = window.matchMedia('(pointer: coarse)').matches;
+  const lowBandwidthScroll = window.matchMedia('(max-width: 768px)').matches;
+
   function applyVideoTime() {
     rafId = null;
     if (!video.duration || isNaN(video.duration)) return;
     const t = Math.max(0, Math.min(video.duration, targetTime));
     try {
-      if (typeof video.fastSeek === 'function') video.fastSeek(t);
-      else video.currentTime = t;
-    } catch (e) {
       video.currentTime = t;
-    }
+    } catch (e) { /* ignore */ }
   }
 
   function queueSeek(t) {
@@ -558,7 +558,7 @@ function initBearAssemblyScrub() {
     trigger: track,
     start: 'top top',
     end: 'bottom bottom',
-    scrub: 0.55,
+    scrub: prefersCoarse || lowBandwidthScroll ? 1.15 : 0.55,
     onUpdate: (self) => {
       const p = self.progress;
       if (!video.duration || isNaN(video.duration)) return;
