@@ -387,40 +387,25 @@ function setupTotemCanvas() {
 (function initVideo() {
   const btn   = document.getElementById('soundBtn');
   const video = document.getElementById('totemVideo');
-  const block = document.getElementById('heroVideoBlock');
-  const cta   = document.getElementById('heroVideoCta');
   const wrap  = document.getElementById('guardianVideo');
-  if (!btn || !video) return;
+  const cta   = document.getElementById('heroVideoCta');
+  if (!btn || !video || !wrap) return;
 
-  let playing = false;
-
-  function dockCtaBelowVideo() {
-    if (!block || !cta || !wrap) return;
-    const media = wrap.querySelector('.hero__video-media');
-    if (!media || cta.parentElement !== media) return;
-    block.appendChild(cta);
-    cta.classList.add('hero__video-cta--below');
-    wrap.classList.add('hero__video-wrap--awake');
+  if (PERF.lowEnd || PERF.saveData) {
+    video.preload = 'none';
+    video.setAttribute('preload', 'none');
   }
 
   btn.addEventListener('click', () => {
-    if (playing) {
-      video.pause();
+    wrap.classList.add('hero__video-wrap--awake');
+    video.muted = false;
+    video.play().catch(() => {
       video.muted = true;
-      btn.innerHTML = '<span class="hero__sound-icon">&#9654;</span> Разбудить Хранителя';
-      playing = false;
-    } else {
-      dockCtaBelowVideo();
-      video.muted = false;
-      video.play().catch(() => { video.muted = true; video.play(); });
-      btn.innerHTML = '<span class="hero__sound-icon">⏸</span> Усыпить Хранителя';
-      playing = true;
+      video.play().catch(() => {});
+    });
+    if (cta && cta.parentNode) {
+      cta.parentNode.removeChild(cta);
     }
-  });
-
-  video.addEventListener('ended', () => {
-    playing = false;
-    btn.innerHTML = '<span class="hero__sound-icon">&#9654;</span> Разбудить Хранителя';
   });
 })();
 

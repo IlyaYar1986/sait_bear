@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ilyayar1986.github.io/sait_bear/sitemap.xml

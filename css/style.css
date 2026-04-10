@@ -60,6 +60,35 @@ a { color: var(--gold); text-decoration: none; transition: color var(--trans); }
 a:hover { color: var(--gold-light); }
 ul { list-style: none; }
 
+/* Клавиатурная навигация */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -120px;
+  z-index: 200;
+  padding: 12px 20px;
+  background: var(--surface);
+  color: var(--gold);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-head);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: max(12px, calc(env(safe-area-inset-top, 0px) + 8px));
+}
+
 /* prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
@@ -90,12 +119,17 @@ ul { list-style: none; }
   will-change: background;
 }
 
-/* Полное название — только мобильная ширина (см. @media 680px) */
+/* Полное название — только мобильная ширина (см. @media 680px), две строки */
 .nav__mobile-title {
   display: none;
   margin: 0;
   width: 100%;
   box-sizing: border-box;
+}
+
+.nav__mobile-title-line {
+  display: block;
+  line-height: 1.2;
 }
 
 .nav.is-scrolled {
@@ -234,16 +268,23 @@ ul { list-style: none; }
   }
 
   .nav__mobile-title {
-    display: block;
-    padding: 8px max(16px, env(safe-area-inset-right, 0px)) 2px max(16px, env(safe-area-inset-left, 0px));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px max(16px, env(safe-area-inset-right, 0px)) 4px max(16px, env(safe-area-inset-left, 0px));
     font-family: var(--font-head);
-    font-size: clamp(9px, 2.5vw, 11px);
+    font-size: clamp(12px, 3.4vw, 16px);
     font-weight: 600;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     text-align: center;
     color: var(--gold);
-    line-height: 1.3;
+  }
+
+  .nav__mobile-title-line {
+    letter-spacing: inherit;
   }
 
   .nav__inner {
@@ -252,7 +293,7 @@ ul { list-style: none; }
   }
 
   .nav__mobile {
-    top: calc(100px + env(safe-area-inset-top, 0px));
+    top: calc(118px + env(safe-area-inset-top, 0px));
   }
 
   .nav__links { display: none; }
@@ -381,6 +422,19 @@ ul { list-style: none; }
   box-sizing: border-box;
 }
 
+.hero__title {
+  font-family: var(--font-head);
+  font-size: clamp(1.2rem, 3.8vw, 1.65rem);
+  font-weight: 600;
+  line-height: 1.28;
+  text-align: center;
+  color: var(--text);
+  margin: 0 auto 14px;
+  max-width: 22rem;
+  padding: 0 max(8px, env(safe-area-inset-left, 0px)) 0 max(8px, env(safe-area-inset-right, 0px));
+  letter-spacing: 0.04em;
+}
+
 .hero__video-block {
   width: 100%;
   max-width: min(520px, 100%);
@@ -432,17 +486,6 @@ ul { list-style: none; }
   justify-content: center;
   padding: 20px;
   pointer-events: none;
-  transition: padding 0.35s ease;
-}
-
-.hero__video-cta.hero__video-cta--below {
-  position: static;
-  width: 100%;
-  max-width: 100%;
-  padding: 16px 12px 0;
-  margin: 0;
-  pointer-events: auto;
-  align-self: stretch;
 }
 
 .hero__sound-btn {
@@ -550,19 +593,71 @@ ul { list-style: none; }
   border-color: rgba(143, 107, 42, 0.14);
 }
 
-.totem-badge {
-  display: inline-block;
-  margin-bottom: 14px;
-  padding: 6px 14px;
-  border-radius: var(--radius);
-  background: rgba(197, 160, 89, 0.08);
-  border: 1px solid var(--border);
-  color: var(--gold);
+/* Рубрики над заголовками — сценарный текст, не кнопки */
+.totem-badge,
+.paths__badge,
+.reviews__badge {
+  display: block;
+  width: max-content;
+  max-width: min(100%, 340px);
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 16px;
+  padding: 0 8px;
+  border: none;
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
   font-family: var(--font-head);
-  font-size: 10px;
-  line-height: 1;
-  letter-spacing: 0.16em;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
+  color: var(--bronze);
+  line-height: 1.35;
+  text-align: center;
+}
+
+.totem-badge::after,
+.paths__badge::after,
+.reviews__badge::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 1px;
+  margin: 10px auto 0;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.45;
+}
+
+.creator__badge,
+.about__badge {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  margin: 0 0 18px;
+  padding: 0;
+  border: none;
+  background: none;
+  border-radius: 0;
+  font-family: var(--font-head);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bronze);
+  line-height: 1.35;
+}
+
+.creator__badge::after,
+.about__badge::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 1px;
+  margin: 10px 0 0;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  opacity: 0.4;
 }
 
 .totem-title {
@@ -903,19 +998,6 @@ html.perf-low #totemWheelCanvas {
   padding-bottom: 48px;
 }
 
-.paths__badge {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--gold);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 5px 18px;
-  margin-bottom: 16px;
-}
-
 .paths__title {
   font-family: var(--font-head);
   font-size: clamp(24px, 4vw, 36px);
@@ -1087,6 +1169,13 @@ html.perf-low #totemWheelCanvas {
   color: var(--gold);
 }
 
+.vitrine__master-link[target="_blank"]::after {
+  content: '↗';
+  font-size: 10px;
+  opacity: 0.55;
+  margin-left: 2px;
+}
+
 /* Toggle button state */
 .vitrine__toggle[aria-expanded="true"] {
   background: rgba(197,160,89,0.06);
@@ -1107,18 +1196,6 @@ html.perf-low #totemWheelCanvas {
 .reviews__header {
   text-align: center;
   margin-bottom: 48px;
-}
-
-.reviews__badge {
-  display: inline-block;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--gold);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 5px 18px;
-  margin-bottom: 14px;
 }
 
 .reviews__title {
@@ -1271,18 +1348,6 @@ html.perf-low #totemWheelCanvas {
 }
 
 /* Content */
-.creator__badge {
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--gold);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 5px 18px;
-  display: inline-block;
-  margin-bottom: 20px;
-}
-
 .creator__title {
   font-family: var(--font-head);
   font-size: clamp(32px, 5vw, 50px);
@@ -1377,18 +1442,6 @@ a.creator__tag {
 @media (max-width: 680px) {
   .about__inner { grid-template-columns: 1fr; }
   .about__deco { display: none; }
-}
-
-.about__badge {
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--gold);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 5px 18px;
-  display: inline-block;
-  margin-bottom: 20px;
 }
 
 .about__title {
@@ -1670,9 +1723,9 @@ a.creator__tag {
     padding: 0 max(16px, env(safe-area-inset-right, 0px)) max(60px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
   }
 
-  /* Hero — запас под двухрядную шапку с названием Гильдии */
+  /* Hero — запас под двухстрочную шапку с названием Гильдии */
   .hero {
-    padding-top: max(108px, calc(92px + env(safe-area-inset-top, 0px) + 16px));
+    padding-top: max(120px, calc(104px + env(safe-area-inset-top, 0px) + 16px));
     min-height: auto;
     padding-bottom: 8px;
   }
@@ -1690,9 +1743,6 @@ a.creator__tag {
     border-radius: 6px;
   }
   .hero__video-cta { padding: 12px; }
-  .hero__video-cta.hero__video-cta--below {
-    padding: 14px 8px 0;
-  }
   .hero__sound-btn {
     font-size: 11px;
     padding: 12px 22px;

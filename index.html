@@ -3,18 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#121212">
   <title>Гильдия мастеров Ярославии — Хранитель</title>
   <meta name="description" content="Мы — Гильдия мастеров Ярославии. Ремесленники, которые создают с душой — и продают без посредников. Украшения, декор, сладости, угощения от местных мастеров.">
+  <link rel="canonical" href="https://ilyayar1986.github.io/sait_bear/">
+  <link rel="preload" href="images/hero-video-poster.jpg" as="image" type="image/jpeg">
+
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png" sizes="180x180">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
   <meta property="og:title" content="Гильдия мастеров Ярославии — Хранитель">
   <meta property="og:description" content="Медведь-Хранитель ведёт к дарам ярославских мастеров. Украшения, декор, сладости, угощения — созданные с душой.">
   <meta property="og:url" content="https://ilyayar1986.github.io/sait_bear/">
-  <!-- После генерации по prompts-scroll-stop-guild.html (блок og:image): -->
-  <!-- <meta property="og:image" content="https://ilyayar1986.github.io/sait_bear/images/og-guild.jpg"> -->
-  <!-- <meta property="og:image:width" content="1200"> -->
-  <!-- <meta property="og:image:height" content="630"> -->
+  <meta property="og:image" content="https://ilyayar1986.github.io/sait_bear/images/og-guild.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Сувенир Медведь-Хранитель — символ Гильдии мастеров Ярославии">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Гильдия мастеров Ярославии — Хранитель">
+  <meta name="twitter:description" content="Медведь-Хранитель ведёт к дарам ярославских мастеров. Украшения, декор, сладости и угощения от местных мастеров.">
+  <meta name="twitter:image" content="https://ilyayar1986.github.io/sait_bear/images/og-guild.jpg">
+  <meta name="twitter:image:alt" content="Сувенир Медведь-Хранитель — символ Гильдии мастеров Ярославии">
 
   <!-- Schema -->
   <script type="application/ld+json">
@@ -24,6 +38,13 @@
     "name": "Гильдия мастеров Ярославии",
     "description": "Творческое сообщество ярославских мастеров и ремесленников",
     "url": "https://ilyayar1986.github.io/sait_bear/",
+    "logo": "https://ilyayar1986.github.io/sait_bear/images/og-guild.jpg",
+    "sameAs": [
+      "https://vk.ru/gildiya76",
+      "https://vk.ru/irina_churilova",
+      "https://vk.com/ilyachurilov",
+      "https://vk.ru/club186578506"
+    ],
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Ярославль",
@@ -32,20 +53,25 @@
   }
   </script>
 
-  <!-- Fonts -->
+  <!-- Fonts & third-party -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">К основному содержанию</a>
 
   <!-- ═══════════════════════════════════════════
        NAVIGATION
   ═══════════════════════════════════════════ -->
   <nav class="nav" id="nav">
-    <p class="nav__mobile-title">Гильдия мастеров Ярославии</p>
+    <p class="nav__mobile-title">
+      <span class="nav__mobile-title-line">Гильдия мастеров</span>
+      <span class="nav__mobile-title-line">Ярославии</span>
+    </p>
     <div class="nav__inner">
       <a href="#page-top" class="nav__logo" aria-label="На главную">
         <span class="nav__logo-symbol">✦</span>
@@ -77,27 +103,27 @@
     </ul>
   </div>
 
-  <div class="arch-surface">
+  <div class="arch-surface" id="main-content" tabindex="-1">
     <div class="page-inner">
       <div id="page-top" aria-hidden="true"></div>
 
       <!-- ═══════════════════════════════════════════
            HERO — VIDEO BEAR
       ═══════════════════════════════════════════ -->
-      <section class="hero" id="hero">
+      <section class="hero" id="hero" aria-labelledby="hero-heading">
 
         <div class="hero__intro">
+          <h1 class="hero__title gs-reveal" id="hero-heading">Гильдия мастеров Ярославии — Хранитель</h1>
           <p class="hero__caption gs-reveal">
-            Коснись знака — медведь расскажет о создателе сувенира и мастерах Ярославии.
+            Нажми на кнопку под чарами экрана — пробуди Медведя‑Хранителя: он заговорит и поведает о создателе сувенира и о мастерах, что хранят тепло земли Ярославской.
           </p>
 
           <div class="hero__video-block" id="heroVideoBlock">
             <div class="hero__video-wrap gs-reveal" id="guardianVideo">
               <div class="hero__video-media">
-                <video id="totemVideo" playsinline muted preload="metadata"
+                <video id="totemVideo" playsinline muted preload="metadata" poster="images/hero-video-poster.jpg"
                        aria-label="Медведь-Хранитель рассказывает о мастерах Ярославии">
                   <source src="media/ear1_smaller.mp4" type="video/mp4">
-                  <source src="https://ilyayar1986.github.io/sait_bear/ear1_smaller.mp4" type="video/mp4">
                 </video>
 
                 <div class="hero__video-overlay" aria-hidden="true"></div>
@@ -208,9 +234,9 @@
             <div class="vitrine__panel-inner">
               <p class="vitrine__masters-label">Мастера</p>
               <ul class="vitrine__masters">
-                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Анна Волкова — ювелирная мастерская</a></li>
-                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Сергей Златокузнец</a></li>
-                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Мария Узорная — авторские украшения</a></li>
+                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Анна Волкова — ювелирная мастерская</a></li>
+                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Сергей Златокузнец</a></li>
+                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Мария Узорная — авторские украшения</a></li>
               </ul>
             </div>
           </div>
@@ -247,9 +273,9 @@
             <div class="vitrine__panel-inner">
               <p class="vitrine__masters-label">Мастера</p>
               <ul class="vitrine__masters">
-                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Студия «Терем» — декор и текстиль</a></li>
-                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Иван Древесный — резьба и дерево</a></li>
-                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Керамическая мастерская «Гончарный круг»</a></li>
+                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Студия «Терем» — декор и текстиль</a></li>
+                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Иван Древесный — резьба и дерево</a></li>
+                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Керамическая мастерская «Гончарный круг»</a></li>
               </ul>
             </div>
           </div>
@@ -286,9 +312,9 @@
             <div class="vitrine__panel-inner">
               <p class="vitrine__masters-label">Мастера</p>
               <ul class="vitrine__masters">
-                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Пекарня «Пряниковый дом»</a></li>
-                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Елена Коричневая — десерты ручной работы</a></li>
-                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Кондитерская лаборатория «Волжский сахар»</a></li>
+                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Пекарня «Пряниковый дом»</a></li>
+                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Елена Коричневая — десерты ручной работы</a></li>
+                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Кондитерская лаборатория «Волжский сахар»</a></li>
               </ul>
             </div>
           </div>
@@ -325,9 +351,9 @@
             <div class="vitrine__panel-inner">
               <p class="vitrine__masters-label">Мастера</p>
               <ul class="vitrine__masters">
-                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Сыроварня «Волга»</a></li>
-                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Деликатесная лавка «Яръ»</a></li>
-                <li><a href="#" class="vitrine__master-link"><!-- URL МАСТЕРА -->Фермерское объединение «Русское поле»</a></li>
+                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Сыроварня «Волга»</a></li>
+                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Деликатесная лавка «Яръ»</a></li>
+                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Фермерское объединение «Русское поле»</a></li>
               </ul>
             </div>
           </div>
@@ -336,7 +362,6 @@
 
       <!-- ═══════════════════════════════════════════
            SOCIAL PROOF
-           Заменить placeholder на реальные отзывы
       ═══════════════════════════════════════════ -->
       <section class="reviews" id="reviews" aria-label="Отзывы">
         <div class="reviews__header gs-reveal">
@@ -345,42 +370,36 @@
         </div>
 
         <div class="reviews__grid">
-          <!-- ОТЗЫВ 1: заменить на реальный -->
           <article class="review gs-reveal">
-            <div class="review__stars" aria-label="5 звёзд">★★★★★</div>
+            <div class="review__stars" aria-label="5 из 5 звёзд">★★★★★</div>
             <p class="review__text">
-              <!-- ОТЗЫВ: вставить текст -->
               «Нашла здесь украшение, которое искала годами. Мастер рассказала всю историю создания — это особенно тронуло.»
             </p>
             <footer class="review__author">
-              <span class="review__name"><!-- ИМЯ -->Мария, Москва</span>
-              <span class="review__source"><!-- ИСТОЧНИК -->ВКонтакте</span>
+              <span class="review__name">Мария, Москва</span>
+              <span class="review__source">ВКонтакте</span>
             </footer>
           </article>
 
-          <!-- ОТЗЫВ 2: заменить на реальный -->
           <article class="review gs-reveal">
-            <div class="review__stars" aria-label="5 звёзд">★★★★★</div>
+            <div class="review__stars" aria-label="5 из 5 звёзд">★★★★★</div>
             <p class="review__text">
-              <!-- ОТЗЫВ: вставить текст -->
               «Купил пряники на ярмарке — привёз коллегам. Теперь они сами просят заказать ещё. Вкус настоящий, ярославский.»
             </p>
             <footer class="review__author">
-              <span class="review__name"><!-- ИМЯ -->Алексей, Ярославль</span>
-              <span class="review__source"><!-- ИСТОЧНИК -->2ГИС</span>
+              <span class="review__name">Алексей, Ярославль</span>
+              <span class="review__source">2ГИС</span>
             </footer>
           </article>
 
-          <!-- ОТЗЫВ 3: заменить на реальный -->
           <article class="review gs-reveal">
-            <div class="review__stars" aria-label="5 звёзд">★★★★★</div>
+            <div class="review__stars" aria-label="5 из 5 звёзд">★★★★★</div>
             <p class="review__text">
-              <!-- ОТЗЫВ: вставить текст -->
               «Декор из «Гончарного круга» стоит у нас на видном месте уже два года. Каждый гость спрашивает, откуда.»
             </p>
             <footer class="review__author">
-              <span class="review__name"><!-- ИМЯ -->Светлана, Санкт-Петербург</span>
-              <span class="review__source"><!-- ИСТОЧНИК -->Яндекс Карты</span>
+              <span class="review__name">Светлана, Санкт-Петербург</span>
+              <span class="review__source">Яндекс Карты</span>
             </footer>
           </article>
         </div>
@@ -400,8 +419,8 @@
                 class="creator__photo"
                 loading="lazy"
                 decoding="async"
-                width="380"
-                height="480"
+                width="1280"
+                height="2022"
               >
               <div class="creator__photo-glow" aria-hidden="true"></div>
             </div>
