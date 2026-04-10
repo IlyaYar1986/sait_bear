@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════
    ГИЛЬДИЯ МАСТЕРОВ ЯРОСЛАВИИ — main.js
-   Nav · Theme · Video · Bear assembly scroll-scrub · Wheel · Vitrines · GSAP
+   Nav · Theme · Video · Wheel · Vitrines · GSAP
 ═══════════════════════════════════════════════════════════ */
 
 'use strict';
@@ -34,26 +34,289 @@ if (typeof document !== 'undefined' && document.documentElement) {
 }
 
 /* ─────────────────────────────────────────────────────────
-   CATEGORIES & WHEEL CONFIG
+   THEME STATE
 ───────────────────────────────────────────────────────── */
-const CATEGORIES = [
-  { name: 'Украшения', anchor: '#jewelry', weight: 0.4 },
-  { name: 'Декор',     anchor: '#decor',   weight: 0.2 },
-  { name: 'Сладости',  anchor: '#sweet',   weight: 0.2 },
-  { name: 'Угощения',  anchor: '#food',    weight: 0.2 },
-];
-
-const SECTOR_COUNT    = 24;
-const SECTORS_PER_CAT = 6;   // 4 × 6 = 24
-const SECTOR_DEG      = 360 / SECTOR_COUNT; // 15°
+let currentTheme = 'dark';
 
 /* ─────────────────────────────────────────────────────────
-   STATE
+   TOTEM WHEEL — как в 1index.html (цветные секторы, гравировка, CSS‑вращение)
 ───────────────────────────────────────────────────────── */
-let wheelSectors  = [];   // array of category indices (0–3), length 24
-let wheelAngle    = 0;    // accumulated rotation in degrees
-let isSpinning    = false;
-let currentTheme  = 'dark';
+const TOTEM_CATEGORIES = [
+  { name: 'Украшения', link: '#jewelry' },
+  { name: 'Декор', link: '#decor' },
+  { name: 'Сладости', link: '#sweet' },
+  { name: 'Угощения', link: '#food' },
+];
+
+/** Порядок секторов совпадает с 1index.html (25 секторов). */
+const TOTEM_SECTOR_LABELS = [
+  'Украшения', 'Декор', 'Сладости', 'Угощения',
+  'Украшения', 'Сладости', 'Декор', 'Угощения',
+  'Украшения', 'Декор', 'Сладости', 'Угощения',
+  'Украшения', 'Сладости', 'Декор', 'Угощения',
+  'Украшения', 'Декор', 'Сладости', 'Угощения',
+  'Украшения', 'Сладости', 'Декор', 'Угощения',
+  'Украшения',
+];
+
+const totemPaletteDark = {
+  Украшения: { base: '#2e2820', line: 'rgba(197,160,89,0.2)', dot: 'rgba(197,160,89,0.12)' },
+  Декор: { base: '#252015', line: 'rgba(197,160,89,0.18)', dot: 'rgba(197,160,89,0.1)' },
+  Сладости: { base: '#322a20', line: 'rgba(212,176,110,0.2)', dot: 'rgba(212,176,110,0.12)' },
+  Угощения: { base: '#1e1a14', line: 'rgba(197,160,89,0.16)', dot: 'rgba(197,160,89,0.09)' },
+};
+
+const totemPaletteLight = {
+  Украшения: { base: '#e5dfd6', line: 'rgba(143,107,42,0.24)', dot: 'rgba(143,107,42,0.14)' },
+  Декор: { base: '#ded7ce', line: 'rgba(143,107,42,0.22)', dot: 'rgba(143,107,42,0.12)' },
+  Сладости: { base: '#ebe4d8', line: 'rgba(166,124,50,0.3)', dot: 'rgba(166,124,50,0.18)' },
+  Угощения: { base: '#e2dcd3', line: 'rgba(143,107,42,0.22)', dot: 'rgba(143,107,42,0.11)' },
+};
+
+const totemChrome = {
+  dark: {
+    outerRing: 'rgba(197,160,89,0.15)',
+    innerGuide: 'rgba(255,255,255,0.04)',
+    rimDot: 'rgba(197,160,89,0.18)',
+    sectorEdge: 'rgba(197,160,89,0.14)',
+    label: '#d4c4a8',
+    ring1: 'rgba(197,160,89,0.14)',
+    ring2: 'rgba(255,255,255,0.04)',
+    innerDot: 'rgba(197,160,89,0.12)',
+  },
+  light: {
+    outerRing: 'rgba(143,107,42,0.24)',
+    innerGuide: 'rgba(80,72,60,0.12)',
+    rimDot: 'rgba(143,107,42,0.26)',
+    sectorEdge: 'rgba(143,107,42,0.22)',
+    label: '#4a3818',
+    ring1: 'rgba(143,107,42,0.22)',
+    ring2: 'rgba(80,72,60,0.1)',
+    innerDot: 'rgba(143,107,42,0.16)',
+  },
+};
+
+const totemCategoryDative = {
+  Украшения: 'Украшениям',
+  Декор: 'Декору',
+  Сладости: 'Сладостям',
+  Угощения: 'Угощениям',
+};
+
+let totemLogicalSize = 420;
+let totemCurrentRotationDeg = 0;
+
+function totemResolvedLight() {
+  const t = document.documentElement.getAttribute('data-theme');
+  if (t === 'light') return true;
+  if (t === 'dark') return false;
+  return window.matchMedia('(prefers-color-scheme: light)').matches;
+}
+
+function getTotemPalette() {
+  return totemResolvedLight() ? totemPaletteLight : totemPaletteDark;
+}
+
+function getTotemChrome() {
+  return totemResolvedLight() ? totemChrome.light : totemChrome.dark;
+}
+
+function totemScale() {
+  return totemLogicalSize / 420;
+}
+
+function totemCategoryLink(name) {
+  const found = TOTEM_CATEGORIES.find((c) => c.name === name);
+  return found ? found.link : '#';
+}
+
+function totemPickWinnerIndex() {
+  const sectorCount = TOTEM_SECTOR_LABELS.length;
+  const r = Math.random();
+  let targetLabel;
+  if (r < 0.4) {
+    targetLabel = 'Украшения';
+  } else {
+    const t = (r - 0.4) / 0.6;
+    const j = Math.min(Math.floor(t * 3), 2);
+    targetLabel = ['Декор', 'Сладости', 'Угощения'][j];
+  }
+  const candidates = [];
+  for (let i = 0; i < sectorCount; i++) {
+    if (TOTEM_SECTOR_LABELS[i] === targetLabel) candidates.push(i);
+  }
+  return candidates[Math.floor(Math.random() * candidates.length)];
+}
+
+function totemSpinWaitMs() {
+  if (PERF.reducedMotion) return 100;
+  if (PERF.lowEnd) return 3400;
+  return 5900;
+}
+
+function drawTotemWheel() {
+  const canvas = document.getElementById('totemWheelCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  const sectorCount = TOTEM_SECTOR_LABELS.length;
+  const s = totemScale();
+  const center = totemLogicalSize / 2;
+  const radius = 188 * s;
+  const arc = (Math.PI * 2) / sectorCount;
+  const pal = getTotemPalette();
+
+  ctx.clearRect(0, 0, totemLogicalSize, totemLogicalSize);
+
+  function drawOuterOrnament() {
+    const c = getTotemChrome();
+    ctx.save();
+    ctx.translate(center, center);
+    ctx.beginPath();
+    ctx.arc(0, 0, radius + 6 * s, 0, Math.PI * 2);
+    ctx.strokeStyle = c.outerRing;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(0, 0, radius - 12 * s, 0, Math.PI * 2);
+    ctx.strokeStyle = c.innerGuide;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    for (let i = 0; i < 50; i++) {
+      const a = (Math.PI * 2 / 50) * i;
+      const r = radius + 1 * s;
+      const x = Math.cos(a) * r;
+      const y = Math.sin(a) * r;
+      ctx.beginPath();
+      ctx.arc(x, y, 1.7 * s, 0, Math.PI * 2);
+      ctx.fillStyle = c.rimDot;
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function drawSector(startAngle, endAngle, fill) {
+    ctx.beginPath();
+    ctx.moveTo(center, center);
+    ctx.arc(center, center, radius, startAngle, endAngle);
+    ctx.closePath();
+    ctx.fillStyle = fill;
+    ctx.fill();
+    ctx.strokeStyle = getTotemChrome().sectorEdge;
+    ctx.lineWidth = 1.1;
+    ctx.stroke();
+  }
+
+  function drawSectorCarving(startAngle, endAngle, lineColor, dotColor) {
+    const mid = startAngle + (endAngle - startAngle) / 2;
+    ctx.save();
+    ctx.translate(center, center);
+    ctx.rotate(mid);
+    ctx.strokeStyle = lineColor;
+    ctx.lineWidth = 1;
+    for (let r = 52 * s; r <= 160 * s; r += 24 * s) {
+      ctx.beginPath();
+      ctx.arc(0, 0, r, -0.09, 0.09);
+      ctx.stroke();
+    }
+    for (let r = 70 * s; r <= 154 * s; r += 28 * s) {
+      ctx.beginPath();
+      ctx.arc(r, 0, 2 * s, 0, Math.PI * 2);
+      ctx.fillStyle = dotColor;
+      ctx.fill();
+    }
+    ctx.beginPath();
+    ctx.moveTo(46 * s, 0);
+    ctx.bezierCurveTo(70 * s, -10 * s, 98 * s, -10 * s, 120 * s, 0);
+    ctx.bezierCurveTo(98 * s, 10 * s, 70 * s, 10 * s, 46 * s, 0);
+    ctx.strokeStyle = lineColor;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(86 * s, 0);
+    ctx.bezierCurveTo(96 * s, -6 * s, 108 * s, -6 * s, 118 * s, 0);
+    ctx.bezierCurveTo(108 * s, 6 * s, 96 * s, 6 * s, 86 * s, 0);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawSectorText(startAngle, label) {
+    ctx.save();
+    ctx.translate(center, center);
+    ctx.rotate(startAngle + arc / 2);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = getTotemChrome().label;
+    const fontPx = Math.max(8, Math.round(11 * s));
+    ctx.font = `600 ${fontPx}px "DM Sans", sans-serif`;
+    ctx.fillText(label, radius - 18 * s, 4 * s);
+    ctx.restore();
+  }
+
+  function drawInnerRings() {
+    const c = getTotemChrome();
+    ctx.save();
+    ctx.translate(center, center);
+    ctx.beginPath();
+    ctx.arc(0, 0, 62 * s, 0, Math.PI * 2);
+    ctx.strokeStyle = c.ring1;
+    ctx.lineWidth = 1.4;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(0, 0, 78 * s, 0, Math.PI * 2);
+    ctx.strokeStyle = c.ring2;
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    for (let i = 0; i < 20; i++) {
+      const a = (Math.PI * 2 / 20) * i;
+      const x = Math.cos(a) * 70 * s;
+      const y = Math.sin(a) * 70 * s;
+      ctx.beginPath();
+      ctx.arc(x, y, 1.8 * s, 0, Math.PI * 2);
+      ctx.fillStyle = c.innerDot;
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  drawOuterOrnament();
+  for (let i = 0; i < sectorCount; i++) {
+    const startAngle = i * arc - Math.PI / 2;
+    const endAngle = startAngle + arc;
+    const label = TOTEM_SECTOR_LABELS[i];
+    const colors = pal[label] || pal.Украшения;
+    drawSector(startAngle, endAngle, colors.base);
+    drawSectorCarving(startAngle, endAngle, colors.line, colors.dot);
+    drawSectorText(startAngle, label);
+  }
+  drawInnerRings();
+}
+
+function setupTotemCanvas() {
+  const canvas = document.getElementById('totemWheelCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  const rawDpr = window.devicePixelRatio || 1;
+  const capDpr = PERF.lowEnd ? 1.25 : Math.min(rawDpr, 2.5);
+  const DPR = Math.max(1, Math.min(rawDpr, capDpr));
+  const cap = window.innerWidth >= 720 ? 420 : 360;
+  const gutter = window.innerWidth <= 420 ? 32 : 48;
+  const size = Math.min(cap, Math.max(260, window.innerWidth - gutter));
+
+  totemLogicalSize = size;
+
+  canvas.style.width = `${size}px`;
+  canvas.style.height = `${size}px`;
+  canvas.width = Math.round(size * DPR);
+  canvas.height = Math.round(size * DPR);
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+  const stage = document.querySelector('.totem-wheel-stage');
+  if (stage) stage.style.setProperty('--totem-shell', `${size}px`);
+
+  canvas.style.transform = `rotate(${totemCurrentRotationDeg}deg)`;
+}
 
 /* ─────────────────────────────────────────────────────────
    THEME
@@ -81,8 +344,7 @@ let currentTheme  = 'dark';
       currentTheme = 'dark';
     }
     localStorage.setItem(STORAGE_KEY, currentTheme);
-    // Redraw wheel in new theme colours
-    drawWheel(wheelAngle);
+    drawTotemWheel();
   });
 })();
 
@@ -125,9 +387,21 @@ let currentTheme  = 'dark';
 (function initVideo() {
   const btn   = document.getElementById('soundBtn');
   const video = document.getElementById('totemVideo');
+  const block = document.getElementById('heroVideoBlock');
+  const cta   = document.getElementById('heroVideoCta');
+  const wrap  = document.getElementById('guardianVideo');
   if (!btn || !video) return;
 
   let playing = false;
+
+  function dockCtaBelowVideo() {
+    if (!block || !cta || !wrap) return;
+    const media = wrap.querySelector('.hero__video-media');
+    if (!media || cta.parentElement !== media) return;
+    block.appendChild(cta);
+    cta.classList.add('hero__video-cta--below');
+    wrap.classList.add('hero__video-wrap--awake');
+  }
 
   btn.addEventListener('click', () => {
     if (playing) {
@@ -136,6 +410,7 @@ let currentTheme  = 'dark';
       btn.innerHTML = '<span class="hero__sound-icon">&#9654;</span> Разбудить Хранителя';
       playing = false;
     } else {
+      dockCtaBelowVideo();
       video.muted = false;
       video.play().catch(() => { video.muted = true; video.play(); });
       btn.innerHTML = '<span class="hero__sound-icon">⏸</span> Усыпить Хранителя';
@@ -151,385 +426,95 @@ let currentTheme  = 'dark';
 
 
 /* ─────────────────────────────────────────────────────────
-   CANVAS WHEEL — DRAW
-───────────────────────────────────────────────────────── */
-const canvas  = document.getElementById('totemWheel');
-const ctx     = canvas ? canvas.getContext('2d') : null;
-let wheelCanvasDpr = 1;
-
-/* Shuffle 24 sectors (6 per category, Fisher–Yates) */
-function buildSectors() {
-  const arr = [];
-  for (let c = 0; c < CATEGORIES.length; c++) {
-    for (let s = 0; s < SECTORS_PER_CAT; s++) arr.push(c);
-  }
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
-
-/** Neutral metallic sector base (no per-category colour). */
-function sectorNeutralHex(altIdx) {
-  if (currentTheme === 'light') {
-    return altIdx ? '#d4cdc0' : '#e8e2d6';
-  }
-  return altIdx ? '#151311' : '#1e1b17';
-}
-
-/** Subtle lighten / darken for sector gradients (#rrggbb). */
-function shadeColor(hex, factor) {
-  const h = hex.replace('#', '');
-  let r = parseInt(h.slice(0, 2), 16);
-  let g = parseInt(h.slice(2, 4), 16);
-  let b = parseInt(h.slice(4, 6), 16);
-  if (factor < 0) {
-    const m = 1 + factor * 0.45;
-    r = Math.max(0, Math.min(255, Math.round(r * m)));
-    g = Math.max(0, Math.min(255, Math.round(g * m)));
-    b = Math.max(0, Math.min(255, Math.round(b * m)));
-  } else {
-    r = Math.max(0, Math.min(255, Math.round(r + (255 - r) * factor * 0.28)));
-    g = Math.max(0, Math.min(255, Math.round(g + (255 - g) * factor * 0.28)));
-    b = Math.max(0, Math.min(255, Math.round(b + (255 - b) * factor * 0.28)));
-  }
-  return `rgb(${r},${g},${b})`;
-}
-
-/** Category name along bisector: first letter at outer edge, last toward centre. */
-function drawCategoryNameRadial(catIdx, midAngle, cx, cy, R, Ri) {
-  const word  = CATEGORIES[catIdx].name;
-  const chars = Array.from(word);
-  const rOuter = R - 9;
-  const rInner = Ri + 12;
-  const band   = Math.max(rOuter - rInner, 1);
-  const halfRad = (SECTOR_DEG / 2) * (Math.PI / 180);
-  const step = band / (chars.length + 0.35);
-
-  let fontPx = Math.min(10, Math.max(5, Math.floor(step * 0.9)));
-
-  const textColor = currentTheme === 'light'
-    ? 'rgba(72, 52, 28, 0.92)'
-    : 'rgba(212, 176, 110, 0.92)';
-
-  function fitsAt(size) {
-    ctx.font = `500 ${size}px "Cinzel", "Georgia", serif`;
-    return chars.every((ch, k) => {
-      const r = rOuter - step * (k + 0.5);
-      const chord = 2 * r * Math.sin(halfRad);
-      return ctx.measureText(ch).width <= chord * 0.9;
-    });
-  }
-
-  while (fontPx > 5 && !fitsAt(fontPx)) fontPx--;
-
-  ctx.font         = `500 ${fontPx}px "Cinzel", "Georgia", serif`;
-  ctx.textAlign    = 'center';
-  ctx.textBaseline = 'middle';
-
-  chars.forEach((ch, k) => {
-    const r = rOuter - step * (k + 0.5);
-    const x = cx + Math.cos(midAngle) * r;
-    const y = cy + Math.sin(midAngle) * r;
-
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.rotate(midAngle + Math.PI / 2);
-    ctx.fillStyle = textColor;
-    if (currentTheme === 'dark') {
-      ctx.shadowColor = 'rgba(0,0,0,0.65)';
-      ctx.shadowBlur = 1.5;
-      ctx.shadowOffsetY = 0.5;
-    }
-    ctx.fillText(ch, 0, 0);
-    ctx.shadowBlur = 0;
-    ctx.restore();
-  });
-}
-
-function drawWheel(angleDeg) {
-  if (!ctx) return;
-
-  const DPR = wheelCanvasDpr || 1;
-  const W   = canvas.width  / DPR;   // logical size
-  const H   = canvas.height / DPR;
-  const cx  = W / 2;
-  const cy  = H / 2;
-  const R   = cx - 8;                // outer radius (inset for jewelled rim)
-  const Ri  = R * 0.295;             // inner "hole" radius (medallion covers it)
-
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  const startDeg = -90 + angleDeg;   // sector 0 begins at 12 o'clock
-
-  wheelSectors.forEach((catIdx, i) => {
-    const s1 = (startDeg + i * SECTOR_DEG) * (Math.PI / 180);
-    const s2 = (startDeg + (i + 1) * SECTOR_DEG) * (Math.PI / 180);
-    const midAngle = s1 + (s2 - s1) / 2;
-
-    const altIdx = Math.floor(i / 2) % 2;
-    const base   = sectorNeutralHex(altIdx);
-    const x0 = cx + Math.cos(midAngle) * Ri;
-    const y0 = cy + Math.sin(midAngle) * Ri;
-    const x1 = cx + Math.cos(midAngle) * (R - 1.5);
-    const y1 = cy + Math.sin(midAngle) * (R - 1.5);
-    const g = ctx.createLinearGradient(x0, y0, x1, y1);
-    g.addColorStop(0, shadeColor(base, -0.38));
-    g.addColorStop(0.5, base);
-    g.addColorStop(1, shadeColor(base, currentTheme === 'light' ? 0.22 : 0.18));
-
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, R, s1, s2);
-    ctx.closePath();
-    ctx.fillStyle = g;
-    ctx.fill();
-
-    ctx.strokeStyle = currentTheme === 'light'
-      ? 'rgba(139,115,73,0.28)'
-      : 'rgba(197,160,89,0.22)';
-    ctx.lineWidth = 0.65;
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.arc(cx, cy, R - 1.2, s1, s2);
-    ctx.strokeStyle = currentTheme === 'light'
-      ? 'rgba(255,255,255,0.12)'
-      : 'rgba(255,255,255,0.06)';
-    ctx.lineWidth = 0.85;
-    ctx.stroke();
-
-    drawCategoryNameRadial(catIdx, midAngle, cx, cy, R, Ri);
-  });
-
-  ctx.beginPath();
-  ctx.arc(cx, cy, R + 2.5, 0, Math.PI * 2);
-  ctx.strokeStyle = currentTheme === 'light'
-    ? 'rgba(139,115,73,0.35)'
-    : 'rgba(197,160,89,0.28)';
-  ctx.lineWidth = 1;
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.arc(cx, cy, R + 0.5, 0, Math.PI * 2);
-  ctx.strokeStyle = currentTheme === 'light'
-    ? 'rgba(212,176,110,0.65)'
-    : 'rgba(212,176,110,0.55)';
-  ctx.lineWidth = 1.35;
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.arc(cx, cy, R - 2, 0, Math.PI * 2);
-  ctx.strokeStyle = currentTheme === 'light'
-    ? 'rgba(92,61,17,0.2)'
-    : 'rgba(0,0,0,0.35)';
-  ctx.lineWidth = 0.75;
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.arc(cx, cy, Ri, 0, Math.PI * 2);
-  const innerG = ctx.createRadialGradient(
-    cx - Ri * 0.25, cy - Ri * 0.25, 0,
-    cx, cy, Ri
-  );
-  if (currentTheme === 'light') {
-    innerG.addColorStop(0, '#FAF8F4');
-    innerG.addColorStop(1, '#EDE7D9');
-  } else {
-    innerG.addColorStop(0, '#1E1A16');
-    innerG.addColorStop(1, '#121212');
-  }
-  ctx.fillStyle = innerG;
-  ctx.fill();
-
-  ctx.beginPath();
-  ctx.arc(cx, cy, Ri, 0, Math.PI * 2);
-  ctx.strokeStyle = currentTheme === 'light'
-    ? 'rgba(139,115,73,0.45)'
-    : 'rgba(197,160,89,0.5)';
-  ctx.lineWidth = 1.1;
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.arc(cx, cy, Ri - 1.5, 0, Math.PI * 2);
-  ctx.strokeStyle = currentTheme === 'light'
-    ? 'rgba(255,255,255,0.35)'
-    : 'rgba(255,255,255,0.08)';
-  ctx.lineWidth = 0.5;
-  ctx.stroke();
-}
-
-/* Handle HiDPI / retina screens — один размер для обёртки и canvas (без конфликта с CSS). */
-function setupCanvas() {
-  if (!canvas) return;
-  const rawDpr = window.devicePixelRatio || 1;
-  const capDpr = PERF.lowEnd ? 1.25 : Math.min(rawDpr, 2.5);
-  const DPR = Math.max(1, Math.min(rawDpr, capDpr));
-  const cap  = window.innerWidth >= 720 ? 420 : 360;
-  const gutter = window.innerWidth <= 420 ? 32 : 48;
-  const size = Math.min(cap, Math.max(260, window.innerWidth - gutter));
-
-  canvas.style.width  = size + 'px';
-  canvas.style.height = size + 'px';
-  canvas.width  = Math.round(size * DPR);
-  canvas.height = Math.round(size * DPR);
-  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-  wheelCanvasDpr = DPR;
-
-  const wrap = canvas.closest('.totem__wheel-wrap');
-  if (wrap) {
-    wrap.style.width  = size + 'px';
-    wrap.style.height = size + 'px';
-  }
-}
-
-
-/* ─────────────────────────────────────────────────────────
-   CANVAS WHEEL — SPIN LOGIC
+   TOTEM WHEEL — инициализация и вращение (как 1index.html, CSS transform)
 ───────────────────────────────────────────────────────── */
 (function initTotem() {
-  if (!canvas || !ctx) return;
+  const canvas = document.getElementById('totemWheelCanvas');
+  if (!canvas || !canvas.getContext) return;
 
-  // Build sectors and initial draw
-  wheelSectors = buildSectors();
-  setupCanvas();
-  drawWheel(0);
+  let isSpinning = false;
+
+  window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
+    if (!document.documentElement.getAttribute('data-theme')) {
+      drawTotemWheel();
+    }
+  });
+
+  setupTotemCanvas();
+  drawTotemWheel();
 
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
-      setupCanvas();
-      drawWheel(wheelAngle);
+      setupTotemCanvas();
+      drawTotemWheel();
+      canvas.style.transform = `rotate(${totemCurrentRotationDeg}deg)`;
     }, 120);
   }, { passive: true });
 
-  const spinBtn    = document.getElementById('totemSpinBtn');
-  const resultBox  = document.getElementById('totemResultBox');
+  const spinBtn = document.getElementById('totemSpinBtn');
+  const resultBox = document.getElementById('totemResultBox');
   const resultText = document.getElementById('totemResultText');
-  const followBtn  = document.getElementById('followBtn');
+  const followBtn = document.getElementById('followBtn');
+  const chooseBtn = document.getElementById('chooseBtn');
 
   if (!spinBtn) return;
 
-  spinBtn.addEventListener('click', spin);
+  spinBtn.addEventListener('click', spinTotem);
 
-  function spin() {
+  function spinTotem() {
     if (isSpinning) return;
     isSpinning = true;
     spinBtn.disabled = true;
+    resultBox.hidden = true;
+    resultBox.setAttribute('hidden', '');
 
-    // 1. Pick weighted category
-    const chosen = pickWeightedCategory();
+    const sectorCount = TOTEM_SECTOR_LABELS.length;
+    const winnerIndex = totemPickWinnerIndex();
+    const sectorAngle = 360 / sectorCount;
+    const targetAngle = 360 - (winnerIndex * sectorAngle + sectorAngle / 2);
+    const currentNormalized = ((totemCurrentRotationDeg % 360) + 360) % 360;
+    const deltaToTarget = ((targetAngle - currentNormalized) + 360) % 360;
+    const extraSpins = 360 * (6 + Math.floor(Math.random() * 3));
+    const totalRotation = extraSpins + deltaToTarget;
+    totemCurrentRotationDeg += totalRotation;
+    canvas.style.transform = `rotate(${totemCurrentRotationDeg}deg)`;
 
-    // 2. Find all sector indices matching chosen category
-    const catIdx      = CATEGORIES.indexOf(chosen);
-    const matching    = wheelSectors
-      .map((c, i) => c === catIdx ? i : -1)
-      .filter(i => i !== -1);
-    const targetSector = matching[Math.floor(Math.random() * matching.length)];
+    const wait = totemSpinWaitMs();
+    window.setTimeout(() => {
+      const winner = TOTEM_SECTOR_LABELS[winnerIndex];
+      const winnerDat = totemCategoryDative[winner] || winner;
+      resultText.textContent = 'Хранитель ведёт к: ' + winnerDat;
+      if (followBtn) followBtn.href = totemCategoryLink(winner);
+      if (chooseBtn) chooseBtn.href = '#choose-path';
 
-    // 3. Calculate target angle:
-    //    After total rotation R, sector at top = floor(((-R % 360 + 360) % 360) / 15)
-    //    We want center of targetSector at top (pointer):
-    //    -R ≡ targetSector * SECTOR_DEG + SECTOR_DEG/2  (mod 360)
-    //    R  = fullRotations*360 - targetSector*15 - 7.5
+      resultBox.hidden = false;
+      resultBox.removeAttribute('hidden');
 
-    const sectorCenter   = targetSector * SECTOR_DEG + SECTOR_DEG / 2;
-    const normalised     = (((-sectorCenter) % 360) + 360) % 360;
-    const currentMod     = ((wheelAngle % 360) + 360) % 360;
-    let   delta          = normalised - currentMod;
-    if (delta <= 10) delta += 360;  // ensure forward spin
+      isSpinning = false;
+      spinBtn.disabled = false;
 
-    const fullRotations  = (5 + Math.floor(Math.random() * 3)) * 360;
-    const targetAngle    = wheelAngle + fullRotations + delta;
-
-    // 4. Animate with GSAP if available, else manual rAF
-    if (window.gsap) {
-      const proxy = { val: wheelAngle };
-      let spinDrawSkip = 0;
-      gsap.to(proxy, {
-        val:      targetAngle,
-        duration: PERF.lowEnd ? 3.8 : 4.5,
-        ease:     'power4.out',
-        onUpdate() {
-          wheelAngle = proxy.val;
-          if (PERF.lowEnd) {
-            spinDrawSkip++;
-            if (spinDrawSkip % 2 !== 0) return;
-          }
-          drawWheel(wheelAngle);
-        },
-        onComplete: () => showResult(chosen),
-      });
-    } else {
-      animateSpin(wheelAngle, targetAngle, 4500, showResult.bind(null, chosen));
-    }
-  }
-
-  /* Fallback animation (no GSAP) */
-  function animateSpin(from, to, duration, onDone) {
-    const start = performance.now();
-    function easeOut(t) { return 1 - Math.pow(1 - t, 4); }
-    let skip = 0;
-
-    function frame(now) {
-      const t = Math.min((now - start) / duration, 1);
-      wheelAngle = from + (to - from) * easeOut(t);
-      if (!PERF.lowEnd || ++skip % 2 === 0) drawWheel(wheelAngle);
-      if (t < 1) requestAnimationFrame(frame);
-      else onDone();
-    }
-    requestAnimationFrame(frame);
-  }
-
-  function showResult(chosen) {
-    isSpinning = false;
-    spinBtn.disabled  = false;
-    spinBtn.textContent = 'Спросить снова';
-
-    resultText.textContent = chosen.name;
-    if (followBtn) followBtn.href = chosen.anchor;
-
-    resultBox.hidden = false;
-    resultBox.removeAttribute('hidden');
-
-    // Smooth scroll into view
-    setTimeout(() => {
-      resultBox.scrollIntoView({
-        behavior: PERF.lowEnd || PERF.reducedMotion ? 'auto' : 'smooth',
-        block: 'nearest',
-      });
-    }, 150);
-
-    // Pulse medallion
-    const med = document.getElementById('totemMedallion');
-    if (med && window.gsap) {
-      if (PERF.lowEnd) {
-        gsap.fromTo(med, { scale: 0.96 }, { scale: 1, duration: 0.25, ease: 'power2.out' });
-      } else {
-        gsap.fromTo(med, { scale: 0.85 }, {
-          scale: 1, duration: 0.6, ease: 'elastic.out(1, 0.5)',
+      setTimeout(() => {
+        resultBox.scrollIntoView({
+          behavior: PERF.lowEnd || PERF.reducedMotion ? 'auto' : 'smooth',
+          block: 'nearest',
         });
+      }, 150);
+
+      const med = document.getElementById('totemMedallion');
+      if (med && window.gsap) {
+        if (PERF.lowEnd) {
+          gsap.fromTo(med, { scale: 0.96 }, { scale: 1, duration: 0.25, ease: 'power2.out' });
+        } else {
+          gsap.fromTo(med, { scale: 0.85 }, {
+            scale: 1, duration: 0.6, ease: 'elastic.out(1, 0.5)',
+          });
+        }
       }
-    }
+    }, wait);
   }
 })();
-
-
-/* ─────────────────────────────────────────────────────────
-   WEIGHTED RANDOM
-───────────────────────────────────────────────────────── */
-function pickWeightedCategory() {
-  const r = Math.random();
-  let cumulative = 0;
-  for (const cat of CATEGORIES) {
-    cumulative += cat.weight;
-    if (r < cumulative) return cat;
-  }
-  return CATEGORIES[CATEGORIES.length - 1];
-}
-
 
 /* ─────────────────────────────────────────────────────────
    VITRINE TOGGLES
@@ -569,150 +554,6 @@ function pickWeightedCategory() {
 
 
 /* ─────────────────────────────────────────────────────────
-   BEAR ASSEMBLY — дискретные кадры по скроллу (FPS ≈ data-bear-scroll-fps).
-   Время ролика = index / fps; смена кадра не чаще 1/50 с (не более 50 смен/с).
-───────────────────────────────────────────────────────── */
-function initBearAssemblyScrub() {
-  const track = document.getElementById('heroBearScrollTrack');
-  const video = document.getElementById('bearAssemblyVideo');
-  const hint  = document.getElementById('bearScrollHint');
-  if (!track || !video) return;
-
-  const inverted = track.getAttribute('data-bear-scroll-inverted') === 'true';
-  const fps = Math.max(12, Math.min(60, parseFloat(track.getAttribute('data-bear-scroll-fps')) || 30));
-  const MIN_FRAME_MS = 1000 / 50;
-
-  if (PERF.reducedMotion) {
-    video.pause();
-    const settle = () => {
-      if (!video.duration || isNaN(video.duration)) return;
-      video.currentTime = inverted ? 0 : Math.max(0, video.duration - 0.04);
-    };
-    if (video.readyState >= 1) settle();
-    else video.addEventListener('loadedmetadata', settle, { once: true });
-    return;
-  }
-
-  if (PERF.lowEnd) {
-    video.preload = 'none';
-    const loadHeavy = () => {
-      video.preload = 'auto';
-      try { video.load(); } catch (e) { /* ignore */ }
-    };
-    const ioPre = new IntersectionObserver(
-      (entries) => {
-        if (entries[0] && entries[0].isIntersecting) {
-          loadHeavy();
-          ioPre.disconnect();
-        }
-      },
-      { rootMargin: '320px 0px', threshold: 0 }
-    );
-    ioPre.observe(track);
-  }
-
-  video.pause();
-
-  function scrollProgress01() {
-    const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-    const top = track.getBoundingClientRect().top + scrollY;
-    const vh = window.innerHeight;
-    const startScroll = top;
-    const endScroll = top + track.offsetHeight - vh;
-    const range = endScroll - startScroll;
-    if (range <= 0) return scrollY >= endScroll ? 1 : 0;
-    return Math.max(0, Math.min(1, (scrollY - startScroll) / range));
-  }
-
-  function targetFrameIndex(duration) {
-    const n = Math.max(1, Math.floor(duration * fps));
-    const p = scrollProgress01();
-    const pr = inverted ? 1 - p : p;
-    const idx = Math.floor(pr * n);
-    return Math.min(n - 1, Math.max(0, idx));
-  }
-
-  let rafLoopId = null;
-  let trackVisible = true;
-  let lastAppliedFrame = -1;
-  let lastSeekTime = -Infinity;
-
-  const ioVis = new IntersectionObserver(
-    (entries) => {
-      const e = entries[0];
-      trackVisible = !!(e && e.isIntersecting && e.intersectionRatio > 0);
-      if (trackVisible) {
-        lastSeekTime = -Infinity;
-        lastAppliedFrame = -1;
-        requestLoop();
-      }
-    },
-    { rootMargin: '80px 0px', threshold: 0 }
-  );
-  ioVis.observe(track);
-
-  function step() {
-    rafLoopId = null;
-    const duration = video.duration;
-    if (!duration || isNaN(duration)) return;
-
-    const p = scrollProgress01();
-    if (hint) hint.classList.toggle('is-faded', p > 0.14);
-
-    const targetFrame = targetFrameIndex(duration);
-    const now = performance.now();
-
-    if (!trackVisible) return;
-
-    const canSeek = now - lastSeekTime >= MIN_FRAME_MS;
-    if (canSeek && targetFrame !== lastAppliedFrame) {
-      lastAppliedFrame = targetFrame;
-      lastSeekTime = now;
-      try {
-        video.currentTime = lastAppliedFrame / fps;
-      } catch (e) { /* ignore */ }
-    }
-
-    if (targetFrame !== lastAppliedFrame) {
-      rafLoopId = requestAnimationFrame(step);
-    }
-  }
-
-  function requestLoop() {
-    if (rafLoopId != null) return;
-    rafLoopId = requestAnimationFrame(step);
-  }
-
-  window.addEventListener('scroll', requestLoop, { passive: true });
-  window.addEventListener('resize', requestLoop, { passive: true });
-
-  video.addEventListener('loadedmetadata', () => {
-    const d = video.duration;
-    if (!d || isNaN(d)) return;
-    lastAppliedFrame = targetFrameIndex(d);
-    lastSeekTime = performance.now();
-    try {
-      video.currentTime = lastAppliedFrame / fps;
-    } catch (e) { /* ignore */ }
-    requestLoop();
-  });
-
-  requestLoop();
-}
-
-(function bootBearScrollVideo() {
-  function go() {
-    initBearAssemblyScrub();
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', go);
-  } else {
-    go();
-  }
-})();
-
-
-/* ─────────────────────────────────────────────────────────
    GSAP SCROLL ANIMATIONS
 ───────────────────────────────────────────────────────── */
 (function initAnimations() {
@@ -746,7 +587,7 @@ function initBearAssemblyScrub() {
       once:  true,
     });
 
-    gsap.to('#heroHeadline .gs-reveal', {
+    gsap.to('.hero__intro .gs-reveal', {
       opacity: 1, y: 0,
       duration: PERF.lowEnd ? 0.55 : 0.9,
       stagger: PERF.lowEnd ? 0.1 : 0.18,

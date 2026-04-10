@@ -45,6 +45,7 @@
        NAVIGATION
   ═══════════════════════════════════════════ -->
   <nav class="nav" id="nav">
+    <p class="nav__mobile-title">Гильдия мастеров Ярославии</p>
     <div class="nav__inner">
       <a href="#page-top" class="nav__logo" aria-label="На главную">
         <span class="nav__logo-symbol">✦</span>
@@ -86,105 +87,80 @@
       <section class="hero" id="hero">
 
         <div class="hero__intro">
-          <p class="hero__caption">
+          <p class="hero__caption gs-reveal">
             Коснись знака — медведь расскажет о создателе сувенира и мастерах Ярославии.
           </p>
 
-          <div class="hero__video-wrap" id="guardianVideo">
-            <video id="totemVideo" playsinline muted preload="metadata"
-                   aria-label="Медведь-Хранитель рассказывает о мастерах Ярославии">
-              <source src="https://ilyayar1986.github.io/sait_bear/ear1_smaller.mp4" type="video/mp4">
-            </video>
+          <div class="hero__video-block" id="heroVideoBlock">
+            <div class="hero__video-wrap gs-reveal" id="guardianVideo">
+              <div class="hero__video-media">
+                <video id="totemVideo" playsinline muted preload="metadata"
+                       aria-label="Медведь-Хранитель рассказывает о мастерах Ярославии">
+                  <source src="media/ear1_smaller.mp4" type="video/mp4">
+                  <source src="https://ilyayar1986.github.io/sait_bear/ear1_smaller.mp4" type="video/mp4">
+                </video>
 
-            <div class="hero__video-overlay">
-              <button type="button" id="soundBtn" class="hero__sound-btn" aria-label="Разбудить Хранителя">
-                <span class="hero__sound-icon">&#9654;</span>
-                Разбудить Хранителя
-              </button>
-            </div>
+                <div class="hero__video-overlay" aria-hidden="true"></div>
+                <div class="hero__video-vignette" aria-hidden="true"></div>
 
-            <div class="hero__video-vignette" aria-hidden="true"></div>
-          </div>
-        </div>
-
-        <!-- Скролл-сборка сувенира: прогресс скролла = время видео. Если ролик наоборот (сначала целый, в конце осколки) — data-bear-scroll-inverted="true" -->
-        <div class="hero__bear-scroll-track" id="heroBearScrollTrack"
-             aria-label="Сувенир собирается при прокрутке"
-             data-bear-scroll-inverted="false"
-             data-bear-scroll-fps="30">
-          <div class="hero__bear-scroll-sticky">
-            <video id="bearAssemblyVideo" class="hero__bear-scroll-video" muted playsinline preload="auto"
-                   aria-hidden="true">
-              <source src="media/bear-fragments-assemble.mp4" type="video/mp4">
-            </video>
-            <div class="hero__bear-scroll-vignette" aria-hidden="true"></div>
-            <div class="hero__bear-scroll-fade hero__bear-scroll-fade--bottom" aria-hidden="true"></div>
-            <p class="hero__bear-scroll-hint" id="bearScrollHint">
-              <span class="hero__bear-scroll-hint__arrow" aria-hidden="true">↓</span>
-              Листайте вниз — дары мастеров сходятся в единый тотем
-            </p>
-          </div>
-        </div>
-
-        <div class="hero__headline" id="heroHeadline">
-          <div class="hero__badge gs-reveal">Ярославский Арт&#8209;Тотем</div>
-          <h1 class="hero__title gs-reveal">
-            Путь к сокровищам<br><em>земли</em>
-          </h1>
-          <p class="hero__subtitle gs-reveal">
-            Хранитель укажет, к каким дарам мастеров прикоснуться сегодня.
-          </p>
-        </div>
-      </section>
-
-      <!-- ═══════════════════════════════════════════
-           TOTEM WHEEL
-      ═══════════════════════════════════════════ -->
-      <section class="totem" id="totem-wheel-premium" aria-label="Тотем-Хранитель">
-        <div class="totem__wheel-wrap">
-          <!-- Pointer at top -->
-          <div class="totem__pointer" aria-hidden="true">
-            <svg class="totem__pointer-svg" viewBox="0 0 28 36" width="26" height="34" aria-hidden="true">
-              <defs>
-                <linearGradient id="totemPointerGrad" x1="14" y1="4" x2="14" y2="34" gradientUnits="userSpaceOnUse">
-                  <stop offset="0" stop-color="var(--gold-light)"/>
-                  <stop offset="1" stop-color="var(--bronze)"/>
-                </linearGradient>
-              </defs>
-              <!-- Остриё вниз, к колесу -->
-              <path fill="url(#totemPointerGrad)" stroke="var(--gold)" stroke-width="0.55" stroke-linejoin="round"
-                    d="M14 34 L4 11 C4 5 8 2 14 2 20 2 24 5 24 11 L14 34z"/>
-            </svg>
-          </div>
-
-          <!-- Canvas wheel -->
-          <canvas id="totemWheel" width="360" height="360"
-                  aria-label="Колесо Хранителя — 24 сектора четырёх даров"></canvas>
-
-          <!-- Center medallion overlay -->
-          <div class="totem__medallion" id="totemMedallion" aria-hidden="true">
-            <div class="totem__medallion-outer">
-              <div class="totem__medallion-inner">
-                <div class="totem__medallion-bear">✦</div>
-                <div class="totem__medallion-label">Хранитель</div>
+                <div class="hero__video-cta" id="heroVideoCta">
+                  <button type="button" id="soundBtn" class="hero__sound-btn" aria-label="Разбудить Хранителя">
+                    <span class="hero__sound-icon">&#9654;</span>
+                    Разбудить Хранителя
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </section>
 
-        <button type="button" id="totemSpinBtn" class="btn btn--primary totem__spin-btn gs-reveal">
-          Вращать колесо
-        </button>
+      <!-- ═══════════════════════════════════════════
+           TOTEM WHEEL (премиум-визуал как в 1index.html)
+      ═══════════════════════════════════════════ -->
+      <section class="totem" aria-label="Тотем-Хранитель">
+        <div id="totem-wheel-premium">
+          <div class="totem-badge gs-reveal">Ярославский Арт&#8209;Тотем</div>
 
-        <div id="totemResultBox" class="totem__result" hidden>
-          <div class="totem__result-label">Путь открыт</div>
-          <div id="totemResultText" class="totem__result-text"></div>
-          <p class="totem__result-sub">
-            Следуй зову — или открой витрины вручную ниже.
+          <h2 class="totem-title gs-reveal" id="totem-heading">Путь к сокровищам земли</h2>
+          <p class="totem-subtitle gs-reveal">
+            Хранитель укажет, к каким дарам мастеров прикоснуться сегодня.
           </p>
-          <div class="totem__result-btns">
-            <a id="followBtn" href="#choose-path" class="btn btn--primary">Следовать зову Хранителя</a>
-            <a href="#choose-path" class="btn btn--ghost">Выбрать свой путь</a>
+
+          <div class="totem-wheel-stage">
+            <div class="totem-pointer" aria-hidden="true"></div>
+            <div class="totem-halo halo-1" aria-hidden="true"></div>
+            <div class="totem-halo halo-2" aria-hidden="true"></div>
+
+            <div class="totem-wheel-shell">
+              <canvas id="totemWheelCanvas" width="420" height="420"
+                      aria-label="Колесо Хранителя — секторы даров"></canvas>
+
+              <div class="totem-center-medallion" id="totemMedallion" aria-hidden="true">
+                <div class="medallion-outer">
+                  <div class="medallion-inner">
+                    <div class="medallion-bear">✦</div>
+                    <div class="medallion-text">Хранитель</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" id="totemSpinBtn" class="totem-spin-btn gs-reveal">
+            Крутить колесо
+          </button>
+
+          <div id="totemResultBox" class="totem-result-box" hidden>
+            <div class="totem-result-label">Путь открыт</div>
+            <div id="totemResultText" class="totem-result-text"></div>
+            <p class="totem-result-subtext">
+              Следуй зову — или открой витрины вручную ниже.
+            </p>
+            <div class="totem-result-buttons">
+              <a id="followBtn" class="totem-btn-primary" href="#choose-path">Следовать зову Хранителя</a>
+              <a id="chooseBtn" class="totem-btn-secondary" href="#choose-path">Выбрать свой путь</a>
+            </div>
           </div>
         </div>
       </section>
@@ -449,10 +425,10 @@
             </p>
 
             <div class="creator__tags">
-              <span class="creator__tag">Эпоксидная смола</span>
-              <span class="creator__tag">Украшения ручной работы</span>
-              <span class="creator__tag">Декор интерьера</span>
-              <span class="creator__tag">Лимитированные коллекции</span>
+              <a class="creator__tag" href="https://vk.ru/irina_churilova" target="_blank" rel="noopener noreferrer">Эпоксидная смола</a>
+              <a class="creator__tag" href="https://vk.ru/irina_churilova" target="_blank" rel="noopener noreferrer">Украшения ручной работы</a>
+              <a class="creator__tag" href="https://vk.ru/irina_churilova" target="_blank" rel="noopener noreferrer">Декор интерьера</a>
+              <a class="creator__tag" href="https://vk.ru/irina_churilova" target="_blank" rel="noopener noreferrer">Лимитированные коллекции</a>
             </div>
           </div>
 
@@ -532,8 +508,10 @@
 
       <div class="footer__contact">
         <p class="footer__contact-label">Связаться с Гильдией</p>
-        <!-- КОНТАКТ: добавить email/телефон/ссылку -->
-        <a href="#" class="footer__contact-link btn btn--primary btn--sm"><!-- КОНТАКТ -->Написать нам</a>
+        <a href="https://vk.ru/gildiya76" class="footer__contact-link btn btn--primary btn--sm" target="_blank" rel="noopener noreferrer">Написать нам</a>
+        <p class="footer__contact-vk">
+          <a href="https://vk.ru/gildiya76" target="_blank" rel="noopener noreferrer">vk.ru/gildiya76</a>
+        </p>
       </div>
     </div>
 
