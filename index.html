@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#121212">
-  <title>Гильдия мастеров Ярославии — Хранитель</title>
+  <title>Интерактивный Ярославский сувенир</title>
   <meta name="description" content="Мы — Гильдия мастеров Ярославии. Ремесленники, которые создают с душой — и продают без посредников. Украшения, декор, сладости, угощения от местных мастеров.">
   <link rel="canonical" href="https://ilyayar1986.github.io/sait_bear/">
   <link rel="preload" href="images/hero-video-poster.jpg" as="image" type="image/jpeg">
@@ -15,7 +15,7 @@
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ru_RU">
-  <meta property="og:title" content="Гильдия мастеров Ярославии — Хранитель">
+  <meta property="og:title" content="Интерактивный Ярославский сувенир">
   <meta property="og:description" content="Медведь-Хранитель ведёт к дарам ярославских мастеров. Украшения, декор, сладости, угощения — созданные с душой.">
   <meta property="og:url" content="https://ilyayar1986.github.io/sait_bear/">
   <meta property="og:image" content="https://ilyayar1986.github.io/sait_bear/images/og-guild.jpg">
@@ -25,7 +25,7 @@
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Гильдия мастеров Ярославии — Хранитель">
+  <meta name="twitter:title" content="Интерактивный Ярославский сувенир">
   <meta name="twitter:description" content="Медведь-Хранитель ведёт к дарам ярославских мастеров. Украшения, декор, сладости и угощения от местных мастеров.">
   <meta name="twitter:image" content="https://ilyayar1986.github.io/sait_bear/images/og-guild.jpg">
   <meta name="twitter:image:alt" content="Сувенир Медведь-Хранитель — символ Гильдии мастеров Ярославии">
@@ -35,7 +35,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "Гильдия мастеров Ярославии",
+    "name": "Интерактивный Ярославский сувенир",
     "description": "Творческое сообщество ярославских мастеров и ремесленников",
     "url": "https://ilyayar1986.github.io/sait_bear/",
     "logo": "https://ilyayar1986.github.io/sait_bear/images/og-guild.jpg",
@@ -69,26 +69,27 @@
   ═══════════════════════════════════════════ -->
   <nav class="nav" id="nav">
     <p class="nav__mobile-title">
-      <span class="nav__mobile-title-line">Гильдия мастеров</span>
-      <span class="nav__mobile-title-line">Ярославии</span>
+      <span class="nav__mobile-title-line">Интерактивный Ярославский</span>
+      <span class="nav__mobile-title-line">Сувенир</span>
     </p>
     <div class="nav__inner">
       <a href="#page-top" class="nav__logo" aria-label="На главную">
-        <span class="nav__logo-symbol">✦</span>
-        <span class="nav__logo-text">Гильдия мастеров</span>
+        <span class="nav__logo-symbol"></span>
+        <span class="nav__logo-text"></span>
       </a>
       <ul class="nav__links">
         <li><a href="#choose-path" class="nav__link">Дары</a></li>
+        <li><a href="#yaroslavl-excursion" class="nav__link">Ярославль</a></li>
         <li><a href="#creator" class="nav__link">Создатель</a></li>
         <li><a href="#about" class="nav__link">О Гильдии</a></li>
         <li><a href="#footer" class="nav__link nav__link--cta">Связаться</a></li>
       </ul>
-      <button class="nav__theme-toggle" id="themeToggle" aria-label="Переключить тему" title="Светлая / тёмная тема">
+      <button type="button" class="nav__theme-toggle js-theme-toggle" id="themeToggle" aria-label="Переключить тему" title="Светлая / тёмная тема">
         <span class="nav__theme-icon nav__theme-icon--dark">☽</span>
         <span class="nav__theme-icon nav__theme-icon--light">☀</span>
       </button>
-      <button class="nav__burger" id="navBurger" aria-label="Меню">
-        <span></span><span></span><span></span>
+      <button type="button" class="nav__burger" id="navBurger" aria-expanded="false" aria-controls="navMobile" aria-label="Открыть меню">
+        <span class="nav__burger-label">Меню</span>
       </button>
     </div>
   </nav>
@@ -96,11 +97,20 @@
   <!-- Mobile menu -->
   <div class="nav__mobile" id="navMobile">
     <ul>
+      <li><a href="#page-top" class="nav__link">Главная</a></li>
       <li><a href="#choose-path" class="nav__link">Дары</a></li>
+      <li><a href="#yaroslavl-excursion" class="nav__link">Ярославль</a></li>
       <li><a href="#creator" class="nav__link">Создатель</a></li>
       <li><a href="#about" class="nav__link">О Гильдии</a></li>
       <li><a href="#footer" class="nav__link">Связаться</a></li>
     </ul>
+    <div class="nav__mobile-tools">
+      <p class="nav__mobile-tools-label">Тема оформления</p>
+      <button type="button" class="nav__theme-toggle nav__theme-toggle--menu js-theme-toggle" aria-label="Переключить тему: светлая или тёмная" title="Светлая / тёмная тема">
+        <span class="nav__theme-icon nav__theme-icon--dark">☽</span>
+        <span class="nav__theme-icon nav__theme-icon--light">☀</span>
+      </button>
+    </div>
   </div>
 
   <div class="arch-surface" id="main-content" tabindex="-1">
@@ -113,7 +123,7 @@
       <section class="hero" id="hero" aria-labelledby="hero-heading">
 
         <div class="hero__intro">
-          <h1 class="hero__title gs-reveal" id="hero-heading">Гильдия мастеров Ярославии — Хранитель</h1>
+          <h1 class="hero__title gs-reveal" id="hero-heading"></h1>
           <p class="hero__caption gs-reveal">
             Нажми на кнопку — пробуди Медведя‑Хранителя: он заговорит и поведает о создателе сувенира и о мастерах, что хранят тепло земли Ярославской.
           </p>
@@ -146,9 +156,9 @@
       ═══════════════════════════════════════════ -->
       <section class="totem" aria-label="Тотем-Хранитель">
         <div id="totem-wheel-premium">
-          <div class="totem-badge gs-reveal">Ярославский Арт&#8209;Тотем</div>
+          <div class="totem-badge gs-reveal"></div>
 
-          <h2 class="totem-title gs-reveal" id="totem-heading">Путь к сокровищам земли</h2>
+          <h2 class="totem-title gs-reveal" id="totem-heading">Путь к сокровищам</h2>
           <p class="totem-subtitle gs-reveal">
             Хранитель укажет, к каким дарам мастеров прикоснуться сегодня.
           </p>
@@ -221,7 +231,7 @@
               <path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/>
             </svg>
             <p class="vitrine__lead">Авторские украшения ручной работы от мастеров Ярославии.</p>
-            <p class="vitrine__text">Изящные серьги, колье и браслеты — каждый предмет с характером и историей ремесла.</p>
+            <p class="vitrine__text">Изящные серьги, чокеры и браслеты — каждый предмет с характером и историей.</p>
             <svg class="vitrine__divider" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
               <path d="M5 1l1.8 3.2L10 5 6.8 6.8 5 10 3.2 6.8 0 5l3.2-1.8L5 1z" stroke="currentColor" stroke-width="0.7"/>
             </svg>
@@ -234,9 +244,8 @@
             <div class="vitrine__panel-inner">
               <p class="vitrine__masters-label">Мастера</p>
               <ul class="vitrine__masters">
-                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Анна Волкова — ювелирная мастерская</a></li>
-                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Сергей Златокузнец</a></li>
-                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Мария Узорная — авторские украшения</a></li>
+                <li><a href="https://vk.ru/wall-75569012_1120" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Ирина Чурилова — украшения ручной работы в разных техниках</a></li>
+                
               </ul>
             </div>
           </div>
@@ -273,9 +282,8 @@
             <div class="vitrine__panel-inner">
               <p class="vitrine__masters-label">Мастера</p>
               <ul class="vitrine__masters">
-                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Студия «Терем» — декор и текстиль</a></li>
-                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Иван Древесный — резьба и дерево</a></li>
-                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Керамическая мастерская «Гончарный круг»</a></li>
+                <li><a href="https://vk.ru/wall-171194586_2169" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Анастасия Костенко — "Волшебные подарки"</a></li>
+
               </ul>
             </div>
           </div>
@@ -312,9 +320,10 @@
             <div class="vitrine__panel-inner">
               <p class="vitrine__masters-label">Мастера</p>
               <ul class="vitrine__masters">
-                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Пекарня «Пряниковый дом»</a></li>
-                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Елена Коричневая — десерты ручной работы</a></li>
-                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Кондитерская лаборатория «Волжский сахар»</a></li>
+                <li><a href="https://vk.ru/wall-177420999_146255" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Алёна Славинская - «ШОКОЛАДНЫЙ ДОМ ОСИПОВЫХ-СЛАВИНСКИХ»</a></li>
+                <li><a href="https://vk.ru/wall-211592845_275" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Елена Коричневая — «Кулёк ирисок»</a></li>
+                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Ирина
+                  Кузина - «В шоколаде» фирменный магазин</a></li>
               </ul>
             </div>
           </div>
@@ -351,14 +360,165 @@
             <div class="vitrine__panel-inner">
               <p class="vitrine__masters-label">Мастера</p>
               <ul class="vitrine__masters">
-                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Сыроварня «Волга»</a></li>
-                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Деликатесная лавка «Яръ»</a></li>
-                <li><a href="https://vk.ru/gildiya76" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Фермерское объединение «Русское поле»</a></li>
+                <li><a href="https://vk.ru/wall-217157783_1217" class="vitrine__master-link" target="_blank" rel="noopener noreferrer" title="Связаться с Гильдией — контакты мастера">Татьяна
+                  Смолкина - «Сенькино Лукошко»</a></li>
+
               </ul>
             </div>
           </div>
         </section>
       </div><!-- /paths -->
+
+      <section class="excursion" id="yaroslavl-excursion" aria-labelledby="excursion-heading">
+        <div class="excursion__header paths__header gs-reveal">
+          <div class="excursion__badge">Золотое кольцо</div>
+          <h2 class="paths__title" id="excursion-heading">Мини-экскурсия по Ярославлю</h2>
+          <p class="excursion__intro">Приветствуем вас в городе Ярославле — столице Золотого кольца! Перед вами маршрут, который проведёт вас сквозь тысячелетие истории: от момента основания города до дворянских усадеб и тихих обителей.</p>
+        </div>
+        <div class="excursion__body">
+          <article class="excursion__item gs-reveal" id="medvezhya-tropa">
+            <h3 class="excursion__item-title">Медвежья тропа</h3>
+            <div class="excursion__text">
+              <p>Для удобства путешественников по историческому центру города проложен специальный туристический маршрут, обозначенный на тротуарах латунными отпечатками медвежьих лап. Эта линия соединяет ключевые достопримечательности и помогает гостям города ориентироваться в пространстве, не пропуская самые важные памятники архитектуры и истории. Следуя по «лапам», вы совершите полноценную прогулку по главным местам Ярославля.</p>
+            </div>
+          </article>
+          <article class="excursion__item gs-reveal" id="volkovsky-teatr">
+            <h3 class="excursion__item-title">Волковский театр</h3>
+            <div class="excursion__text">
+              <p>Путешествие начинается здесь — в колыбели русского профессионального театра. Именно в Ярославле в 1750 году сын купца Фёдор Волков начал давать первые представления в кожевенном амбаре. Сегодняшнее здание в стиле неоклассицизма — это тот самый Первый русский театр, где до сих пор сохраняются традиции академической школы. Фасад здания украшают скульптурные группы, символизирующие трагедию и комедию.</p>
+            </div>
+          </article>
+          <article class="excursion__item gs-reveal" id="iliya-prorok">
+            <h3 class="excursion__item-title">Советская площадь и церковь Ильи Пророка</h3>
+            <figure class="excursion__figure">
+              <img src="images/5.jpg" alt="Церковь Ильи Пророка на Советской площади — белокаменный храм с зелёными куполами" width="768" height="1059" class="excursion__img" loading="lazy" decoding="async">
+              <figcaption class="excursion__caption">Советская площадь и церковь Ильи Пророка</figcaption>
+            </figure>
+            <div class="excursion__text">
+              <p>Это административное сердце города, но главный его венец — храм XVII века. Церковь Ильи Пророка уникальна тем, что дошла до нас практически в первозданном виде. Внутри хранятся подлинные фрески, созданные артелью знаменитых костромских мастеров Гурия Никитина и Силы Савина. Это настоящий музей древнерусской живописи, где библейские сюжеты представлены в ярких и живых красках.</p>
+            </div>
+          </article>
+          <article class="excursion__item gs-reveal" id="gubernatorsky-sad">
+            <h3 class="excursion__item-title">Губернаторский сад</h3>
+            <div class="excursion__text">
+              <p>Уникальный садово-парковый ансамбль, прилегающий к зданию бывшего Губернаторского дома. Сад был разбит ещё в XIX веке и сохранил планировку в стиле классицизма. Сегодня это не просто зелёная зона, а музей под открытым небом: здесь представлены скульптуры разных эпох, проходят музыкальные вечера и выставки. Прогулка по его аллеям позволяет почувствовать атмосферу дворянского Ярославля.</p>
+            </div>
+          </article>
+          <article class="excursion__item gs-reveal" id="demidovsky-skv">
+            <h3 class="excursion__item-title">Демидовский сквер</h3>
+            <figure class="excursion__figure">
+              <img src="images/7.jpg" alt="Демидовский сквер: мемориал Вечный огонь и Успенский собор с золотыми куполами на заднем плане" width="768" height="1364" class="excursion__img" loading="lazy" decoding="async">
+              <figcaption class="excursion__caption">Демидовский сквер и Вечный огонь</figcaption>
+            </figure>
+            <div class="excursion__text">
+              <p>Уютное пространство в историческом центре, названное в честь Павла Демидова — основателя знаменитого лицея. Центральное место здесь занимает величественный Демидовский столп. Пройдя вглубь сквера к набережной, вы встретите мемориал Вечный огонь. Он был зажжён в 1968 году в память о ярославцах, не вернувшихся с фронтов Великой Отечественной войны. Это место глубокого почтения, расположенное между древними храмами и речными просторами.</p>
+            </div>
+          </article>
+          <article class="excursion__item gs-reveal" id="kazansky-monastyr">
+            <h3 class="excursion__item-title">Казанский женский монастырь</h3>
+            <div class="excursion__text">
+              <p>Белокаменный ансамбль с его величественным собором — яркий пример позднего классицизма. Главная святыня обители — список Ярославской-Казанской иконы Божией Матери. Монастырь пережил тяжёлые времена закрытия, но сегодня его колокольный звон вновь разносится над историческим центром, напоминая о стойкости духа и возрождении традиций.</p>
+            </div>
+          </article>
+          <article class="excursion__item gs-reveal" id="uspensky-sobor">
+            <h3 class="excursion__item-title">Успенский собор</h3>
+            <figure class="excursion__figure">
+              <img src="images/2.png" alt="Успенский собор на Стрелке — белые стены и золотые купола" width="734" height="1280" class="excursion__img" loading="lazy" decoding="async">
+              <figcaption class="excursion__caption">Успенский собор</figcaption>
+            </figure>
+            <div class="excursion__text">
+              <p>Главный кафедральный собор города, величественно возвышающийся на Стрелке. Современный храм был возведён к 1000-летию Ярославля на месте своего древнего предшественника. Особое внимание стоит уделить внешнему и внутреннему убранству: фасады собора украшены уникальными изразцовыми панно, которые продолжают древние традиции ярославских мастеров керамики. Огромные многоцветные иконы из изразцов на стенах храма придают ему неповторимый нарядный облик.</p>
+            </div>
+          </article>
+          <article class="excursion__item gs-reveal" id="volzhskaya-nab">
+            <h3 class="excursion__item-title">Волжская набережная</h3>
+            <figure class="excursion__figure">
+              <img src="images/3.jpg" alt="Волжская набережная: белая ротонда и вид на Волгу" width="762" height="1252" class="excursion__img" loading="lazy" decoding="async">
+              <figcaption class="excursion__caption">Волжская набережная</figcaption>
+            </figure>
+            <div class="excursion__text">
+              <p>Одна из самых красивых прогулочных зон на Волге. Она имеет два уровня: верхний ярус ведёт мимо старинных купеческих особняков и белокаменных беседок, а нижний позволяет пройти у самой кромки воды. Это визитная карточка Ярославля, идеальное место для прогулок и созерцания бескрайних речных горизонтов.</p>
+            </div>
+          </article>
+          <article class="excursion__item gs-reveal" id="strelka">
+            <h3 class="excursion__item-title">Стрелка</h3>
+            <figure class="excursion__figure">
+              <img src="images/4.jpg" alt="Стрелка: парк у слияния Волги и Которосли, памятник 1000-летию и герб с годом основания 1010" width="740" height="1269" class="excursion__img" loading="lazy" decoding="async">
+              <figcaption class="excursion__caption">Стрелка — парк у слияния рек</figcaption>
+            </figure>
+            <div class="excursion__text">
+              <p>Место силы, где река Которосль впадает в Волгу. Именно здесь, согласно преданию, князь Ярослав Мудрый победил священного медведя и заложил город. Сегодня Стрелка — это грандиозный ландшафтный парк с поющими фонтанами, памятником 1000-летию города и великолепными панорамными видами, которые открываются с высокого мыса.</p>
+            </div>
+          </article>
+          <article class="excursion__item gs-reveal" id="kotoroslnaya-nab">
+            <h3 class="excursion__item-title">Набережная Которосли</h3>
+            <div class="excursion__text">
+              <p>Если Волжская набережная — парадная и торжественная, то Которосльная — более камерная и зелёная. Вдоль неё сосредоточены древнейшие храмы города. Прогуливаясь здесь, можно увидеть знаменитую церковь Николая Рублёного и изящную беседку.</p>
+            </div>
+          </article>
+          <article class="excursion__item gs-reveal" id="spaso-preobrazhensky">
+            <h3 class="excursion__item-title">Спасо-Преображенский монастырь</h3>
+            <div class="excursion__text">
+              <p>Главный историко-архитектурный заповедник города, который часто называют Ярославским Кремлём. Спасо-Преображенский собор, расположенный на его территории, является старейшим зданием в Ярославле, сохранившимся с начала XVI века. Именно в библиотеке этого монастыря в XVIII веке был обнаружен единственный список величайшего памятника литературы — «Слова о полку Игореве». В 1612 году монастырь стал центром формирования народного ополчения Минина и Пожарского. С массивных стен и высокой звонницы монастыря открывается панорамный вид на исторический центр.</p>
+            </div>
+          </article>
+          <article class="excursion__item gs-reveal" id="park-tysyacheletiya">
+            <h3 class="excursion__item-title">Парк Тысячелетия</h3>
+            <div class="excursion__text">
+              <p>Современный подарок городу к его большому юбилею в 2010 году. Это открытое пространство с фонтанами, оригинальной скульптурой медведя и зонами для активного отдыха. Парк стал символом нового этапа в жизни Ярославля, связывая его многовековую историю с современным ритмом жизни.</p>
+            </div>
+          </article>
+          <article class="excursion__item gs-reveal" id="otdyh-s-detmi">
+            <h3 class="excursion__item-title">Отдых с детьми</h3>
+            <div class="excursion__text">
+              <p>Для тех, кто приехал в Ярославль всей семьёй, город подготовил немало познавательных и активных локаций, где история тесно переплетается с игрой и творчеством.</p>
+            </div>
+            <h4 class="excursion__item-subtitle">Детская железная дорога</h4>
+            <div class="excursion__text">
+              <p>Настоящая транспортная система в сосновом бору, где всеми процессами — от управления поездом до работы диспетчера — руководят школьники под присмотром инструкторов. В составе курсируют миниатюрные вагоны, а поездка позволяет увидеть работу юных железнодорожников в реальных условиях.</p>
+            </div>
+            <h4 class="excursion__item-subtitle">Остров Даманский</h4>
+            <div class="excursion__text">
+              <p>Парк на острове Даманский, соединённый с набережной изящным пешеходным мостом, считается главной развлекательной зоной Ярославля под открытым небом. Здесь среди зелени расположены многочисленные аттракционы, семейные кафе и прогулочные аллеи.</p>
+            </div>
+            <h4 class="excursion__item-subtitle">Ярославский зоопарк</h4>
+            <div class="excursion__text">
+              <p>Первый в России зоопарк ландшафтного типа, где животные содержатся в просторных вольерах без тесных клеток. Территория включает учебный центр «Ковчег» с экзотическими обитателями и контактную площадку, где можно поближе познакомиться с некоторыми животными.</p>
+            </div>
+            <h4 class="excursion__item-subtitle">Планетарий имени Валентины Терешковой</h4>
+            <div class="excursion__text">
+              <p>Культурно-просветительский центр с футуристическим дизайном. Внутри расположен звёздный зал с купольным экраном для просмотра научно-популярных фильмов, интерактивный музей космонавтики и обсерватория для наблюдения за небесными телами.</p>
+            </div>
+            <h4 class="excursion__item-subtitle">Колесо обозрения «Золотое кольцо»</h4>
+            <div class="excursion__text">
+              <p>Один из самых высоких аттракционов в центральной России. Из кабинок, оборудованных аудиогидами, открывается круговая панорама города. С высоты 65 метров можно рассмотреть слияние рек, купола многочисленных храмов и уникальную планировку городских улиц.</p>
+            </div>
+            <h4 class="excursion__item-subtitle">Аквапарк «Тропический берег»</h4>
+            <div class="excursion__text">
+              <p>Крупный комплекс водных развлечений, где круглый год поддерживается летняя температура. Здесь обустроены волновые бассейны, детские городки с безопасными спусками и горки разной степени сложности. Это отличное место для активного семейного отдыха.</p>
+            </div>
+            <h4 class="excursion__item-subtitle">Театр юного зрителя (ТЮЗ)</h4>
+            <div class="excursion__text">
+              <p>Центр культурной жизни на площади Юности с богатым репертуаром для детей и молодёжи. Перед зданием театра находится большая пешеходная зона с фонтанами, которая является популярным местом для прогулок в самом центре города.</p>
+            </div>
+          </article>
+          <article class="excursion__item gs-reveal" id="okrestnosti">
+            <h3 class="excursion__item-title">Отдалённые места и окрестности</h3>
+            <h4 class="excursion__item-subtitle">Толгский монастырь</h4>
+            <div class="excursion__text">
+              <p>Белоснежная жемчужина на левом берегу Волги, основанная в XIV веке. Монастырь славится своей уникальной кедровой рощей и чудотворной Толгской иконой. Самый интересный способ добраться сюда — речной трамвайчик, поездка на котором позволяет увидеть панораму Ярославля с воды.</p>
+            </div>
+            <h4 class="excursion__item-subtitle">Село Вятское</h4>
+            <div class="excursion__text">
+              <p>Историческое село, официально признанное одним из самых красивых в России. Это огромный музейный комплекс под открытым небом, где восстановлен быт богатого купеческого поселения. Здесь работают музеи старинных механизмов, ангелов и предметов крестьянского обихода.</p>
+            </div>
+            <h4 class="excursion__item-subtitle">Карабиха</h4>
+            <div class="excursion__text">
+              <p>Единственная в регионе дворянская усадьба дворцового типа, сохранившая свой первоначальный облик. Здесь жил и работал поэт Николай Некрасов. Посетители могут прогуляться по тенистым паркам, увидеть интерьеры жилых флигелей и места, вдохновлявшие автора на создание знаменитых поэм.</p>
+            </div>
+          </article>
+        </div>
+      </section>
 
       <!-- ═══════════════════════════════════════════
            SOCIAL PROOF
@@ -522,6 +682,7 @@
       <nav class="footer__nav" aria-label="Подвал">
         <a href="#hero">Главная</a>
         <a href="#choose-path">Дары</a>
+        <a href="#yaroslavl-excursion">Ярославль</a>
         <a href="#about">О нас</a>
       </nav>
 
@@ -534,7 +695,8 @@
       </div>
     </div>
 
-    <div class="footer__credits" aria-label="Создатели сайта и контент">
+    <div class="footer__credits" aria-label="Участники проекта и создатели контента">
+      <p class="footer__credits-heading">Участники проекта:</p>
       <div class="footer__credit">
         <p class="footer__credit-label">Разработка сайта</p>
         <p class="footer__credit-name">Чурилов Илья Владимирович</p>
@@ -551,7 +713,7 @@
         </p>
       </div>
       <div class="footer__credit">
-        <p class="footer__credit-label">Создание ИИ-роликов</p>
+        <p class="footer__credit-label">Создание видео</p>
         <p class="footer__credit-name">AI creator — Анна Шамшурина</p>
         <p class="footer__credit-links">
           <a href="https://vk.ru/club186578506" target="_blank" rel="noopener noreferrer">Группа ВКонтакте</a>

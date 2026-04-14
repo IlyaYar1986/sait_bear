@@ -322,7 +322,7 @@ function setupTotemCanvas() {
    THEME
 ───────────────────────────────────────────────────────── */
 (function initTheme() {
-  const btn  = document.getElementById('themeToggle');
+  const buttons = document.querySelectorAll('.js-theme-toggle');
   const html = document.documentElement;
   const STORAGE_KEY = 'guild-theme';
 
@@ -333,9 +333,9 @@ function setupTotemCanvas() {
     currentTheme = 'light';
   }
 
-  if (!btn) return;
+  if (!buttons.length) return;
 
-  btn.addEventListener('click', () => {
+  function applyThemeToggle() {
     if (currentTheme === 'dark') {
       html.setAttribute('data-theme', 'light');
       currentTheme = 'light';
@@ -345,6 +345,10 @@ function setupTotemCanvas() {
     }
     localStorage.setItem(STORAGE_KEY, currentTheme);
     drawTotemWheel();
+  }
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', applyThemeToggle);
   });
 })();
 
@@ -356,6 +360,16 @@ function setupTotemCanvas() {
   const nav    = document.getElementById('nav');
   const burger = document.getElementById('navBurger');
   const mobile = document.getElementById('navMobile');
+  if (!nav || !burger || !mobile) return;
+
+  const menuLabel = burger.querySelector('.nav__burger-label');
+
+  function setMenuOpen(isOpen) {
+    mobile.classList.toggle('is-open', isOpen);
+    burger.setAttribute('aria-expanded', String(isOpen));
+    burger.setAttribute('aria-label', isOpen ? 'Закрыть меню' : 'Открыть меню');
+    if (menuLabel) menuLabel.textContent = isOpen ? 'Закрыть' : 'Меню';
+  }
 
   let navScrollTick = false;
   window.addEventListener('scroll', () => {
@@ -368,16 +382,22 @@ function setupTotemCanvas() {
   }, { passive: true });
 
   burger.addEventListener('click', () => {
-    const isOpen = mobile.classList.toggle('is-open');
-    burger.setAttribute('aria-expanded', isOpen);
+    setMenuOpen(!mobile.classList.contains('is-open'));
   });
 
-  mobile.querySelectorAll('a').forEach(link => {
+  mobile.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', () => {
-      mobile.classList.remove('is-open');
-      burger.setAttribute('aria-expanded', false);
+      setMenuOpen(false);
     });
   });
+
+  function closeMenuIfDesktop() {
+    if (window.innerWidth > 680 && mobile.classList.contains('is-open')) {
+      setMenuOpen(false);
+    }
+  }
+  window.addEventListener('resize', closeMenuIfDesktop, { passive: true });
+  closeMenuIfDesktop();
 })();
 
 
