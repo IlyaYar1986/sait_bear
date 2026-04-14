@@ -1842,17 +1842,53 @@ a.creator__tag {
 }
 
 .footer__credit-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
   font-size: 13px;
   line-height: 1.6;
   margin-bottom: 6px;
 }
 
-.footer__credit-links a {
+.footer__credit-links a:not(.footer__credit-vk-btn) {
   color: var(--gold);
 }
 
-.footer__credit-links a:hover {
+.footer__credit-links a:not(.footer__credit-vk-btn):hover {
   color: var(--gold-light);
+}
+
+/* Ссылка на ВК — как кнопка (outline), отличима от телефона */
+.footer__credit-vk-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 16px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none !important;
+  color: var(--gold) !important;
+  border: 1px solid var(--gold);
+  border-radius: var(--radius);
+  background: transparent;
+  transition: background var(--trans), color var(--trans), box-shadow var(--trans);
+}
+
+.footer__credit-vk-btn:hover {
+  background: rgba(197, 160, 89, 0.12);
+  color: var(--gold-light) !important;
+  box-shadow: 0 0 18px rgba(197, 160, 89, 0.18);
+}
+
+[data-theme="light"] .footer__credit-vk-btn {
+  border-color: rgba(143, 107, 42, 0.55);
+}
+
+[data-theme="light"] .footer__credit-vk-btn:hover {
+  background: rgba(197, 160, 89, 0.08);
 }
 
 .footer__credit-sep {
