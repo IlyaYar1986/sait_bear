@@ -81,7 +81,6 @@
         <li><a href="#choose-path" class="nav__link">Мастера гильдии</a></li>
         <li><a href="#yaroslavl-excursion" class="nav__link">Ярославль</a></li>
         <li><a href="#creator" class="nav__link">Создатель</a></li>
-        <li><a href="#about" class="nav__link">О Гильдии</a></li>
         <li><a href="#footer" class="nav__link nav__link--cta">Связаться</a></li>
       </ul>
       <button type="button" class="nav__theme-toggle js-theme-toggle" id="themeToggle" aria-label="Переключить тему" title="Светлая / тёмная тема">
@@ -101,7 +100,6 @@
       <li><a href="#choose-path" class="nav__link">Мастера гильдии</a></li>
       <li><a href="#yaroslavl-excursion" class="nav__link">Ярославль</a></li>
       <li><a href="#creator" class="nav__link">Создатель</a></li>
-      <li><a href="#about" class="nav__link">О Гильдии</a></li>
       <li><a href="#footer" class="nav__link">Связаться</a></li>
     </ul>
     <div class="nav__mobile-tools">
@@ -148,6 +146,55 @@
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════
+           CREATOR — IRINA CHURILOVA
+      ═══════════════════════════════════════════ -->
+      <section class="creator" id="creator" aria-label="Создатель Интерактивного сувенира">
+        <div class="creator__inner">
+
+          <div class="creator__photo-wrap gs-reveal">
+            <div class="creator__photo-frame">
+              <img
+                src="assets/irina-churilova.jpg"
+                alt="Ирина Чурилова — создатель интерактивного сувенира"
+                class="creator__photo"
+                loading="lazy"
+                decoding="async"
+                width="1280"
+                height="2022"
+              >
+              <div class="creator__photo-glow" aria-hidden="true"></div>
+            </div>
+          </div>
+
+          <div class="creator__content gs-reveal">
+            <div class="creator__badge">Создатель интерактивного сувенира</div>
+            <h2 class="creator__title">Ирина<br><em>Чурилова</em></h2>
+            <p class="creator__role">Дизайнер украшений и предметов интерьера · Ярославль</p>
+
+            <blockquote class="creator__quote">
+              «Дарю своё тепло и любовь, вкладывая их в свои изделия. Подчёркиваю красоту и уникальность каждой женщины с помощью своих украшений.»
+            </blockquote>
+
+            <p class="creator__text">
+              Я работаю в смешанных техниках.
+В моём арсенале: эпоксидная смола, дерево, натуральные камни, акрил, глина, стекло, пластик и другое. Каждое изделие создаётся вручную и несёт в себе историю.
+            </p>
+
+            <p class="creator__text">
+              Проработав 15 лет на железной дороге, уволилась и пошла за мечтой, выбирая себя.
+            </p>
+
+            <div class="creator__tags">
+
+              <a class="creator__tag" href="https://vk.ru/irina_churilova" target="_blank" rel="noopener noreferrer">Украшения и предметы интерьера</a>
+              
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -208,19 +255,14 @@
         <div class="paths__header gs-reveal">
           <div class="paths__badge">Гильдия масторов Ярославии</div>
           <h2 class="paths__title"></h2>
-          <p class="about__lead"">
+          <p class="paths__copy">
             Творческое сообщество ярославских мастеров и ремесленников.
           </p>
-          <p class="about__text">
+          <p class="paths__copy">
             Наша задача — содействовать развитию малого предпринимательства и ремесленничества, организовывать взаимодействие между мастерами и теми, кто ценит настоящее.
-
           </p>
-          <p class="about__text">
-           Мы объединились для продвижения ремесленного труда и напоминания о его вековой ценности.
-Здесь вы сможете познакомиться с нашими мастерами и их изделиями.
-
-Мы делаем то, что любим.
-А вы — те, ради кого мы творим.
+          <p class="paths__copy">
+            Мы объединились для продвижения ремесленного труда и напоминания о его вековой ценности. Здесь вы сможете познакомиться с нашими мастерами и их изделиями. Мы делаем то, что любим. А вы — те, ради кого мы творим.
           </p>
           <p class="paths__sub">
             Ниже — витрины даров. Нажми «Открыть витрину», чтобы увидеть мастеров.
@@ -385,13 +427,17 @@
 
       <section class="excursion" id="yaroslavl-excursion" aria-labelledby="excursion-heading">
         <div class="excursion__header paths__header gs-reveal">
-          <div class="excursion__badge">Золотое кольцо</div>
-          <h2 class="paths__title" id="excursion-heading">Мини-экскурсия по Ярославлю</h2>
+          <div class="excursion__badge"></div>
+          <h2 class="paths__title" id="excursion-heading">Путеводитель по Ярославлю</h2>
           <p class="excursion__intro">Приветствуем вас в городе Ярославле — столице Золотого кольца! Перед вами маршрут, который проведёт вас сквозь тысячелетие истории: от момента основания города до дворянских усадеб и тихих обителей.</p>
         </div>
         <div class="excursion__body">
           <article class="excursion__item gs-reveal" id="medvezhya-tropa">
             <h3 class="excursion__item-title">Медвежья тропа</h3>
+            <figure class="excursion__figure">
+              <img src="images/8.jpg" alt="Латунный отпечаток медвежьей лапы на тротуаре — маркер туристического маршрута «Медвежья тропа» в Ярославле" width="2296" height="3329" class="excursion__img" loading="lazy" decoding="async">
+              <figcaption class="excursion__caption">Медвежья тропа — след на мостовой</figcaption>
+            </figure>
             <div class="excursion__text">
               <p>Для удобства путешественников по историческому центру города проложен специальный туристический маршрут, обозначенный на тротуарах латунными отпечатками медвежьих лап. Эта линия соединяет ключевые достопримечательности и помогает гостям города ориентироваться в пространстве, не пропуская самые важные памятники архитектуры и истории. Следуя по «лапам», вы совершите полноценную прогулку по главным местам Ярославля.</p>
             </div>
@@ -534,151 +580,6 @@
         </div>
       </section>
 
-      <!-- ═══════════════════════════════════════════
-           SOCIAL PROOF
-      ═══════════════════════════════════════════ -->
-      <section class="reviews" id="reviews" aria-label="Отзывы">
-        <div class="reviews__header gs-reveal">
-          <div class="reviews__badge">Голоса гостей</div>
-          <h2 class="reviews__title">Что говорят о Гильдии</h2>
-        </div>
-
-        <div class="reviews__grid">
-          <article class="review gs-reveal">
-            <div class="review__stars" aria-label="5 из 5 звёзд">★★★★★</div>
-            <p class="review__text">
-              «Нашла здесь украшение, которое искала годами. Мастер рассказала всю историю создания — это особенно тронуло.»
-            </p>
-            <footer class="review__author">
-              <span class="review__name">Мария, Москва</span>
-              <span class="review__source">ВКонтакте</span>
-            </footer>
-          </article>
-
-          <article class="review gs-reveal">
-            <div class="review__stars" aria-label="5 из 5 звёзд">★★★★★</div>
-            <p class="review__text">
-              «Купил пряники на ярмарке — привёз коллегам. Теперь они сами просят заказать ещё. Вкус настоящий, ярославский.»
-            </p>
-            <footer class="review__author">
-              <span class="review__name">Алексей, Ярославль</span>
-              <span class="review__source">2ГИС</span>
-            </footer>
-          </article>
-
-          <article class="review gs-reveal">
-            <div class="review__stars" aria-label="5 из 5 звёзд">★★★★★</div>
-            <p class="review__text">
-              «Декор из «Гончарного круга» стоит у нас на видном месте уже два года. Каждый гость спрашивает, откуда.»
-            </p>
-            <footer class="review__author">
-              <span class="review__name">Светлана, Санкт-Петербург</span>
-              <span class="review__source">Яндекс Карты</span>
-            </footer>
-          </article>
-        </div>
-      </section>
-
-      <!-- ═══════════════════════════════════════════
-           CREATOR — IRINA CHURILOVA
-      ═══════════════════════════════════════════ -->
-      <section class="creator" id="creator" aria-label="Создатель Хранителя">
-        <div class="creator__inner">
-
-          <div class="creator__photo-wrap gs-reveal">
-            <div class="creator__photo-frame">
-              <img
-                src="assets/irina-churilova.jpg"
-                alt="Ирина Чурилова — создатель медведя-Хранителя"
-                class="creator__photo"
-                loading="lazy"
-                decoding="async"
-                width="1280"
-                height="2022"
-              >
-              <div class="creator__photo-glow" aria-hidden="true"></div>
-            </div>
-          </div>
-
-          <div class="creator__content gs-reveal">
-            <div class="creator__badge">Создатель Хранителя</div>
-            <h2 class="creator__title">Ирина<br><em>Чурилова</em></h2>
-            <p class="creator__role">Дизайнер украшений и предметов интерьера · Ярославль</p>
-
-            <blockquote class="creator__quote">
-              «Дарю своё тепло и любовь, вкладывая их в свои изделия. Подчёркиваю красоту и уникальность каждой женщины с помощью своих украшений.»
-            </blockquote>
-
-            <p class="creator__text">
-              Ирина работает в смешанных техниках — эпоксидная смола, деревянные заготовки, натуральные камни, стекло, декоративные металлические элементы. Каждое изделие создаётся вручную и несёт в себе историю.
-            </p>
-
-            <p class="creator__text">
-              Проработав 15 лет на железной дороге, Ирина выбрала себя — и ушла за мечтой. Медведь-Хранитель стал одним из её первых больших проектов: сувенир, в котором живёт дух Ярославии.
-            </p>
-
-            <div class="creator__tags">
-              <a class="creator__tag" href="https://vk.ru/irina_churilova" target="_blank" rel="noopener noreferrer">Эпоксидная смола</a>
-              <a class="creator__tag" href="https://vk.ru/irina_churilova" target="_blank" rel="noopener noreferrer">Украшения ручной работы</a>
-              <a class="creator__tag" href="https://vk.ru/irina_churilova" target="_blank" rel="noopener noreferrer">Декор интерьера</a>
-              <a class="creator__tag" href="https://vk.ru/irina_churilova" target="_blank" rel="noopener noreferrer">Лимитированные коллекции</a>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- ═══════════════════════════════════════════
-           ABOUT THE GUILD
-      ═══════════════════════════════════════════ -->
-      <section class="about" id="about" aria-label="О Гильдии">
-        <div class="about__inner">
-          <div class="about__content gs-reveal">
-            <div class="about__badge">О нас</div>
-            <h2 class="about__title">Гильдия мастеров<br><em>Ярославии</em></h2>
-
-            <p class="about__lead">
-              Мы — Гильдия мастеров Ярославии. Ремесленники, которые создают с душой — и продают без посредников. Приходите на ярмарки или заказывайте.
-            </p>
-
-            <p class="about__text">
-              Творческое сообщество ярославских мастеров и ремесленников. Наша задача — содействовать развитию малого предпринимательства и ремесленничества, организовывать взаимодействие между мастерами и теми, кто ценит настоящее.
-            </p>
-
-            <p class="about__text">
-              Вы узнаете, кто и как создал понравившийся сувенир. Мы рассказываем об истории — начиная с идеи, заканчивая процессом. Вы поддерживаете местных производителей. Мы дарим вам эмоции и память.
-            </p>
-
-            <p class="about__text about__text--accent">
-              Мы делаем то, что любим.<br>А вы — те, ради кого мы творим.<br>
-              <strong>Вместе создадим живую культуру Ярославии.</strong>
-            </p>
-
-            <div class="about__values">
-              <div class="about__value">
-                <span class="about__value-icon">✦</span>
-                <span>Без посредников</span>
-              </div>
-              <div class="about__value">
-                <span class="about__value-icon">✦</span>
-                <span>История каждого изделия</span>
-              </div>
-              <div class="about__value">
-                <span class="about__value-icon">✦</span>
-                <span>Поддержка местных</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="about__deco gs-reveal" aria-hidden="true">
-            <div class="about__deco-ring about__deco-ring--1"></div>
-            <div class="about__deco-ring about__deco-ring--2"></div>
-            <div class="about__deco-ring about__deco-ring--3"></div>
-            <div class="about__deco-symbol">✦</div>
-          </div>
-        </div>
-      </section>
-
     </div><!-- /page-inner -->
   </div><!-- /arch-surface -->
 
@@ -697,7 +598,6 @@
         <a href="#hero">Главная</a>
         <a href="#choose-path">Дары</a>
         <a href="#yaroslavl-excursion">Ярославль</a>
-        <a href="#about">О нас</a>
       </nav>
 
       <div class="footer__contact">

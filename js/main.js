@@ -600,14 +600,6 @@ function setupTotemCanvas() {
       delay: PERF.lowEnd ? 0.15 : 0.3,
     });
 
-    gsap.from('.about__deco-ring', {
-      scale: 0, opacity: 0,
-      duration: PERF.lowEnd ? 0.55 : 1,
-      stagger: PERF.lowEnd ? 0.08 : 0.15,
-      ease: 'power3.out',
-      scrollTrigger: { trigger: '.about', start: 'top 72%', once: true },
-    });
-
     gsap.from('.nav', {
       y: -24, opacity: 0,
       duration: PERF.lowEnd ? 0.35 : 0.5,

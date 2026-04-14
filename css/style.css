@@ -648,7 +648,6 @@ ul { list-style: none; }
 /* Рубрики над заголовками — сценарный текст, не кнопки */
 .totem-badge,
 .paths__badge,
-.reviews__badge,
 .excursion__badge {
   display: block;
   width: max-content;
@@ -673,7 +672,6 @@ ul { list-style: none; }
 
 .totem-badge::after,
 .paths__badge::after,
-.reviews__badge::after,
 .excursion__badge::after {
   content: "";
   display: block;
@@ -684,8 +682,7 @@ ul { list-style: none; }
   opacity: 0.45;
 }
 
-.creator__badge,
-.about__badge {
+.creator__badge {
   display: block;
   width: max-content;
   max-width: 100%;
@@ -703,8 +700,7 @@ ul { list-style: none; }
   line-height: 1.35;
 }
 
-.creator__badge::after,
-.about__badge::after {
+.creator__badge::after {
   content: "";
   display: block;
   width: 40px;
@@ -1067,6 +1063,19 @@ html.perf-low #totemWheelCanvas {
   margin: 0 auto;
 }
 
+.paths__copy {
+  font-size: 15px;
+  color: var(--text-mid);
+  max-width: 36rem;
+  margin: 0 auto 14px;
+  line-height: 1.75;
+  text-align: center;
+}
+
+.paths__copy + .paths__sub {
+  margin-top: 6px;
+}
+
 /* ═══════════════════════════════════════════════════════════
    EXCURSION — мини-гид по Ярославлю (после витрин)
 ═══════════════════════════════════════════════════════════ */
@@ -1075,6 +1084,11 @@ html.perf-low #totemWheelCanvas {
   margin-top: 8px;
   border-top: 1px solid var(--border);
   scroll-margin-top: calc(64px + env(safe-area-inset-top, 0px) + 12px);
+  text-align: center;
+}
+
+.excursion .excursion__header.paths__header {
+  text-align: center;
 }
 
 .excursion__intro {
@@ -1115,6 +1129,7 @@ html.perf-low #totemWheelCanvas {
   color: var(--gold);
   margin: 0 0 14px;
   line-height: 1.3;
+  text-align: center;
 }
 
 .excursion__item h4.excursion__item-subtitle {
@@ -1122,13 +1137,18 @@ html.perf-low #totemWheelCanvas {
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.04em;
-  color: var(--text);
+  color: var(--gold);
   margin: 20px 0 10px;
   line-height: 1.35;
+  text-align: center;
 }
 
 .excursion__item h3 + h4.excursion__item-subtitle {
   margin-top: 14px;
+}
+
+.excursion__text {
+  text-align: left;
 }
 
 .excursion__text p {
@@ -1162,6 +1182,7 @@ html.perf-low #totemWheelCanvas {
   padding: 10px 14px 12px;
   line-height: 1.45;
   border-top: 1px solid var(--border);
+  text-align: center;
 }
 
 @media (max-width: 680px) {
@@ -1429,6 +1450,12 @@ html.perf-low #totemWheelCanvas {
   padding: 80px 0 60px;
   border-top: 1px solid var(--border);
   margin-top: 40px;
+}
+
+/* Сразу под видео-героем — без лишнего зазора */
+.hero + .creator {
+  margin-top: 0;
+  padding-top: 40px;
 }
 
 .creator__inner {
@@ -1939,6 +1966,7 @@ a.creator__tag {
 
   /* Creator */
   .creator { padding: 48px 0 40px; }
+  .hero + .creator { padding-top: 28px; }
   .creator__inner { grid-template-columns: 1fr; gap: 32px; }
   .creator__photo-frame { max-width: 280px; margin: 0 auto; }
   .creator__title { font-size: 32px; }
@@ -2016,14 +2044,9 @@ a.creator__tag {
 [data-theme="light"] ::-webkit-scrollbar-track { background: var(--bg); }
 [data-theme="light"] ::-webkit-scrollbar-thumb { background: var(--bronze); }
 
-[data-theme="light"] .review,
 [data-theme="light"] .vitrine,
 [data-theme="light"] .card {
   box-shadow: 0 2px 12px rgba(92,61,17,0.08);
-}
-
-[data-theme="light"] .about__deco-ring {
-  border-color: var(--gold);
 }
 
 /* Body transition for smooth theme switch */
@@ -2031,7 +2054,7 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.nav, .vitrine, .review, .about, .creator, .footer, .totem-result-box {
+.nav, .vitrine, .creator, .footer, .totem-result-box {
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
@@ -2045,11 +2068,6 @@ html.perf-low body {
 }
 
 html.perf-low .medallion-bear {
-  animation: none !important;
-}
-
-html.perf-low .about__deco-ring,
-html.perf-low .about__deco-symbol {
   animation: none !important;
 }
 
