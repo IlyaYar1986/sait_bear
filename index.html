@@ -78,9 +78,10 @@
         <span class="nav__logo-text"></span>
       </a>
       <ul class="nav__links">
-        <li><a href="#choose-path" class="nav__link">Мастера гильдии</a></li>
-        <li><a href="#yaroslavl-excursion" class="nav__link">Ярославль</a></li>
+        <li><a href="#page-top" class="nav__link">Главная</a></li>
         <li><a href="#creator" class="nav__link">Создатель</a></li>
+        <li><a href="#choose-path" class="nav__link">Мастера гильдии</a></li>
+        <li><a href="#yaroslavl-excursion" class="nav__link">Путеводитель по Ярославлю</a></li>
         <li><a href="#footer" class="nav__link nav__link--cta">Связаться</a></li>
       </ul>
       <button type="button" class="nav__theme-toggle js-theme-toggle" id="themeToggle" aria-label="Переключить тему" title="Светлая / тёмная тема">
@@ -97,9 +98,9 @@
   <div class="nav__mobile" id="navMobile">
     <ul>
       <li><a href="#page-top" class="nav__link">Главная</a></li>
-      <li><a href="#choose-path" class="nav__link">Мастера гильдии</a></li>
-      <li><a href="#yaroslavl-excursion" class="nav__link">Ярославль</a></li>
       <li><a href="#creator" class="nav__link">Создатель</a></li>
+      <li><a href="#choose-path" class="nav__link">Мастера гильдии</a></li>
+      <li><a href="#yaroslavl-excursion" class="nav__link">Путеводитель по Ярославлю</a></li>
       <li><a href="#footer" class="nav__link">Связаться</a></li>
     </ul>
     <div class="nav__mobile-tools">
@@ -199,62 +200,12 @@
       </section>
 
       <!-- ═══════════════════════════════════════════
-           TOTEM WHEEL (премиум-визуал как в 1index.html)
-      ═══════════════════════════════════════════ -->
-      <section class="totem" aria-label="Тотем-Хранитель">
-        <div id="totem-wheel-premium">
-          <div class="totem-badge gs-reveal"></div>
-
-          <h2 class="totem-title gs-reveal" id="totem-heading">Путь к сокровищам</h2>
-          <p class="totem-subtitle gs-reveal">
-            Хранитель укажет, к каким дарам мастеров прикоснуться сегодня.
-          </p>
-
-          <div class="totem-wheel-stage">
-            <div class="totem-pointer" aria-hidden="true"></div>
-            <div class="totem-halo halo-1" aria-hidden="true"></div>
-            <div class="totem-halo halo-2" aria-hidden="true"></div>
-
-            <div class="totem-wheel-shell">
-              <canvas id="totemWheelCanvas" width="420" height="420"
-                      aria-label="Колесо Хранителя — секторы даров"></canvas>
-
-              <div class="totem-center-medallion" id="totemMedallion" aria-hidden="true">
-                <div class="medallion-outer">
-                  <div class="medallion-inner">
-                    <div class="medallion-bear">✦</div>
-                    <div class="medallion-text">Хранитель</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <button type="button" id="totemSpinBtn" class="totem-spin-btn gs-reveal">
-            Крутить колесо
-          </button>
-
-          <div id="totemResultBox" class="totem-result-box" hidden>
-            <div class="totem-result-label">Путь открыт</div>
-            <div id="totemResultText" class="totem-result-text"></div>
-            <p class="totem-result-subtext">
-              Следуй зову — или открой витрины вручную ниже.
-            </p>
-            <div class="totem-result-buttons">
-              <a id="followBtn" class="totem-btn-primary" href="#choose-path">Следовать зову Хранителя</a>
-              <a id="chooseBtn" class="totem-btn-secondary" href="#choose-path">Выбрать свой путь</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ═══════════════════════════════════════════
            VITRINES (GIFT ARCHIVE)
       ═══════════════════════════════════════════ -->
-      <div id="choose-path" class="paths">
+      <div id="choose-path" class="paths" aria-labelledby="choose-path-heading">
         <div class="paths__header gs-reveal">
-          <div class="paths__badge">Гильдия масторов Ярославии</div>
-          <h2 class="paths__title"></h2>
+          <div class="paths__badge gs-reveal" aria-hidden="true"></div>
+          <h2 class="paths__title gs-reveal" id="choose-path-heading">Гильдия мастеров Ярославии</h2>
           <p class="paths__copy">
             Творческое сообщество ярославских мастеров и ремесленников.
           </p>
@@ -264,6 +215,57 @@
           <p class="paths__copy">
             Мы объединились для продвижения ремесленного труда и напоминания о его вековой ценности. Здесь вы сможете познакомиться с нашими мастерами и их изделиями. Мы делаем то, что любим. А вы — те, ради кого мы творим.
           </p>
+
+          <!-- ═══════════════════════════════════════════
+               TOTEM WHEEL (премиум-визуал как в 1index.html)
+          ═══════════════════════════════════════════ -->
+          <section class="totem" aria-label="Тотем-Хранитель">
+            <div id="totem-wheel-premium">
+              <div class="totem-badge gs-reveal"></div>
+
+              <h2 class="totem-title gs-reveal" id="totem-heading">Путь к сокровищам</h2>
+              <p class="totem-subtitle gs-reveal">
+                Хранитель укажет, к каким дарам мастеров прикоснуться сегодня.
+              </p>
+
+              <div class="totem-wheel-stage">
+                <div class="totem-pointer" aria-hidden="true"></div>
+                <div class="totem-halo halo-1" aria-hidden="true"></div>
+                <div class="totem-halo halo-2" aria-hidden="true"></div>
+
+                <div class="totem-wheel-shell">
+                  <canvas id="totemWheelCanvas" width="420" height="420"
+                          aria-label="Колесо Хранителя — секторы даров"></canvas>
+
+                  <div class="totem-center-medallion" id="totemMedallion" aria-hidden="true">
+                    <div class="medallion-outer">
+                      <div class="medallion-inner">
+                        <div class="medallion-bear">✦</div>
+                        <div class="medallion-text">Хранитель</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button type="button" id="totemSpinBtn" class="totem-spin-btn gs-reveal">
+                Крутить колесо
+              </button>
+
+              <div id="totemResultBox" class="totem-result-box" hidden>
+                <div class="totem-result-label">Путь открыт</div>
+                <div id="totemResultText" class="totem-result-text"></div>
+                <p class="totem-result-subtext">
+                  Следуй зову — или открой витрины вручную ниже.
+                </p>
+                <div class="totem-result-buttons">
+                  <a id="followBtn" class="totem-btn-primary" href="#choose-path">Следовать зову Хранителя</a>
+                  <a id="chooseBtn" class="totem-btn-secondary" href="#choose-path">Выбрать свой путь</a>
+                </div>
+              </div>
+            </div>
+          </section>
+
           <p class="paths__sub">
             Ниже — витрины даров. Нажми «Открыть витрину», чтобы увидеть мастеров.
           </p>
@@ -589,14 +591,25 @@
   <footer class="footer" id="footer">
     <div class="footer__inner">
       <nav class="footer__nav" aria-label="Подвал">
-        <a href="#hero">Главная</a>
+        <a href="#page-top">Главная</a>
+        <a href="#creator">Создатель</a>
         <a href="#choose-path">Мастера гильдии</a>
         <a href="#yaroslavl-excursion">Путеводитель по Ярославлю</a>
+        <a href="#footer">Связаться</a>
       </nav>
     </div>
 
     <div class="footer__credits" aria-label="Участники проекта и создатели контента">
       <p class="footer__credits-heading">Участники проекта:</p>
+      <div class="footer__credit">
+        <p class="footer__credit-label">Создатель интерактивного сувенира</p>
+        <p class="footer__credit-name">Чурилова Ирина</p>
+        <p class="footer__credit-links">
+          <a href="https://vk.ru/wall-75569012_1120" target="_blank" rel="noopener noreferrer">ВКонтакте</a>
+          <span class="footer__credit-sep" aria-hidden="true">·</span>
+          <a href="tel:+79065254447">+7&nbsp;906&nbsp;525‑44‑47</a>
+        </p>
+      </div>
       <div class="footer__credit">
         <p class="footer__credit-label">Разработка сайта</p>
         <p class="footer__credit-name">Чурилов Илья</p>
@@ -604,12 +617,6 @@
           <a href="https://vk.com/ilyachurilov" target="_blank" rel="noopener noreferrer">ВКонтакте</a>
           <span class="footer__credit-sep" aria-hidden="true">·</span>
           <a href="tel:+79622013300">+7&nbsp;962&nbsp;201‑33‑00</a>
-        </p>
-        <p class="footer__credit-note">Телефон и мессенджеры (WhatsApp, Telegram)</p>
-        <p class="footer__credit-messengers">
-          <a href="https://wa.me/79622013300" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-          <span class="footer__credit-sep" aria-hidden="true">·</span>
-          <a href="https://t.me/+79622013300" target="_blank" rel="noopener noreferrer">Telegram</a>
         </p>
       </div>
       <div class="footer__credit">
@@ -620,17 +627,11 @@
           <span class="footer__credit-sep" aria-hidden="true">·</span>
           <a href="tel:+79009781396">+7&nbsp;900&nbsp;978‑13‑96</a>
         </p>
-        <p class="footer__credit-note">Телефон и мессенджеры (WhatsApp, Telegram)</p>
-        <p class="footer__credit-messengers">
-          <a href="https://wa.me/79009781396" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-          <span class="footer__credit-sep" aria-hidden="true">·</span>
-          <a href="https://t.me/+79009781396" target="_blank" rel="noopener noreferrer">Telegram</a>
-        </p>
       </div>
     </div>
 
     <div class="footer__bottom">
-      <p>© 2026 Гильдия мастеров Ярославии. Все права защищены.</p>
+      <p>© 2026 Сайт носит информационный характер и направлен на популяризацию народных художественных промыслов и туризма г. Ярославля. Гильдия мастеров Ярославии. Все права защищены.</p>
     </div>
   </footer>
 

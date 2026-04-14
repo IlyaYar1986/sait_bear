@@ -170,8 +170,10 @@ ul { list-style: none; }
 
 .nav__links {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 32px;
+  justify-content: flex-end;
+  gap: 20px 28px;
 }
 
 .nav__link {
@@ -607,6 +609,14 @@ ul { list-style: none; }
   text-align: center;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
+}
+
+/* Колесо внутри вступления к витринам — без лишних полей снизу */
+.paths__header .totem {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding-top: 32px;
+  padding-bottom: 40px;
 }
 
 #totem-wheel-premium {
@@ -1054,6 +1064,14 @@ html.perf-low #totemWheelCanvas {
   font-weight: 400;
   color: var(--text);
   margin-bottom: 12px;
+  line-height: 1.15;
+}
+
+/* Заголовки разделов в шапках paths / экскурсии — как «Путь к сокровищам» и путеводитель */
+.paths__header .paths__title {
+  color: var(--gold);
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 .paths__sub {
@@ -1074,6 +1092,10 @@ html.perf-low #totemWheelCanvas {
 
 .paths__copy + .paths__sub {
   margin-top: 6px;
+}
+
+.paths__header .totem + .paths__sub {
+  margin-top: 10px;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -1739,6 +1761,8 @@ a.creator__tag {
    FOOTER
 ═══════════════════════════════════════════════════════════ */
 .footer {
+  display: flex;
+  flex-direction: column;
   border-top: 1px solid var(--border);
   background: var(--surface);
   padding: 48px max(24px, env(safe-area-inset-right, 0px)) 0 max(24px, env(safe-area-inset-left, 0px));
@@ -1756,10 +1780,10 @@ a.creator__tag {
 .footer__nav {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: clamp(20px, 5vw, 40px);
+  gap: clamp(12px, 2vw, 20px) clamp(16px, 3vw, 28px);
 }
 
 .footer__nav a {
@@ -1772,12 +1796,15 @@ a.creator__tag {
 
 .footer__credits {
   max-width: 900px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
+  align-self: flex-start;
   padding: 28px 0 32px;
   border-top: 1px solid var(--border);
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 28px 40px;
+  text-align: left;
 }
 
 .footer__credits-heading {
@@ -1787,6 +1814,7 @@ a.creator__tag {
   text-transform: uppercase;
   color: var(--bronze);
   margin: 0;
+  text-align: left;
 }
 
 @media (max-width: 680px) {
@@ -1852,12 +1880,19 @@ a.creator__tag {
 }
 
 .footer__bottom {
+  width: 100%;
   max-width: 900px;
   margin: 0 auto;
+  margin-top: auto;
   padding: 16px 0 max(16px, env(safe-area-inset-bottom, 0px));
   border-top: 1px solid var(--border);
   font-size: 12px;
   color: var(--text-dim);
+  text-align: center;
+}
+
+.footer__bottom p {
+  margin: 0;
 }
 
 
