@@ -60,6 +60,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/style.css">
+
+  <!-- MAX Bridge SDK — мини-приложение -->
+  <script src="https://st.max.ru/js/max-web-app.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">К основному содержанию</a>
@@ -126,6 +129,10 @@
           <p class="hero__caption gs-reveal">
             Нажми на кнопку — пробуди Медведя‑Хранителя: он заговорит и поведает о создателе сувенира и о мастерах, что хранят тепло земли Ярославской.
           </p>
+
+          <button type="button" class="max-share-btn" data-max-share hidden aria-label="Поделиться в MAX">
+            Поделиться с друзьями
+          </button>
 
           <div class="hero__video-block" id="heroVideoBlock">
             <div class="hero__video-wrap gs-reveal" id="guardianVideo">
@@ -640,5 +647,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 
   <script src="js/main.js" defer></script>
+  <script src="js/max.js" defer></script>
 </body>
 </html>
